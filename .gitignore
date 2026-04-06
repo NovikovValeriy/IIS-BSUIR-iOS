@@ -1,0 +1,87 @@
+# =========================
+# macOS system file
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# =========================
+# Xcode
+# =========================
+## User settings
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+
+## Build products
+build/
+DerivedData/
+DerivedDataWorkspace/
+
+## Xcode project files (user-specific)
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+
+## Schemes
+xcshareddata/WorkspaceSettings.xcsettings
+*.xcuserstate
+
+# =========================
+# Swift Package Manager
+# =========================
+## Package artifacts and checkouts
+.swiftpm/
+.build/
+Packages/
+Package.resolved
+
+# =========================
+# Other common excludes
+# =========================
+*.moved-aside
+*.swp
+*.lock
+*.xcarchive
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# =========================
+# Environment / Secrets
+# =========================
+.env
+*.key
+*.pem
+*.p12
+*.mobileprovision
+*.cert
+*.der
+
+# =========================
+# Output / Temporary
+# =========================
+*.log
+*.tmp
+*.bak
+
+# =========================
+# SwiftGen generated resource files
+# =========================
+*+Generated.swift
+
+# =========================
+# Preview files
+# =========================
+*+Preview.swift
