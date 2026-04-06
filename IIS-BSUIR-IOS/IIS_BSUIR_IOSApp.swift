@@ -2,7 +2,7 @@
 //  IIS_BSUIR_IOSApp.swift
 //  IIS-BSUIR-IOS
 //
-//  Created by user on 6.04.26.
+//  Created by Valery Novikau on 6.04.26.
 //
 
 import SwiftUI
