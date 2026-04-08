@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		53FD0D472F86F02300F099C9 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D462F86F02300F099C9 /* Factory */; };
-		53FD0D492F86F02300F099C9 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D482F86F02300F099C9 /* FactoryKit */; };
-		53FD0D4B2F86F02300F099C9 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D4A2F86F02300F099C9 /* FactoryTesting */; };
-		53FD0D4E2F86F03B00F099C9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D4D2F86F03B00F099C9 /* Kingfisher */; };
+		53FD0D5F2F86F41400F099C9 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D5E2F86F41400F099C9 /* Factory */; };
+		53FD0D612F86F41400F099C9 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D602F86F41400F099C9 /* FactoryKit */; };
+		53FD0D642F86F42B00F099C9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D632F86F42B00F099C9 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,10 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53FD0D4E2F86F03B00F099C9 /* Kingfisher in Frameworks */,
-				53FD0D492F86F02300F099C9 /* FactoryKit in Frameworks */,
-				53FD0D4B2F86F02300F099C9 /* FactoryTesting in Frameworks */,
-				53FD0D472F86F02300F099C9 /* Factory in Frameworks */,
+				53FD0D642F86F42B00F099C9 /* Kingfisher in Frameworks */,
+				53FD0D612F86F41400F099C9 /* FactoryKit in Frameworks */,
+				53FD0D5F2F86F41400F099C9 /* Factory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,10 +74,9 @@
 			);
 			name = "IIS-BSUIR-IOS";
 			packageProductDependencies = (
-				53FD0D462F86F02300F099C9 /* Factory */,
-				53FD0D482F86F02300F099C9 /* FactoryKit */,
-				53FD0D4A2F86F02300F099C9 /* FactoryTesting */,
-				53FD0D4D2F86F03B00F099C9 /* Kingfisher */,
+				53FD0D5E2F86F41400F099C9 /* Factory */,
+				53FD0D602F86F41400F099C9 /* FactoryKit */,
+				53FD0D632F86F42B00F099C9 /* Kingfisher */,
 			);
 			productName = "IIS-BSUIR-IOS";
 			productReference = 53FD0B612F83E47200F099C9 /* IIS-BSUIR-IOS.app */;
@@ -110,8 +107,8 @@
 			mainGroup = 53FD0B582F83E47200F099C9;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				53FD0D452F86F02300F099C9 /* XCRemoteSwiftPackageReference "Factory" */,
-				53FD0D4C2F86F03B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				53FD0D5D2F86F41400F099C9 /* XCRemoteSwiftPackageReference "Factory" */,
+				53FD0D622F86F42B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 53FD0B622F83E47200F099C9 /* Products */;
@@ -367,7 +364,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		53FD0D452F86F02300F099C9 /* XCRemoteSwiftPackageReference "Factory" */ = {
+		53FD0D5D2F86F41400F099C9 /* XCRemoteSwiftPackageReference "Factory" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Factory.git";
 			requirement = {
@@ -375,7 +372,7 @@
 				minimumVersion = 2.5.3;
 			};
 		};
-		53FD0D4C2F86F03B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		53FD0D622F86F42B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
@@ -386,24 +383,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		53FD0D462F86F02300F099C9 /* Factory */ = {
+		53FD0D5E2F86F41400F099C9 /* Factory */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 53FD0D452F86F02300F099C9 /* XCRemoteSwiftPackageReference "Factory" */;
+			package = 53FD0D5D2F86F41400F099C9 /* XCRemoteSwiftPackageReference "Factory" */;
 			productName = Factory;
 		};
-		53FD0D482F86F02300F099C9 /* FactoryKit */ = {
+		53FD0D602F86F41400F099C9 /* FactoryKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 53FD0D452F86F02300F099C9 /* XCRemoteSwiftPackageReference "Factory" */;
+			package = 53FD0D5D2F86F41400F099C9 /* XCRemoteSwiftPackageReference "Factory" */;
 			productName = FactoryKit;
 		};
-		53FD0D4A2F86F02300F099C9 /* FactoryTesting */ = {
+		53FD0D632F86F42B00F099C9 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 53FD0D452F86F02300F099C9 /* XCRemoteSwiftPackageReference "Factory" */;
-			productName = FactoryTesting;
-		};
-		53FD0D4D2F86F03B00F099C9 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 53FD0D4C2F86F03B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = 53FD0D622F86F42B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
