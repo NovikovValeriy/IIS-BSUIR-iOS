@@ -1,5 +1,5 @@
 //
-//  IIS_BSUIR_IOSApp.swift
+//  IISBSUIRApp.swift
 //  IIS-BSUIR-IOS
 //
 //  Created by Valery Novikau on 6.04.26.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct IIS_BSUIR_IOSApp: App {
+struct IISBSUIRApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
