@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 9.04.26.
 //
 
-struct ScheduleEmployeeDTO: Decodable {
+struct ScheduleEmployeeDTO: Decodable, Hashable {
     let id: Int
     let firstName: String
     let middleName: String?

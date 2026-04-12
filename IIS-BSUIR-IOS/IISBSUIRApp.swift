@@ -11,7 +11,7 @@ import SwiftUI
 struct IISBSUIRApp: App {
     var body: some Scene {
         WindowGroup {
-            EmptyView()
+            AppView()
         }
     }
 }
