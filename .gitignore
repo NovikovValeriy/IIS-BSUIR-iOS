@@ -85,3 +85,8 @@ Package.resolved
 # Preview files
 # =========================
 *+Preview.swift
+
+# =========================
+# Markdown files
+# =========================
+*.md
