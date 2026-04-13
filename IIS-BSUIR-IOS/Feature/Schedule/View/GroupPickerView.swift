@@ -24,7 +24,7 @@ struct GroupPickerView: View {
         NavigationStack {
             Group {
                 if isLoading {
-                    ProgressView("Loading groups…")
+                    ProgressView("group_picker.loading")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if filteredGroups.isEmpty {
                     ContentUnavailableView.search(text: searchText)
@@ -48,16 +48,16 @@ struct GroupPickerView: View {
                     }
                 }
             }
-            .navigationTitle("Select Group")
+            .navigationTitle("group_picker.title")
             .navigationBarTitleDisplayMode(.inline)
             .searchable(
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .always),
-                prompt: "Search by group number"
+                prompt: "group_picker.search_placeholder"
             )
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("common.cancel") { dismiss() }
                 }
             }
         }

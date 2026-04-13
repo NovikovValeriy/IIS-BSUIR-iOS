@@ -23,6 +23,13 @@ final class ScheduleViewModel {
     var isLoadingSchedule = false
     var errorMessage: String?
 
+    var navigationTitle: String {
+        if let group = selectedGroup {
+            return String(localized: "schedule.group_title \(group.name)")
+        }
+        return String(localized: "schedule.title")
+    }
+
     init(router: ScheduleRouter, scheduleService: any ScheduleServiceProtocol) {
         self.router = router
         self.scheduleService = scheduleService
@@ -63,7 +70,7 @@ final class ScheduleViewModel {
         do {
             groups = try await scheduleService.fetchGroups()
         } catch {
-            errorMessage = "Failed to load groups. Please try again."
+            errorMessage = String(localized: "schedule.error.load_groups")
         }
         isLoadingGroups = false
     }
@@ -75,7 +82,7 @@ final class ScheduleViewModel {
             let response = try await scheduleService.fetchGroupSchedule(groupName: group.name)
             lessons = response.schedules ?? [:]
         } catch {
-            errorMessage = "Failed to load schedule for \(group.name). Please try again."
+            errorMessage = String(localized: "schedule.error.load_schedule \(group.name)")
             lessons = [:]
         }
         isLoadingSchedule = false

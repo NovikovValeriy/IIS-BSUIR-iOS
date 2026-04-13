@@ -13,10 +13,10 @@ struct GradesView: View {
 
     var body: some View {
         ContentUnavailableView(
-            "Grades",
+            "grades.title",
             systemImage: "chart.bar.fill",
-            description: Text("Grades screen coming soon.")
+            description: Text("grades.coming_soon")
         )
-        .navigationTitle("Grades")
+        .navigationTitle("grades.title")
     }
 }

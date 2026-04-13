@@ -25,7 +25,7 @@ struct LessonRowView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
                 if lesson.numSubgroup != 0 {
-                    Text("Subgroup \(lesson.numSubgroup)")
+                    Text("lesson.row.subgroup \(lesson.numSubgroup)")
                         .font(.caption)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -37,7 +37,7 @@ struct LessonRowView: View {
             }
 
             if let weeks = lesson.weekNumber, !weeks.isEmpty {
-                Label(weeks.formatted(), systemImage: "number")
+                Label("lesson.row.weeks \(weeks.formattedNumbers())", systemImage: "number")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -67,7 +67,7 @@ struct LessonRowView: View {
 
 private extension [Int] {
     /// Formats a sorted list of week numbers into a compact string, e.g. [1,2,3,5] → "Weeks 1–3, 5"
-    func formatted() -> String {
+    func formattedNumbers() -> String {
         guard !isEmpty else { return "" }
         let sorted = self.sorted()
         var ranges: [(Int, Int)] = []
@@ -82,7 +82,7 @@ private extension [Int] {
         }
         ranges.append((start, end))
         let parts = ranges.map { start, end in start == end ? "\(start)" : "\(start)–\(end)" }
-        return "Weeks \(parts.joined(separator: ", "))"
+        return parts.joined(separator: ", ")
     }
 }
 

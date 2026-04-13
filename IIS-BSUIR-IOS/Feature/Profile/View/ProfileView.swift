@@ -21,16 +21,16 @@ struct ProfileView: View {
 
     private var unauthenticatedView: some View {
         ContentUnavailableView {
-            Label("Sign In Required", systemImage: "person.fill.questionmark")
+            Label("profile.not_authenticated.title", systemImage: "person.fill.questionmark")
         } description: {
-            Text("Sign in to access your grades, notifications, dormitory, and more.")
+            Text("profile.not_authenticated.description")
         } actions: {
-            Button("Sign In") {
+            Button("profile.sign_in") {
                 viewModel.didTapSignIn()
             }
             .buttonStyle(.borderedProminent)
         }
-        .navigationTitle("Profile")
+        .navigationTitle("profile.title")
     }
 
     private var authenticatedView: some View {
@@ -48,21 +48,21 @@ struct ProfileView: View {
                 }
             }
 
-            Section("Academic") {
-                Button("Grades") { viewModel.didTapGrades() }
-                Button("Notifications") { viewModel.didTapNotifications() }
+            Section("profile.academic_section") {
+                Button("profile.grades") { viewModel.didTapGrades() }
+                Button("profile.notifications") { viewModel.didTapNotifications() }
             }
 
-            Section("Campus") {
-                Button("Dormitory") { viewModel.didTapDormitory() }
-                Button("Documents") { viewModel.didTapDocuments() }
-                Button("Contacts") { viewModel.didTapContacts() }
+            Section("profile.campus_section") {
+                Button("profile.dormitory") { viewModel.didTapDormitory() }
+                Button("profile.documents") { viewModel.didTapDocuments() }
+                Button("profile.contacts") { viewModel.didTapContacts() }
             }
 
             Section {
-                Button("Log out", role: .destructive) { viewModel.didTapLogout() }
+                Button("profile.logout", role: .destructive) { viewModel.didTapLogout() }
             }
         }
-        .navigationTitle("Profile")
+        .navigationTitle("profile.title")
     }
 }

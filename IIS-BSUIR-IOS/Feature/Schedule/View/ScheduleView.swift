@@ -13,7 +13,7 @@ struct ScheduleView: View {
     var body: some View {
         Group {
             if viewModel.isLoadingSchedule {
-                ProgressView("Loading schedule…")
+                ProgressView("schedule.loading")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.selectedGroup == nil {
                 noGroupView
@@ -21,21 +21,21 @@ struct ScheduleView: View {
                 errorView(message: error)
             } else if viewModel.lessons.isEmpty {
                 ContentUnavailableView(
-                    "No Classes",
+                    "schedule.no_classes.title",
                     systemImage: "calendar",
-                    description: Text("No schedule found for \(viewModel.selectedGroup?.name ?? "").")
+                    description: Text("schedule.no_classes.description \(viewModel.selectedGroup?.name ?? "")")
                 )
             } else {
                 scheduleList
             }
         }
-        .navigationTitle(viewModel.selectedGroup.map { "Group \($0.name)" } ?? "Schedule")
+        .navigationTitle(viewModel.navigationTitle)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     viewModel.didTapSelectGroup()
                 } label: {
-                    Label("Group", systemImage: "person.3")
+                    Label("schedule.select_group.label", systemImage: "person.3")
                 }
             }
         }
@@ -46,11 +46,11 @@ struct ScheduleView: View {
 
     private var noGroupView: some View {
         ContentUnavailableView {
-            Label("No Group Selected", systemImage: "person.3")
+            Label("schedule.no_group.title", systemImage: "person.3")
         } description: {
-            Text("Select your group to view the schedule.")
+            Text("schedule.no_group.description")
         } actions: {
-            Button("Select Group") {
+            Button("schedule.select_group.action") {
                 viewModel.didTapSelectGroup()
             }
             .buttonStyle(.borderedProminent)
@@ -59,11 +59,11 @@ struct ScheduleView: View {
 
     private func errorView(message: String) -> some View {
         ContentUnavailableView {
-            Label("Something Went Wrong", systemImage: "exclamationmark.triangle")
+            Label("common.error.title", systemImage: "exclamationmark.triangle")
         } description: {
             Text(message)
         } actions: {
-            Button("Retry") {
+            Button("schedule.retry") {
                 viewModel.didTapSelectGroup()
             }
             .buttonStyle(.borderedProminent)

@@ -17,18 +17,18 @@ struct GradesFlowView: View {
                 .navigationDestination(for: GradesDestination.self) { destination in
                     switch destination {
                     case .gradeBookDetail(let subjectName):
-                        Text("Grade book: \(subjectName)")
+                        Text("grades.grade_book_detail \(subjectName)")
                             .navigationTitle(subjectName)
                     case .omissions:
-                        Text("Omissions")
-                            .navigationTitle("Omissions")
+                        Text("grades.omissions")
+                            .navigationTitle("grades.omissions")
                     }
                 }
         }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .semesterPicker:
-                Text("Semester picker — coming soon")
+                Text("grades.semester_picker.coming_soon")
                     .presentationDetents([.height(300)])
             }
         }
@@ -36,7 +36,7 @@ struct GradesFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("common.ok"))
             )
         }
     }

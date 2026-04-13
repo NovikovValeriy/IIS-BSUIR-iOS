@@ -30,7 +30,7 @@ struct LessonDetailView: View {
                 noteSection(note)
             }
         }
-        .navigationTitle(lesson.subjectFullName ?? lesson.subject ?? "Lesson")
+        .navigationTitle(lesson.subjectFullName ?? lesson.subject ?? String(localized: "lesson.detail.default_title"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -38,34 +38,34 @@ struct LessonDetailView: View {
 
     private var subjectSection: some View {
         Section {
-            LabeledContent("Subject", value: lesson.subjectFullName ?? lesson.subject ?? "—")
+            LabeledContent("lesson.detail.subject", value: lesson.subjectFullName ?? lesson.subject ?? "—")
             if let type = lesson.lessonTypeAbbrev {
-                LabeledContent("Type", value: type)
+                LabeledContent("lesson.detail.type", value: type)
             }
             if lesson.numSubgroup != 0 {
-                LabeledContent("Subgroup", value: "\(lesson.numSubgroup)")
+                LabeledContent("lesson.detail.subgroup", value: "\(lesson.numSubgroup)")
             }
             if lesson.announcement {
-                LabeledContent("Kind", value: "Announcement")
+                LabeledContent("lesson.detail.kind", value: String(localized: "lesson.detail.announcement"))
             }
         }
     }
 
     private var timeSection: some View {
-        Section("Time") {
-            LabeledContent("Start", value: lesson.startLessonTime)
-            LabeledContent("End", value: lesson.endLessonTime)
+        Section("lesson.detail.time") {
+            LabeledContent("lesson.detail.start", value: lesson.startLessonTime)
+            LabeledContent("lesson.detail.end", value: lesson.endLessonTime)
             if let date = lesson.dateLesson {
-                LabeledContent("Date", value: date)
+                LabeledContent("lesson.detail.date", value: date)
             }
             if let start = lesson.startLessonDate, let end = lesson.endLessonDate {
-                LabeledContent("Period", value: "\(start) – \(end)")
+                LabeledContent("lesson.detail.period", value: "\(start) – \(end)")
             }
         }
     }
 
     private func roomsSection(_ rooms: [String]) -> some View {
-        Section("Classrooms") {
+        Section("lesson.detail.classrooms") {
             ForEach(rooms, id: \.self) { room in
                 Text(room)
             }
@@ -73,7 +73,7 @@ struct LessonDetailView: View {
     }
 
     private func teachersSection(_ employees: [ScheduleEmployeeDTO]) -> some View {
-        Section(employees.count == 1 ? "Teacher" : "Teachers") {
+        Section(employees.count == 1 ? "lesson.detail.teacher" : "lesson.detail.teachers") {
             ForEach(employees, id: \.id) { employee in
                 VStack(alignment: .leading, spacing: 4) {
                     Text(employee.fullName)
@@ -100,7 +100,7 @@ struct LessonDetailView: View {
     }
 
     private func groupsSection(_ groups: [LessonStudentGroupDTO]) -> some View {
-        Section(groups.count == 1 ? "Group" : "Groups") {
+        Section(groups.count == 1 ? "lesson.detail.group" : "lesson.detail.groups") {
             ForEach(groups, id: \.name) { group in
                 VStack(alignment: .leading, spacing: 4) {
                     Text(group.name)
@@ -111,7 +111,7 @@ struct LessonDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                     if let count = group.numberOfStudents {
-                        Text("\(count) students")
+                        Text("lesson.detail.students_count \(count)")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -122,14 +122,14 @@ struct LessonDetailView: View {
     }
 
     private func weeksSection(_ weeks: [Int]) -> some View {
-        Section("Weeks") {
+        Section("lesson.detail.weeks") {
             Text(weeks.sorted().map { "\($0)" }.joined(separator: ", "))
                 .foregroundStyle(.secondary)
         }
     }
 
     private func noteSection(_ note: String) -> some View {
-        Section("Note") {
+        Section("lesson.detail.note") {
             Text(note)
                 .foregroundStyle(.secondary)
         }

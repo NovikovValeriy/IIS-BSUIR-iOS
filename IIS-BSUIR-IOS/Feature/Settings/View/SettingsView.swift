@@ -14,13 +14,13 @@ struct SettingsView: View {
     var body: some View {
         List {
             Section {
-                Button("Appearance") { router.push(.appearance) }
-                Button("Notifications") { router.push(.notifications) }
+                Button("settings.appearance") { router.push(.appearance) }
+                Button("settings.notifications") { router.push(.notifications) }
             }
             Section {
-                Button("About") { router.push(.about) }
+                Button("settings.about") { router.push(.about) }
             }
         }
-        .navigationTitle("Settings")
+        .navigationTitle("settings.title")
     }
 }

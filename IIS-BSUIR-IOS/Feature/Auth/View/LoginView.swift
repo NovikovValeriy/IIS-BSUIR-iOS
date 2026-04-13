@@ -15,21 +15,21 @@ struct LoginView: View {
         VStack(spacing: 24) {
             Spacer()
 
-            Text("IIS BSUIR")
+            Text("auth.title")
                 .font(.largeTitle.bold())
 
             VStack(spacing: 16) {
-                TextField("Username", text: $viewModel.username)
+                TextField("auth.username.placeholder", text: $viewModel.username)
                     .textContentType(.username)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .textFieldStyle(.roundedBorder)
 
-                SecureField("Password", text: $viewModel.password)
+                SecureField("auth.password.placeholder", text: $viewModel.password)
                     .textContentType(.password)
                     .textFieldStyle(.roundedBorder)
 
-                Toggle("Remember device", isOn: $viewModel.rememberDevice)
+                Toggle("auth.remember_device", isOn: $viewModel.rememberDevice)
             }
             .padding(.horizontal)
 
@@ -40,7 +40,7 @@ struct LoginView: View {
                     if viewModel.isLoading {
                         ProgressView()
                     } else {
-                        Text("Sign In")
+                        Text("auth.sign_in.button")
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -50,14 +50,14 @@ struct LoginView: View {
             .disabled(!viewModel.canSubmit)
             .padding(.horizontal)
 
-            Button("Forgot password?") {
+            Button("auth.forgot_password.button") {
                 viewModel.didTapForgotPassword()
             }
             .font(.footnote)
 
             Spacer()
         }
-        .navigationTitle("Sign In")
+        .navigationTitle("auth.sign_in.title")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -23,14 +23,14 @@ struct AuthFlowView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("Cancel") { dismiss() }
+                        Button("common.cancel") { dismiss() }
                     }
                 }
         }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .confirmContact:
-                Text("Confirm Contact — coming soon")
+                Text("auth.confirm_contact.coming_soon")
                     .presentationDetents([.medium])
             }
         }
@@ -38,7 +38,7 @@ struct AuthFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("common.ok"))
             )
         }
     }

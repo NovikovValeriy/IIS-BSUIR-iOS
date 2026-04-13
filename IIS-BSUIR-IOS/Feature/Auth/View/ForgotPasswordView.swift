@@ -10,11 +10,11 @@ import SwiftUI
 struct ForgotPasswordView: View {
     var body: some View {
         ContentUnavailableView(
-            "Forgot Password",
+            "auth.forgot_password.title",
             systemImage: "key.fill",
-            description: Text("Password reset is not yet implemented.")
+            description: Text("auth.forgot_password.description")
         )
-        .navigationTitle("Forgot Password")
+        .navigationTitle("auth.forgot_password.title")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

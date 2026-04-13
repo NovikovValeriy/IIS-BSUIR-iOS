@@ -16,9 +16,9 @@ enum TabItem: Int, CaseIterable, Identifiable, Hashable {
 
     var title: String {
         switch self {
-        case .schedule: return "Schedule"
-        case .profile: return "Profile"
-        case .settings: return "Settings"
+        case .schedule: return String(localized: "tab.schedule")
+        case .profile: return String(localized: "tab.profile")
+        case .settings: return String(localized: "tab.settings")
         }
     }
 

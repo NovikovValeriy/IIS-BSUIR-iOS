@@ -20,11 +20,11 @@ struct ScheduleFlowView: View {
                     case .lessonDetail(let lesson):
                         LessonDetailView(lesson: lesson)
                     case .employeeSchedule(let employeeId):
-                        Text("Employee schedule: \(employeeId)")
-                            .navigationTitle("Employee Schedule")
+                        Text("schedule.employee_schedule.detail \(employeeId)")
+                            .navigationTitle("schedule.employee_schedule.title")
                     case .groupSchedule(let groupId):
-                        Text("Group schedule: \(groupId)")
-                            .navigationTitle("Group Schedule")
+                        Text("schedule.group_schedule.detail \(groupId)")
+                            .navigationTitle("schedule.group_schedule.title")
                     }
                 }
         }
@@ -37,10 +37,10 @@ struct ScheduleFlowView: View {
                     onSelect: viewModel.didSelectGroup
                 )
             case .filterOptions:
-                Text("Filter options — coming soon")
+                Text("schedule.filter.coming_soon")
                     .presentationDetents([.medium])
             case .weekPicker:
-                Text("Week picker — coming soon")
+                Text("schedule.week_picker.coming_soon")
                     .presentationDetents([.height(300)])
             }
         }
@@ -48,7 +48,7 @@ struct ScheduleFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("common.ok"))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .schedule))) { _ in
