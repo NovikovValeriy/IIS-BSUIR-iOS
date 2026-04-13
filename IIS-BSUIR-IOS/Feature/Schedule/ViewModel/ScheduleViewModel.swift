@@ -11,15 +11,35 @@ import Foundation
 @MainActor
 final class ScheduleViewModel {
     private let router: ScheduleRouter
+    private let scheduleService: any ScheduleServiceProtocol
 
     // Ordered Russian weekday names matching the API
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
 
-    // TODO: Replace with real data from the schedule service
-    var lessons: [String: [LessonDTO]] = mockLessons
+    var groups: [StudentGroupDTO] = []
+    var selectedGroup: StudentGroupDTO?
+    var lessons: [String: [LessonDTO]] = [:]
+    var isLoadingGroups = false
+    var isLoadingSchedule = false
+    var errorMessage: String?
 
-    init(router: ScheduleRouter) {
+    init(router: ScheduleRouter, scheduleService: any ScheduleServiceProtocol) {
         self.router = router
+        self.scheduleService = scheduleService
+    }
+
+    func onAppear() {
+        Task { await loadGroups() }
+    }
+
+    func didTapSelectGroup() {
+        router.present(sheet: .groupPicker)
+    }
+
+    func didSelectGroup(_ group: StudentGroupDTO) {
+        selectedGroup = group
+        router.dismissSheet()
+        Task { await loadSchedule(for: group) }
     }
 
     func didTapLesson(_ lesson: LessonDTO) {
@@ -33,152 +53,31 @@ final class ScheduleViewModel {
     func didTapWeekPicker() {
         router.present(sheet: .weekPicker)
     }
-}
 
-// MARK: - Mock Data
+    // MARK: - Private
 
-private extension ScheduleViewModel {
-    static let mockEmployee = ScheduleEmployeeDTO(
-        id: 500434,
-        firstName: "Игорь",
-        middleName: "Иванович",
-        lastName: "Абрамов",
-        photoLink: nil,
-        degree: "д.ф.-м.н.",
-        degreeAbbrev: "д.ф.-м.н.",
-        rank: "профессор",
-        email: "abramov@bsuir.by",
-        urlId: "i-abramov",
-        calendarId: nil,
-        jobPositions: nil
-    )
-
-    static let mockEmployee2 = ScheduleEmployeeDTO(
-        id: 500740,
-        firstName: "Елена",
-        middleName: "Дмитриевна",
-        lastName: "Стройникова",
-        photoLink: nil,
-        degree: nil,
-        degreeAbbrev: nil,
-        rank: "доцент",
-        email: nil,
-        urlId: "e-stroynikova",
-        calendarId: nil,
-        jobPositions: nil
-    )
-
-    static let mockGroup = LessonStudentGroupDTO(
-        specialityName: "Информационные системы и технологии",
-        specialityCode: "1-40 05 01",
-        numberOfStudents: 25,
-        name: "253501",
-        educationDegree: 1
-    )
-
-    static func makeMockLesson(
-        subject: String,
-        subjectFull: String,
-        type: String,
-        start: String,
-        end: String,
-        room: String,
-        employee: ScheduleEmployeeDTO,
-        weeks: [Int] = [1, 2, 3, 4]
-    ) -> LessonDTO {
-        LessonDTO(
-            auditories: [room],
-            endLessonTime: end,
-            lessonTypeAbbrev: type,
-            note: nil,
-            numSubgroup: 0,
-            startLessonTime: start,
-            studentGroups: [mockGroup],
-            subject: subject,
-            subjectFullName: subjectFull,
-            weekNumber: weeks,
-            employees: [employee],
-            dateLesson: nil,
-            startLessonDate: nil,
-            endLessonDate: nil,
-            announcement: false,
-            split: false
-        )
+    private func loadGroups() async {
+        guard groups.isEmpty else { return }
+        isLoadingGroups = true
+        errorMessage = nil
+        do {
+            groups = try await scheduleService.fetchGroups()
+        } catch {
+            errorMessage = "Failed to load groups. Please try again."
+        }
+        isLoadingGroups = false
     }
 
-    static let mockLessons: [String: [LessonDTO]] = [
-        "Понедельник": [
-            makeMockLesson(
-                subject: "МатАн",
-                subjectFull: "Математический анализ",
-                type: "ЛК",
-                start: "10:35",
-                end: "11:55",
-                room: "501-5к",
-                employee: mockEmployee
-            ),
-            makeMockLesson(
-                subject: "ОАиП",
-                subjectFull: "Основы алгоритмизации и программирования",
-                type: "ЛР",
-                start: "12:25",
-                end: "13:45",
-                room: "302-6к",
-                employee: mockEmployee2
-            )
-        ],
-        "Вторник": [
-            makeMockLesson(
-                subject: "Физика",
-                subjectFull: "Физика",
-                type: "ЛК",
-                start: "08:00",
-                end: "09:35",
-                room: "201-4к",
-                employee: mockEmployee
-            ),
-            makeMockLesson(
-                subject: "ОАиП",
-                subjectFull: "Основы алгоритмизации и программирования",
-                type: "ПЗ",
-                start: "10:35",
-                end: "11:55",
-                room: "302-6к",
-                employee: mockEmployee2
-            )
-        ],
-        "Среда": [
-            makeMockLesson(
-                subject: "МатАн",
-                subjectFull: "Математический анализ",
-                type: "ПЗ",
-                start: "12:25",
-                end: "13:45",
-                room: "415-5к",
-                employee: mockEmployee,
-                weeks: [1, 3]
-            ),
-            makeMockLesson(
-                subject: "Физика",
-                subjectFull: "Физика",
-                type: "ЛР",
-                start: "14:15",
-                end: "15:35",
-                room: "103-4к",
-                employee: mockEmployee2,
-                weeks: [2, 4]
-            )
-        ],
-        "Пятница": [
-            makeMockLesson(
-                subject: "ОАиП",
-                subjectFull: "Основы алгоритмизации и программирования",
-                type: "ЛК",
-                start: "08:00",
-                end: "09:35",
-                room: "207-1к",
-                employee: mockEmployee2
-            )
-        ]
-    ]
+    private func loadSchedule(for group: StudentGroupDTO) async {
+        isLoadingSchedule = true
+        errorMessage = nil
+        do {
+            let response = try await scheduleService.fetchGroupSchedule(groupName: group.name)
+            lessons = response.schedules ?? [:]
+        } catch {
+            errorMessage = "Failed to load schedule for \(group.name). Please try again."
+            lessons = [:]
+        }
+        isLoadingSchedule = false
+    }
 }

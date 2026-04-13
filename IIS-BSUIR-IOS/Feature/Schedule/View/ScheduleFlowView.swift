@@ -10,10 +10,11 @@ import Factory
 
 struct ScheduleFlowView: View {
     @State private var router: ScheduleRouter = Container.shared.scheduleRouter()
+    @State private var viewModel: ScheduleViewModel = Container.shared.scheduleViewModel()
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            ScheduleView()
+            ScheduleView(viewModel: viewModel)
                 .navigationDestination(for: ScheduleDestination.self) { destination in
                     switch destination {
                     case .lessonDetail(let lesson):
@@ -29,6 +30,12 @@ struct ScheduleFlowView: View {
         }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
+            case .groupPicker:
+                GroupPickerView(
+                    groups: viewModel.groups,
+                    isLoading: viewModel.isLoadingGroups,
+                    onSelect: viewModel.didSelectGroup
+                )
             case .filterOptions:
                 Text("Filter options — coming soon")
                     .presentationDetents([.medium])
