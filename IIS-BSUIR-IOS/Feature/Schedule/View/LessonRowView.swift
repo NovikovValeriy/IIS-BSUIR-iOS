@@ -31,6 +31,7 @@ private enum Constants {
         static let time = "clock"
         static let room = "mappin"
         static let teacher = "person"
+        static let group = "person.3"
         static let teacherPhotoPlaceholder = "person.circle.fill"
     }
 }
@@ -38,6 +39,7 @@ private enum Constants {
 struct LessonRowView: View {
     let lesson: Lesson
     var showWeeks: Bool = true
+    var showGroups: Bool = false
 
     var body: some View {
         HStack(alignment: .center, spacing: Constants.Layout.outerSpacing) {
@@ -88,14 +90,21 @@ struct LessonRowView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                if let teacher = lesson.teachers.first {
+                if showGroups {
+                    if !lesson.groups.isEmpty {
+                        let names = lesson.groups.map { $0.name }.joined(separator: ", ")
+                        Label(names, systemImage: Constants.Icons.group)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                } else if let teacher = lesson.teachers.first {
                     Label(teacher.shortName, systemImage: Constants.Icons.teacher)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
             }
 
-            if let teacher = lesson.teachers.first {
+            if !showGroups, let teacher = lesson.teachers.first {
                 teacherPhoto(for: teacher)
             }
         }

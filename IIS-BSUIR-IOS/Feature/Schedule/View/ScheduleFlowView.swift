@@ -31,10 +31,13 @@ struct ScheduleFlowView: View {
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .groupPicker:
-                GroupPickerView(
+                ScheduleSubjectPickerView(
                     groups: viewModel.groups,
-                    isLoading: viewModel.isLoadingGroups,
-                    onSelect: viewModel.didSelectGroup
+                    isLoadingGroups: viewModel.isLoadingGroups,
+                    teachers: viewModel.teachers,
+                    isLoadingTeachers: viewModel.isLoadingTeachers,
+                    onSelect: viewModel.didSelectSubject,
+                    onTeacherTabAppear: viewModel.ensureTeachersLoaded
                 )
             case .filterOptions:
                 Text("schedule.filter.coming_soon")

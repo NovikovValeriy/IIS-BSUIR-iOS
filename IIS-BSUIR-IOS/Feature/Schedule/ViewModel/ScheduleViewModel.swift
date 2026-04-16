@@ -17,15 +17,17 @@ final class ScheduleViewModel {
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
 
     var groups: [GroupModel] = []
+    var teachers: [Teacher] = []
     var selectedSubject: ScheduleSubject?
     var lessons: [String: [Lesson]] = [:]
     var isLoadingGroups = false
+    var isLoadingTeachers = false
     var isLoadingSchedule = false
     var errorMessage: String?
 
     // MARK: - Display mode
 
-    var displayMode: ScheduleDisplayMode = .weekly
+    var displayMode: ScheduleDisplayMode = .timeline
 
     // MARK: - Timeline
 
@@ -68,6 +70,12 @@ final class ScheduleViewModel {
         selectedSubject?.displayName ?? String(localized: "schedule.title")
     }
 
+    /// When viewing a teacher's schedule, rows should show the group instead of the teacher.
+    var showGroupsInRow: Bool {
+        if case .teacher = selectedSubject { return true }
+        return false
+    }
+
     init(router: ScheduleRouter, scheduleService: any ScheduleServiceProtocol) {
         self.router = router
         self.scheduleService = scheduleService
@@ -80,6 +88,13 @@ final class ScheduleViewModel {
 
     func didTapSelectGroup() {
         router.present(sheet: .groupPicker)
+    }
+
+    /// Called when the teacher tab in the picker becomes visible for the first time.
+    func ensureTeachersLoaded() {
+        guard teachers.isEmpty, !isLoadingTeachers else { return }
+        isLoadingTeachers = true
+        Task { await loadTeachers() }
     }
 
     func didSelectGroup(_ group: GroupModel) {
@@ -165,6 +180,15 @@ final class ScheduleViewModel {
             errorMessage = String(localized: "schedule.error.load_groups")
         }
         isLoadingGroups = false
+    }
+
+    private func loadTeachers() async {
+        do {
+            teachers = try await scheduleService.fetchTeachers()
+        } catch {
+            // Non-fatal: teacher tab will show an empty state
+        }
+        isLoadingTeachers = false
     }
 
     private func loadCurrentWeek() async {

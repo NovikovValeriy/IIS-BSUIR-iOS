@@ -104,7 +104,7 @@ struct ScheduleView: View {
                             Button {
                                 viewModel.didTapLesson(lesson)
                             } label: {
-                                LessonRowView(lesson: lesson)
+                                LessonRowView(lesson: lesson, showGroups: viewModel.showGroupsInRow)
                             }
                             .buttonStyle(.plain)
                             .listRowBackground(Color.clear)
@@ -123,10 +123,10 @@ struct ScheduleView: View {
     private var displayModePicker: some View {
         Menu {
             Picker("schedule.mode.label", selection: $viewModel.displayMode) {
-                Label("schedule.mode.weekly", systemImage: Constants.Icons.modeWeekly)
-                    .tag(ScheduleDisplayMode.weekly)
                 Label("schedule.mode.timeline", systemImage: Constants.Icons.modeTimeline)
                     .tag(ScheduleDisplayMode.timeline)
+                Label("schedule.mode.weekly", systemImage: Constants.Icons.modeWeekly)
+                    .tag(ScheduleDisplayMode.weekly)
             }
         } label: {
             Image(

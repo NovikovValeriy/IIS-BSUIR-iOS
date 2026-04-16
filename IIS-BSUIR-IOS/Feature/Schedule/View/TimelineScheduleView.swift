@@ -35,7 +35,7 @@ struct TimelineScheduleView: View {
                             Button {
                                 viewModel.didTapLesson(lesson)
                             } label: {
-                                LessonRowView(lesson: lesson, showWeeks: false)
+                                LessonRowView(lesson: lesson, showWeeks: false, showGroups: viewModel.showGroupsInRow)
                             }
                             .buttonStyle(.plain)
                             .listRowBackground(Color.clear)

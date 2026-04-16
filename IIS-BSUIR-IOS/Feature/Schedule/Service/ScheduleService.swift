@@ -9,6 +9,7 @@ import Foundation
 
 protocol ScheduleServiceProtocol: AnyObject {
     func fetchGroups() async throws -> [GroupModel]
+    func fetchTeachers() async throws -> [Teacher]
     func fetchSchedule(for subject: ScheduleSubject) async throws -> Schedule
     func fetchCurrentWeek() async throws -> Int
 }
@@ -28,6 +29,14 @@ final class ScheduleService: ScheduleServiceProtocol {
         return dtos.map { $0.toDomain() }
     }
 
+    func fetchTeachers() async throws -> [Teacher] {
+        let dtos: [EmployeeDTO] = try await apiClient.sendRequest(
+            path: "/api/v1/employees/all",
+            httpMethod: .GET
+        )
+        return dtos.map { $0.toDomain() }
+    }
+
     func fetchSchedule(for subject: ScheduleSubject) async throws -> Schedule {
         switch subject {
         case .group(let group):
@@ -35,6 +44,12 @@ final class ScheduleService: ScheduleServiceProtocol {
                 path: "/api/v1/schedule",
                 httpMethod: .GET,
                 queryParams: ["studentGroup": group.name]
+            )
+            return dto.toDomain()
+        case .teacher(let teacher):
+            let dto: ScheduleResponseDTO = try await apiClient.sendRequest(
+                path: "/api/v1/employees/schedule/\(teacher.urlId)",
+                httpMethod: .GET
             )
             return dto.toDomain()
         }
@@ -64,6 +79,25 @@ private extension StudentGroupDTO {
             educationDegree: educationDegree,
             calendarId: calendarId,
             specialityDepartmentEducationFormId: specialityDepartmentEducationFormId
+        )
+    }
+}
+
+private extension EmployeeDTO {
+    func toDomain() -> Teacher {
+        Teacher(
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
+            photoLink: photoLink,
+            degree: degree,
+            degreeAbbrev: nil,
+            rank: rank,
+            email: nil,
+            urlId: urlId,
+            calendarId: calendarId,
+            jobPositions: nil
         )
     }
 }
