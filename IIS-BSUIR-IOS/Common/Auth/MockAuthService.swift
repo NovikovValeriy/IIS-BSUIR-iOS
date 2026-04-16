@@ -7,23 +7,23 @@ import Foundation
 
 @MainActor
 final class MockAuthService: AuthServiceProtocol {
-    static let fakeUser = LoginResponseDTO(
-        authorities: ["ROLE_STUDENT"],
-        canStudentNote: true,
-        email: "student@bsuir.by",
+    static let fakeUser = User(
+        username: "student",
         fio: "Novikau Valery Alexandrovich",
         group: "253502",
-        hasNotConfirmedContact: false,
-        isGroupHead: true,
+        email: "student@bsuir.by",
         phone: "+375291234567",
         photoUrl: nil,
-        username: "student"
+        isGroupHead: true,
+        canStudentNote: true,
+        hasNotConfirmedContact: false,
+        authorities: ["ROLE_STUDENT"]
     )
 
     // Set to true to start already logged in (skips login screen)
     var startAuthenticated = false
 
-    func login(username: String, password: String, rememberDevice: Bool) async throws -> LoginResponseDTO {
+    func login(username: String, password: String, rememberDevice: Bool) async throws -> User {
         // Simulate a short network delay
         try await Task.sleep(for: .seconds(0.5))
         return Self.fakeUser
@@ -31,7 +31,7 @@ final class MockAuthService: AuthServiceProtocol {
 
     func logout() async {}
 
-    func validateStoredSession() async -> LoginResponseDTO? {
+    func validateStoredSession() async -> User? {
         startAuthenticated ? Self.fakeUser : nil
     }
 }

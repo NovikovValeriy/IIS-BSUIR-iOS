@@ -32,8 +32,8 @@ final class AppCoordinator {
         isShowingAuth = true
     }
 
-    func userDidAuthenticate(response: LoginResponseDTO) {
-        authState.transition(to: .authenticated(user: response))
+    func userDidAuthenticate(user: User) {
+        authState.transition(to: .authenticated(user: user))
         isShowingAuth = false
     }
 

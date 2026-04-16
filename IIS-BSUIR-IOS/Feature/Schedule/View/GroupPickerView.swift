@@ -14,14 +14,14 @@ private enum Constants {
 }
 
 struct GroupPickerView: View {
-    let groups: [StudentGroupDTO]
+    let groups: [GroupModel]
     let isLoading: Bool
-    let onSelect: (StudentGroupDTO) -> Void
+    let onSelect: (GroupModel) -> Void
 
     @State private var searchText = ""
     @Environment(\.dismiss) private var dismiss
 
-    private var filteredGroups: [StudentGroupDTO] {
+    private var filteredGroups: [GroupModel] {
         guard !searchText.isEmpty else { return groups }
         return groups.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
     }
@@ -35,7 +35,7 @@ struct GroupPickerView: View {
                 } else if filteredGroups.isEmpty {
                     ContentUnavailableView.search(text: searchText)
                 } else {
-                    List(filteredGroups, id: \.id) { group in
+                    List(filteredGroups) { group in
                         Button {
                             onSelect(group)
                         } label: {

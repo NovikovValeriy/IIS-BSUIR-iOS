@@ -36,7 +36,7 @@ private enum Constants {
 }
 
 struct LessonRowView: View {
-    let lesson: LessonDTO
+    let lesson: Lesson
     var showWeeks: Bool = true
 
     var body: some View {
@@ -76,26 +76,26 @@ struct LessonRowView: View {
                 }
 
                 Label(
-                    "\(lesson.startLessonTime) – \(lesson.endLessonTime)",
+                    "\(lesson.startTime) – \(lesson.endTime)",
                     systemImage: Constants.Icons.time
                 )
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
-                if let room = lesson.auditories?.first {
+                if let room = lesson.auditories.first {
                     Label(room, systemImage: Constants.Icons.room)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
 
-                if let teacher = lesson.employees?.first {
+                if let teacher = lesson.teachers.first {
                     Label(teacher.shortName, systemImage: Constants.Icons.teacher)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
             }
 
-            if let teacher = lesson.employees?.first {
+            if let teacher = lesson.teachers.first {
                 teacherPhoto(for: teacher)
             }
         }
@@ -111,7 +111,7 @@ struct LessonRowView: View {
     }
 
     @ViewBuilder
-    private func teacherPhoto(for teacher: ScheduleEmployeeDTO) -> some View {
+    private func teacherPhoto(for teacher: Teacher) -> some View {
         let size = Constants.Layout.photoSize
         if let urlString = teacher.photoLink, let url = URL(string: urlString) {
             KFImage(url)
@@ -135,7 +135,7 @@ struct LessonRowView: View {
 }
 
 private extension [Int] {
-    /// Formats a sorted list of week numbers into a compact string, e.g. [1,2,3,5] → "Weeks 1–3, 5"
+    /// Formats a sorted list of week numbers into a compact string, e.g. [1,2,3,5] → "1–3, 5"
     func formattedNumbers() -> String {
         guard !isEmpty else { return "" }
         let sorted = self.sorted()
@@ -152,13 +152,5 @@ private extension [Int] {
         ranges.append((start, end))
         let parts = ranges.map { start, end in start == end ? "\(start)" : "\(start)–\(end)" }
         return parts.joined(separator: ", ")
-    }
-}
-
-private extension ScheduleEmployeeDTO {
-    var shortName: String {
-        let firstInitial = firstName.first.map { "\($0)." } ?? ""
-        let middleInitial = middleName?.first.map { "\($0)." } ?? ""
-        return "\(lastName) \(firstInitial)\(middleInitial)"
     }
 }

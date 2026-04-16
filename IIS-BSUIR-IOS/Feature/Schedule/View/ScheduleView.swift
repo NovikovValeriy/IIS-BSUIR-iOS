@@ -28,15 +28,15 @@ struct ScheduleView: View {
             if viewModel.isLoadingSchedule {
                 ProgressView("schedule.loading")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.selectedGroup == nil {
-                noGroupView
+            } else if viewModel.selectedSubject == nil {
+                noSubjectView
             } else if let error = viewModel.errorMessage {
                 errorView(message: error)
             } else if viewModel.displayMode == .weekly && viewModel.lessons.isEmpty {
                 ContentUnavailableView(
                     "schedule.no_classes.title",
                     systemImage: Constants.Icons.noClasses,
-                    description: Text("schedule.no_classes.description \(viewModel.selectedGroup?.name ?? "")")
+                    description: Text("schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")")
                 )
             } else if viewModel.displayMode == .weekly {
                 weeklyScheduleList
@@ -69,13 +69,13 @@ struct ScheduleView: View {
 
     // MARK: - Subviews
 
-    private var noGroupView: some View {
+    private var noSubjectView: some View {
         ContentUnavailableView {
-            Label("schedule.no_group.title", systemImage: Constants.Icons.group)
+            Label("schedule.no_subject.title", systemImage: Constants.Icons.group)
         } description: {
-            Text("schedule.no_group.description")
+            Text("schedule.no_subject.description")
         } actions: {
-            Button("schedule.select_group.action") {
+            Button("schedule.select_subject.action") {
                 viewModel.didTapSelectGroup()
             }
             .buttonStyle(.borderedProminent)

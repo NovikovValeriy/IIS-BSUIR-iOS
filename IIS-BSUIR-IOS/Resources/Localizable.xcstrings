@@ -741,16 +741,6 @@
         }
       }
     },
-    "schedule.group_title %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Group %@"
-          }
-        }
-      }
-    },
     "schedule.loading" : {
       "localizations" : {
         "en" : {
@@ -811,7 +801,7 @@
         }
       }
     },
-    "schedule.no_group.description" : {
+    "schedule.no_subject.description" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -821,12 +811,12 @@
         }
       }
     },
-    "schedule.no_group.title" : {
+    "schedule.no_subject.title" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No Group Selected"
+            "value" : "No Schedule Selected"
           }
         }
       }
@@ -841,7 +831,7 @@
         }
       }
     },
-    "schedule.select_group.action" : {
+    "schedule.select_subject.action" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {

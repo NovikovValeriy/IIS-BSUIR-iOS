@@ -16,9 +16,9 @@ final class ScheduleViewModel {
     // Ordered Russian weekday names matching the API
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
 
-    var groups: [StudentGroupDTO] = []
-    var selectedGroup: StudentGroupDTO?
-    var lessons: [String: [LessonDTO]] = [:]
+    var groups: [GroupModel] = []
+    var selectedSubject: ScheduleSubject?
+    var lessons: [String: [Lesson]] = [:]
     var isLoadingGroups = false
     var isLoadingSchedule = false
     var errorMessage: String?
@@ -32,7 +32,7 @@ final class ScheduleViewModel {
     var timelineDays: [TimelineDay] = []
     private(set) var timelineExhausted = false
 
-    private var scheduleResponse: ScheduleResponseDTO?
+    private var schedule: Schedule?
     /// The current semester week number as returned by the API (e.g. 7).
     /// Used to anchor the 4-week cycle without relying on startDate arithmetic.
     private var currentSemesterWeek: Int?
@@ -65,10 +65,7 @@ final class ScheduleViewModel {
     // MARK: - Computed
 
     var navigationTitle: String {
-        if let group = selectedGroup {
-            return String(localized: "schedule.group_title \(group.name)")
-        }
-        return String(localized: "schedule.title")
+        selectedSubject?.displayName ?? String(localized: "schedule.title")
     }
 
     init(router: ScheduleRouter, scheduleService: any ScheduleServiceProtocol) {
@@ -85,18 +82,22 @@ final class ScheduleViewModel {
         router.present(sheet: .groupPicker)
     }
 
-    func didSelectGroup(_ group: StudentGroupDTO) {
-        selectedGroup = group
-        scheduleResponse = nil
+    func didSelectGroup(_ group: GroupModel) {
+        didSelectSubject(.group(group))
+    }
+
+    func didSelectSubject(_ subject: ScheduleSubject) {
+        selectedSubject = subject
+        schedule = nil
         lessons = [:]
         timelineDays = []
         timelineExhausted = false
         timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
         router.dismissSheet()
-        Task { await loadSchedule(for: group) }
+        Task { await loadSchedule(for: subject) }
     }
 
-    func didTapLesson(_ lesson: LessonDTO) {
+    func didTapLesson(_ lesson: Lesson) {
         router.push(.lessonDetail(lesson))
     }
 
@@ -110,19 +111,19 @@ final class ScheduleViewModel {
 
     /// Called when switching to timeline mode if no days are loaded yet.
     func ensureTimelineGenerated() {
-        guard let response = scheduleResponse, timelineDays.isEmpty else { return }
-        timelineDays = buildTimeline(from: response, until: timelineLoadedUntil)
+        guard let schedule, timelineDays.isEmpty else { return }
+        timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
     }
 
     /// Extends the visible timeline window by 14 days and regenerates.
     func loadMoreTimelineDays() {
-        guard let response = scheduleResponse else { return }
+        guard let schedule else { return }
         timelineLoadedUntil = Calendar.current.date(
             byAdding: .day,
             value: 14,
             to: timelineLoadedUntil
         ) ?? timelineLoadedUntil
-        timelineDays = buildTimeline(from: response, until: timelineLoadedUntil)
+        timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
     }
 
     func sectionTitle(for day: TimelineDay) -> String {
@@ -171,26 +172,26 @@ final class ScheduleViewModel {
         do {
             currentSemesterWeek = try await scheduleService.fetchCurrentWeek()
             // If a schedule is already loaded and the timeline is visible, refresh it
-            if displayMode == .timeline, let response = scheduleResponse {
-                timelineDays = buildTimeline(from: response, until: timelineLoadedUntil)
+            if displayMode == .timeline, let schedule {
+                timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
             }
         } catch {
             // Non-fatal: timeline falls back to showing all week-numbers if nil
         }
     }
 
-    private func loadSchedule(for group: StudentGroupDTO) async {
+    private func loadSchedule(for subject: ScheduleSubject) async {
         isLoadingSchedule = true
         errorMessage = nil
         do {
-            let response = try await scheduleService.fetchGroupSchedule(groupName: group.name)
-            scheduleResponse = response
-            lessons = response.schedules ?? [:]
+            let loaded = try await scheduleService.fetchSchedule(for: subject)
+            schedule = loaded
+            lessons = loaded.weeklyLessons
             if displayMode == .timeline {
-                timelineDays = buildTimeline(from: response, until: timelineLoadedUntil)
+                timelineDays = buildTimeline(from: loaded, until: timelineLoadedUntil)
             }
         } catch {
-            errorMessage = String(localized: "schedule.error.load_schedule \(group.name)")
+            errorMessage = String(localized: "schedule.error.load_schedule \(subject.displayName)")
             lessons = [:]
         }
         isLoadingSchedule = false
@@ -206,13 +207,13 @@ final class ScheduleViewModel {
     }()
 
     private func buildTimeline(
-        from response: ScheduleResponseDTO,
+        from schedule: Schedule,
         until endDate: Date
     ) -> [TimelineDay] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
-        let semesterEnd = response.endDate.flatMap { Self.lessonDateFormatter.date(from: $0) }
+        let semesterEnd = schedule.semesterEndDate.flatMap { Self.lessonDateFormatter.date(from: $0) }
 
         let iterEnd: Date
         if let semesterEnd {
@@ -236,11 +237,11 @@ final class ScheduleViewModel {
         var current = today
 
         while current <= iterEnd {
-            var dayLessons: [LessonDTO] = []
+            var dayLessons: [Lesson] = []
 
-            // Recurring lessons from schedules dict
+            // Recurring lessons from the weekly schedule
             if let weekdayName = russianWeekday(for: current),
-               let recurringLessons = response.schedules?[weekdayName] {
+               let recurringLessons = schedule.weeklyLessons[weekdayName] {
 
                 let cycleWeek = cycleWeek(for: current)
 
@@ -266,14 +267,12 @@ final class ScheduleViewModel {
 
             // One-time lessons (exams and single-date lessons)
             let currentStr = Self.lessonDateFormatter.string(from: current)
-            if let exams = response.exams {
-                for exam in exams where exam.dateLesson == currentStr {
-                    dayLessons.append(exam)
-                }
+            for exam in schedule.exams where exam.dateLesson == currentStr {
+                dayLessons.append(exam)
             }
 
             if !dayLessons.isEmpty {
-                let sorted = dayLessons.sorted { $0.startLessonTime < $1.startLessonTime }
+                let sorted = dayLessons.sorted { $0.startTime < $1.startTime }
                 days.append(TimelineDay(date: current, lessons: sorted, cycleWeek: cycleWeek(for: current)))
             }
 

@@ -26,7 +26,7 @@ final class ProfileViewModel {
         return false
     }
 
-    var authenticatedUser: LoginResponseDTO? {
+    var authenticatedUser: User? {
         if case .authenticated(let user) = authState.status { return user }
         return nil
     }

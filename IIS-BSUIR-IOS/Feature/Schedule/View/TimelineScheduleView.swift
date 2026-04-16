@@ -25,7 +25,7 @@ struct TimelineScheduleView: View {
             ContentUnavailableView(
                 "schedule.no_classes.title",
                 systemImage: Constants.Icons.noClasses,
-                description: Text("schedule.no_classes.description \(viewModel.selectedGroup?.name ?? "")")
+                description: Text("schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")")
             )
         } else {
             List {

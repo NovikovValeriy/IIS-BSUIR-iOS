@@ -15,20 +15,20 @@ private enum Constants {
 }
 
 struct LessonDetailView: View {
-    let lesson: LessonDTO
+    let lesson: Lesson
 
     var body: some View {
         List {
             subjectSection
             timeSection
-            if let rooms = lesson.auditories, !rooms.isEmpty {
-                roomsSection(rooms)
+            if !lesson.auditories.isEmpty {
+                roomsSection(lesson.auditories)
             }
-            if let employees = lesson.employees, !employees.isEmpty {
-                teachersSection(employees)
+            if !lesson.teachers.isEmpty {
+                teachersSection(lesson.teachers)
             }
-            if !lesson.studentGroups.isEmpty {
-                groupsSection(lesson.studentGroups)
+            if !lesson.groups.isEmpty {
+                groupsSection(lesson.groups)
             }
             if let weeks = lesson.weekNumber, !weeks.isEmpty {
                 weeksSection(weeks)
@@ -60,8 +60,8 @@ struct LessonDetailView: View {
 
     private var timeSection: some View {
         Section("lesson.detail.time") {
-            LabeledContent("lesson.detail.start", value: lesson.startLessonTime)
-            LabeledContent("lesson.detail.end", value: lesson.endLessonTime)
+            LabeledContent("lesson.detail.start", value: lesson.startTime)
+            LabeledContent("lesson.detail.end", value: lesson.endTime)
             if let date = lesson.dateLesson {
                 LabeledContent("lesson.detail.date", value: date)
             }
@@ -79,23 +79,23 @@ struct LessonDetailView: View {
         }
     }
 
-    private func teachersSection(_ employees: [ScheduleEmployeeDTO]) -> some View {
-        Section(employees.count == 1 ? "lesson.detail.teacher" : "lesson.detail.teachers") {
-            ForEach(employees, id: \.id) { employee in
+    private func teachersSection(_ teachers: [Teacher]) -> some View {
+        Section(teachers.count == 1 ? "lesson.detail.teacher" : "lesson.detail.teachers") {
+            ForEach(teachers) { teacher in
                 VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
-                    Text(employee.fullName)
+                    Text(teacher.fullName)
                         .font(.body)
-                    if let rank = employee.rank {
+                    if let rank = teacher.rank {
                         Text(rank)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
-                    if let degree = employee.degree {
+                    if let degree = teacher.degree {
                         Text(degree)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
-                    if let email = employee.email {
+                    if let email = teacher.email {
                         Text(email)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -106,7 +106,7 @@ struct LessonDetailView: View {
         }
     }
 
-    private func groupsSection(_ groups: [LessonStudentGroupDTO]) -> some View {
+    private func groupsSection(_ groups: [LessonGroup]) -> some View {
         Section(groups.count == 1 ? "lesson.detail.group" : "lesson.detail.groups") {
             ForEach(groups, id: \.name) { group in
                 VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
@@ -140,13 +140,5 @@ struct LessonDetailView: View {
             Text(note)
                 .foregroundStyle(.secondary)
         }
-    }
-}
-
-// MARK: - Helpers
-
-private extension ScheduleEmployeeDTO {
-    var fullName: String {
-        [lastName, firstName, middleName].compactMap { $0 }.joined(separator: " ")
     }
 }

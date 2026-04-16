@@ -8,7 +8,7 @@
 import Foundation
 
 enum ScheduleDestination: Hashable {
-    case lessonDetail(LessonDTO)
+    case lessonDetail(Lesson)
     case employeeSchedule(employeeId: String)
     case groupSchedule(groupId: String)
 }

@@ -10,7 +10,7 @@ import Observation
 
 enum AuthStatus {
     case unauthenticated
-    case authenticated(user: LoginResponseDTO)
+    case authenticated(user: User)
 }
 
 extension AuthStatus: Equatable {
