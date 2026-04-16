@@ -40,6 +40,28 @@ final class ScheduleViewModel {
         Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
     }()
 
+    // MARK: - Date formatters
+    @ObservationIgnored
+    private lazy var weekdayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter
+    }()
+
+    @ObservationIgnored
+    private lazy var dayMonthFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM"
+        return formatter
+    }()
+
+    @ObservationIgnored
+    private lazy var dayMonthYearFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM yyyy"
+        return formatter
+    }()
+
     // MARK: - Computed
 
     var navigationTitle: String {
@@ -101,6 +123,33 @@ final class ScheduleViewModel {
             to: timelineLoadedUntil
         ) ?? timelineLoadedUntil
         timelineDays = buildTimeline(from: response, until: timelineLoadedUntil)
+    }
+
+    func sectionTitle(for day: TimelineDay) -> String {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let dayStart = calendar.startOfDay(for: day.date)
+
+        var parts: [String] = []
+
+        if dayStart == today {
+            parts.append(String(localized: "schedule.timeline.today"))
+        } else if dayStart == calendar.date(byAdding: .day, value: 1, to: today) {
+            parts.append(String(localized: "schedule.timeline.tomorrow"))
+        }
+
+        parts.append(weekdayFormatter.string(from: day.date))
+
+        let sameYear = calendar.isDate(day.date, equalTo: Date(), toGranularity: .year)
+        parts.append(sameYear
+            ? dayMonthFormatter.string(from: day.date)
+            : dayMonthYearFormatter.string(from: day.date))
+
+        if let week = day.cycleWeek {
+            parts.append(String(localized: "schedule.timeline.week \(week)"))
+        }
+
+        return parts.joined(separator: ", ")
     }
 
     // MARK: - Private
