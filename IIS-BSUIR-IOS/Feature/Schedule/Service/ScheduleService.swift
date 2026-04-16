@@ -10,6 +10,7 @@ import Foundation
 protocol ScheduleServiceProtocol: AnyObject {
     func fetchGroups() async throws -> [StudentGroupDTO]
     func fetchGroupSchedule(groupName: String) async throws -> ScheduleResponseDTO
+    func fetchCurrentWeek() async throws -> Int
 }
 
 final class ScheduleService: ScheduleServiceProtocol {
@@ -31,6 +32,13 @@ final class ScheduleService: ScheduleServiceProtocol {
             path: "/api/v1/schedule",
             httpMethod: .GET,
             queryParams: ["studentGroup": groupName]
+        )
+    }
+
+    func fetchCurrentWeek() async throws -> Int {
+        try await apiClient.sendRequest(
+            path: "/api/v1/schedule/current-week",
+            httpMethod: .GET
         )
     }
 }

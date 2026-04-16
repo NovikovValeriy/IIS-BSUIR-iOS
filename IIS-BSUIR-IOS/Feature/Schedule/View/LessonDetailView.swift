@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+private enum Constants {
+    enum Layout {
+        static let itemSpacing: CGFloat = 4
+        static let itemPaddingVertical: CGFloat = 2
+    }
+}
+
 struct LessonDetailView: View {
     let lesson: LessonDTO
 
@@ -75,7 +82,7 @@ struct LessonDetailView: View {
     private func teachersSection(_ employees: [ScheduleEmployeeDTO]) -> some View {
         Section(employees.count == 1 ? "lesson.detail.teacher" : "lesson.detail.teachers") {
             ForEach(employees, id: \.id) { employee in
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
                     Text(employee.fullName)
                         .font(.body)
                     if let rank = employee.rank {
@@ -94,7 +101,7 @@ struct LessonDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                .padding(.vertical, 2)
+                .padding(.vertical, Constants.Layout.itemPaddingVertical)
             }
         }
     }
@@ -102,7 +109,7 @@ struct LessonDetailView: View {
     private func groupsSection(_ groups: [LessonStudentGroupDTO]) -> some View {
         Section(groups.count == 1 ? "lesson.detail.group" : "lesson.detail.groups") {
             ForEach(groups, id: \.name) { group in
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
                     Text(group.name)
                         .font(.body)
                     if let speciality = group.specialityName {
@@ -116,7 +123,7 @@ struct LessonDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                .padding(.vertical, 2)
+                .padding(.vertical, Constants.Layout.itemPaddingVertical)
             }
         }
     }

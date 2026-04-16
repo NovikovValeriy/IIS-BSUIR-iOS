@@ -7,8 +7,21 @@
 
 import SwiftUI
 
+private enum Constants {
+    enum Layout {
+        static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
+    }
+    enum Icons {
+        static let group = "person.3"
+        static let noClasses = "calendar"
+        static let error = "exclamationmark.triangle"
+        static let modeWeekly = "list.bullet"
+        static let modeTimeline = "calendar.badge.clock"
+    }
+}
+
 struct ScheduleView: View {
-    var viewModel: ScheduleViewModel
+    @Bindable var viewModel: ScheduleViewModel
 
     var body: some View {
         Group {
@@ -19,14 +32,16 @@ struct ScheduleView: View {
                 noGroupView
             } else if let error = viewModel.errorMessage {
                 errorView(message: error)
-            } else if viewModel.lessons.isEmpty {
+            } else if viewModel.displayMode == .weekly && viewModel.lessons.isEmpty {
                 ContentUnavailableView(
                     "schedule.no_classes.title",
-                    systemImage: "calendar",
+                    systemImage: Constants.Icons.noClasses,
                     description: Text("schedule.no_classes.description \(viewModel.selectedGroup?.name ?? "")")
                 )
+            } else if viewModel.displayMode == .weekly {
+                weeklyScheduleList
             } else {
-                scheduleList
+                TimelineScheduleView(viewModel: viewModel)
             }
         }
         .navigationTitle(viewModel.navigationTitle)
@@ -35,18 +50,28 @@ struct ScheduleView: View {
                 Button {
                     viewModel.didTapSelectGroup()
                 } label: {
-                    Label("schedule.select_group.label", systemImage: "person.3")
+                    Image(systemName: Constants.Icons.group)
                 }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                displayModePicker
             }
         }
         .onAppear {
             viewModel.onAppear()
         }
+        .onChange(of: viewModel.displayMode) { _, newMode in
+            if newMode == .timeline {
+                viewModel.ensureTimelineGenerated()
+            }
+        }
     }
+
+    // MARK: - Subviews
 
     private var noGroupView: some View {
         ContentUnavailableView {
-            Label("schedule.no_group.title", systemImage: "person.3")
+            Label("schedule.no_group.title", systemImage: Constants.Icons.group)
         } description: {
             Text("schedule.no_group.description")
         } actions: {
@@ -59,7 +84,7 @@ struct ScheduleView: View {
 
     private func errorView(message: String) -> some View {
         ContentUnavailableView {
-            Label("common.error.title", systemImage: "exclamationmark.triangle")
+            Label("common.error.title", systemImage: Constants.Icons.error)
         } description: {
             Text(message)
         } actions: {
@@ -70,7 +95,7 @@ struct ScheduleView: View {
         }
     }
 
-    private var scheduleList: some View {
+    private var weeklyScheduleList: some View {
         List {
             ForEach(viewModel.weekdayOrder, id: \.self) { weekday in
                 if let dayLessons = viewModel.lessons[weekday] {
@@ -80,13 +105,35 @@ struct ScheduleView: View {
                                 viewModel.didTapLesson(lesson)
                             } label: {
                                 LessonRowView(lesson: lesson)
-                                    .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(Constants.Layout.rowInsets)
                         }
                     }
                 }
             }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(Color(.systemGroupedBackground))
+    }
+
+    private var displayModePicker: some View {
+        Menu {
+            Picker("schedule.mode.label", selection: $viewModel.displayMode) {
+                Label("schedule.mode.weekly", systemImage: Constants.Icons.modeWeekly)
+                    .tag(ScheduleDisplayMode.weekly)
+                Label("schedule.mode.timeline", systemImage: Constants.Icons.modeTimeline)
+                    .tag(ScheduleDisplayMode.timeline)
+            }
+        } label: {
+            Image(
+                systemName: viewModel.displayMode == .weekly
+                ? Constants.Icons.modeWeekly
+                : Constants.Icons.modeTimeline
+            )
         }
     }
 }

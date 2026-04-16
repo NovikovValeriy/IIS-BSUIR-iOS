@@ -761,6 +761,36 @@
         }
       }
     },
+    "schedule.mode.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display Mode"
+          }
+        }
+      }
+    },
+    "schedule.mode.timeline" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        }
+      }
+    },
+    "schedule.mode.weekly" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By Week"
+          }
+        }
+      }
+    },
     "schedule.no_classes.description %@" : {
       "localizations" : {
         "en" : {
@@ -821,12 +851,32 @@
         }
       }
     },
-    "schedule.select_group.label" : {
+    "schedule.timeline.today" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Group"
+            "value" : "Today"
+          }
+        }
+      }
+    },
+    "schedule.timeline.tomorrow" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        }
+      }
+    },
+    "schedule.timeline.week %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Week %lld"
           }
         }
       }

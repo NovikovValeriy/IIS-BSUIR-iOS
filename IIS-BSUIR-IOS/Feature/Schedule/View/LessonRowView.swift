@@ -5,63 +5,132 @@
 //  Created by Valery Novikau on 13.04.26.
 //
 
+import Kingfisher
 import SwiftUI
+
+private enum Constants {
+    enum Layout {
+        static let outerSpacing: CGFloat = 12
+        static let contentSpacing: CGFloat = 6
+        static let badgePaddingHorizontal: CGFloat = 6
+        static let badgePaddingVertical: CGFloat = 2
+        static let badgeCornerRadius: CGFloat = 4
+        static let photoSize: CGFloat = 50
+        static let cardPadding: CGFloat = 12
+        static let cardCornerRadius: CGFloat = 12
+        static let shadowRadius: CGFloat = 4
+        static let shadowOffsetY: CGFloat = 1
+    }
+    enum Colors {
+        static let badgeBackgroundOpacity: Double = 0.15
+        static let cardBackground = Color(.secondarySystemGroupedBackground)
+        static let shadowColor = Color.black.opacity(0.05)
+    }
+    enum Icons {
+        static let weekNumber = "number"
+        static let time = "clock"
+        static let room = "mappin"
+        static let teacher = "person"
+        static let teacherPhotoPlaceholder = "person.circle.fill"
+    }
+}
 
 struct LessonRowView: View {
     let lesson: LessonDTO
+    var showWeeks: Bool = true
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(lesson.subject ?? "—")
-                    .font(.headline)
-                if let type = lesson.lessonTypeAbbrev {
-                    Text(type)
-                        .font(.caption)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.accentColor.opacity(0.15))
-                        .foregroundStyle(Color.accentColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+        HStack(alignment: .center, spacing: Constants.Layout.outerSpacing) {
+            VStack(alignment: .leading, spacing: Constants.Layout.contentSpacing) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(lesson.subject ?? "—")
+                        .font(.headline)
+                    if let type = lesson.lessonTypeAbbrev {
+                        Text(type)
+                            .font(.caption)
+                            .padding(.horizontal, Constants.Layout.badgePaddingHorizontal)
+                            .padding(.vertical, Constants.Layout.badgePaddingVertical)
+                            .background(Color.accentColor.opacity(Constants.Colors.badgeBackgroundOpacity))
+                            .foregroundStyle(Color.accentColor)
+                            .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.badgeCornerRadius))
+                    }
+                    if lesson.numSubgroup != 0 {
+                        Text("lesson.row.subgroup \(lesson.numSubgroup)")
+                            .font(.caption)
+                            .padding(.horizontal, Constants.Layout.badgePaddingHorizontal)
+                            .padding(.vertical, Constants.Layout.badgePaddingVertical)
+                            .background(Color.secondary.opacity(Constants.Colors.badgeBackgroundOpacity))
+                            .foregroundStyle(.secondary)
+                            .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.badgeCornerRadius))
+                    }
+                    Spacer()
                 }
-                if lesson.numSubgroup != 0 {
-                    Text("lesson.row.subgroup \(lesson.numSubgroup)")
-                        .font(.caption)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.secondary.opacity(0.15))
+
+                if showWeeks, let weeks = lesson.weekNumber, !weeks.isEmpty {
+                    Label(
+                        "lesson.row.weeks \(weeks.formattedNumbers())",
+                        systemImage: Constants.Icons.weekNumber
+                    )
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                }
+
+                Label(
+                    "\(lesson.startLessonTime) – \(lesson.endLessonTime)",
+                    systemImage: Constants.Icons.time
+                )
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+                if let room = lesson.auditories?.first {
+                    Label(room, systemImage: Constants.Icons.room)
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
-                Spacer()
-            }
 
-            if let weeks = lesson.weekNumber, !weeks.isEmpty {
-                Label("lesson.row.weeks \(weeks.formattedNumbers())", systemImage: "number")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-
-            Label(
-                "\(lesson.startLessonTime) – \(lesson.endLessonTime)",
-                systemImage: "clock"
-            )
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-
-            if let room = lesson.auditories?.first {
-                Label(room, systemImage: "mappin")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                if let teacher = lesson.employees?.first {
+                    Label(teacher.shortName, systemImage: Constants.Icons.teacher)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             if let teacher = lesson.employees?.first {
-                Label(teacher.shortName, systemImage: "person")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                teacherPhoto(for: teacher)
             }
         }
-        .padding(.vertical, 2)
+        .padding(Constants.Layout.cardPadding)
+        .background(Constants.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
+    }
+
+    @ViewBuilder
+    private func teacherPhoto(for teacher: ScheduleEmployeeDTO) -> some View {
+        let size = Constants.Layout.photoSize
+        if let urlString = teacher.photoLink, let url = URL(string: urlString) {
+            KFImage(url)
+                .resizable()
+                .placeholder {
+                    Image(systemName: Constants.Icons.teacherPhotoPlaceholder)
+                        .resizable()
+                        .foregroundStyle(Color.secondary)
+                }
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(Circle())
+        } else {
+            Image(systemName: Constants.Icons.teacherPhotoPlaceholder)
+                .resizable()
+                .foregroundStyle(Color.secondary)
+                .frame(width: size, height: size)
+                .clipShape(Circle())
+        }
     }
 }
 

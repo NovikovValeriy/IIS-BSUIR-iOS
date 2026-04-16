@@ -8,17 +8,25 @@
 import SwiftUI
 import Factory
 
+private enum Constants {
+    enum Layout {
+        static let outerSpacing: CGFloat = 24
+        static let fieldSpacing: CGFloat = 16
+        static let buttonHeight: CGFloat = 44
+    }
+}
+
 struct LoginView: View {
     @State private var viewModel: LoginViewModel = Container.shared.loginViewModel()
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: Constants.Layout.outerSpacing) {
             Spacer()
 
             Text("auth.title")
                 .font(.largeTitle.bold())
 
-            VStack(spacing: 16) {
+            VStack(spacing: Constants.Layout.fieldSpacing) {
                 TextField("auth.username.placeholder", text: $viewModel.username)
                     .textContentType(.username)
                     .autocorrectionDisabled()
@@ -44,7 +52,7 @@ struct LoginView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 44)
+                .frame(height: Constants.Layout.buttonHeight)
             }
             .buttonStyle(.borderedProminent)
             .disabled(!viewModel.canSubmit)

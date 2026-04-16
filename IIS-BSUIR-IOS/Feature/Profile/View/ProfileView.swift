@@ -5,8 +5,18 @@
 //  Created by Valery Novikau on 6.04.26.
 //
 
-import SwiftUI
 import Factory
+import SwiftUI
+
+private enum Constants {
+    enum Layout {
+        static let headerSpacing: CGFloat = 4
+        static let headerPaddingVertical: CGFloat = 4
+    }
+    enum Icons {
+        static let unauthenticated = "person.fill.questionmark"
+    }
+}
 
 struct ProfileView: View {
     @State private var viewModel: ProfileViewModel = Container.shared.profileViewModel()
@@ -21,7 +31,7 @@ struct ProfileView: View {
 
     private var unauthenticatedView: some View {
         ContentUnavailableView {
-            Label("profile.not_authenticated.title", systemImage: "person.fill.questionmark")
+            Label("profile.not_authenticated.title", systemImage: Constants.Icons.unauthenticated)
         } description: {
             Text("profile.not_authenticated.description")
         } actions: {
@@ -37,14 +47,14 @@ struct ProfileView: View {
         List {
             if let user = viewModel.authenticatedUser {
                 Section {
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: Constants.Layout.headerSpacing) {
                         Text(user.fio)
                             .font(.headline)
                         Text(user.group)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
-                    .padding(.vertical, 4)
+                    .padding(.vertical, Constants.Layout.headerPaddingVertical)
                 }
             }
 

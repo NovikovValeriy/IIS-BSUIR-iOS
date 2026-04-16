@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+private enum Constants {
+    enum Layout {
+        static let groupItemSpacing: CGFloat = 2
+    }
+}
+
 struct GroupPickerView: View {
     let groups: [StudentGroupDTO]
     let isLoading: Bool
@@ -33,7 +39,7 @@ struct GroupPickerView: View {
                         Button {
                             onSelect(group)
                         } label: {
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: Constants.Layout.groupItemSpacing) {
                                 Text(group.name)
                                     .font(.body)
                                     .foregroundStyle(.primary)
