@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "…" : {
+
+    },
     "%@ – %@" : {
       "localizations" : {
         "en" : {
@@ -187,86 +190,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grades"
-          }
-        }
-      }
-    },
-    "subject_picker.loading_groups" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading groups…"
-          }
-        }
-      }
-    },
-    "subject_picker.loading_teachers" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading teachers…"
-          }
-        }
-      }
-    },
-    "subject_picker.search_groups" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search by group number"
-          }
-        }
-      }
-    },
-    "subject_picker.search_teachers" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search by name"
-          }
-        }
-      }
-    },
-    "subject_picker.tab.groups" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Groups"
-          }
-        }
-      }
-    },
-    "subject_picker.tab.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schedule source"
-          }
-        }
-      }
-    },
-    "subject_picker.tab.teachers" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teachers"
-          }
-        }
-      }
-    },
-    "subject_picker.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select Schedule"
           }
         }
       }
@@ -831,6 +754,46 @@
         }
       }
     },
+    "schedule.subgroup.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subgroup"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.all" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.first" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subgroup 1"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.second" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subgroup 2"
+          }
+        }
+      }
+    },
     "schedule.no_classes.description %@" : {
       "localizations" : {
         "en" : {
@@ -1027,6 +990,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "subject_picker.loading_groups" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading groups…"
+          }
+        }
+      }
+    },
+    "subject_picker.loading_teachers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading teachers…"
+          }
+        }
+      }
+    },
+    "subject_picker.search_groups" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search by group number"
+          }
+        }
+      }
+    },
+    "subject_picker.search_teachers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search by name"
+          }
+        }
+      }
+    },
+    "subject_picker.tab.groups" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groups"
+          }
+        }
+      }
+    },
+    "subject_picker.tab.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schedule source"
+          }
+        }
+      }
+    },
+    "subject_picker.tab.teachers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teachers"
+          }
+        }
+      }
+    },
+    "subject_picker.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Schedule"
           }
         }
       }

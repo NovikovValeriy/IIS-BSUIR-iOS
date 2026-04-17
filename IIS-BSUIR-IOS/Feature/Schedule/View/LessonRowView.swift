@@ -16,6 +16,9 @@ private enum Constants {
         static let badgePaddingVertical: CGFloat = 2
         static let badgeCornerRadius: CGFloat = 4
         static let photoSize: CGFloat = 50
+        static let groupsColumnWidth: CGFloat = 50
+        static let groupsColumnSpacing: CGFloat = 3
+        static let groupsMaxVisible: Int = 4
         static let cardPadding: CGFloat = 12
         static let cardCornerRadius: CGFloat = 12
         static let shadowRadius: CGFloat = 4
@@ -31,7 +34,6 @@ private enum Constants {
         static let time = "clock"
         static let room = "mappin"
         static let teacher = "person"
-        static let group = "person.3"
         static let teacherPhotoPlaceholder = "person.circle.fill"
     }
 }
@@ -90,21 +92,16 @@ struct LessonRowView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                if showGroups {
-                    if !lesson.groups.isEmpty {
-                        let names = lesson.groups.map { $0.name }.joined(separator: ", ")
-                        Label(names, systemImage: Constants.Icons.group)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                } else if let teacher = lesson.teachers.first {
+                if !showGroups, let teacher = lesson.teachers.first {
                     Label(teacher.shortName, systemImage: Constants.Icons.teacher)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
             }
 
-            if !showGroups, let teacher = lesson.teachers.first {
+            if showGroups {
+                groupsColumn
+            } else if let teacher = lesson.teachers.first {
                 teacherPhoto(for: teacher)
             }
         }
@@ -117,6 +114,30 @@ struct LessonRowView: View {
             x: 0,
             y: Constants.Layout.shadowOffsetY
         )
+    }
+
+    @ViewBuilder
+    private var groupsColumn: some View {
+        let max = Constants.Layout.groupsMaxVisible
+        let groups = lesson.groups
+        let showEllipsis = groups.count > max
+        let visible = showEllipsis ? Array(groups.prefix(max - 1)) : groups
+
+        VStack(alignment: .center, spacing: Constants.Layout.groupsColumnSpacing) {
+            ForEach(visible, id: \.name) { group in
+                Text(group.name)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+            if showEllipsis {
+                Text("…")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(width: Constants.Layout.groupsColumnWidth, alignment: .center)
     }
 
     @ViewBuilder

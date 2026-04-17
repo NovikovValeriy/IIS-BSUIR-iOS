@@ -17,6 +17,9 @@ private enum Constants {
         static let error = "exclamationmark.triangle"
         static let modeWeekly = "list.bullet"
         static let modeTimeline = "calendar.badge.clock"
+        static let subgroupAll = "person.2"
+        static let subgroupFirst = "1.circle"
+        static let subgroupSecond = "2.circle"
     }
 }
 
@@ -52,6 +55,9 @@ struct ScheduleView: View {
                 } label: {
                     Image(systemName: Constants.Icons.group)
                 }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                subgroupFilterPicker
             }
             ToolbarItem(placement: .topBarTrailing) {
                 displayModePicker
@@ -118,6 +124,26 @@ struct ScheduleView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Color(.systemGroupedBackground))
+    }
+
+    private var subgroupFilterPicker: some View {
+        Menu {
+            Picker("schedule.subgroup.label", selection: $viewModel.subgroupFilter) {
+                Text("schedule.subgroup.all").tag(SubgroupFilter.all)
+                Text("schedule.subgroup.first").tag(SubgroupFilter.first)
+                Text("schedule.subgroup.second").tag(SubgroupFilter.second)
+            }
+        } label: {
+            Image(systemName: subgroupFilterIcon)
+        }
+    }
+
+    private var subgroupFilterIcon: String {
+        switch viewModel.subgroupFilter {
+        case .all: return Constants.Icons.subgroupAll
+        case .first: return Constants.Icons.subgroupFirst
+        case .second: return Constants.Icons.subgroupSecond
+        }
     }
 
     private var displayModePicker: some View {

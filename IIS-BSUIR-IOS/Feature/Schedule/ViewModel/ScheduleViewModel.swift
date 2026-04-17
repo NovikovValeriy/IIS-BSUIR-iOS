@@ -29,6 +29,12 @@ final class ScheduleViewModel {
 
     var displayMode: ScheduleDisplayMode = .timeline
 
+    // MARK: - Subgroup filter
+
+    var subgroupFilter: SubgroupFilter = .all {
+        didSet { applySubgroupFilter() }
+    }
+
     // MARK: - Timeline
 
     var timelineDays: [TimelineDay] = []
@@ -107,6 +113,7 @@ final class ScheduleViewModel {
         lessons = [:]
         timelineDays = []
         timelineExhausted = false
+        subgroupFilter = .all
         timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
         router.dismissSheet()
         Task { await loadSchedule(for: subject) }
@@ -210,7 +217,7 @@ final class ScheduleViewModel {
         do {
             let loaded = try await scheduleService.fetchSchedule(for: subject)
             schedule = loaded
-            lessons = loaded.weeklyLessons
+            lessons = filteredLessons(loaded.weeklyLessons)
             if displayMode == .timeline {
                 timelineDays = buildTimeline(from: loaded, until: timelineLoadedUntil)
             }
@@ -219,6 +226,26 @@ final class ScheduleViewModel {
             lessons = [:]
         }
         isLoadingSchedule = false
+    }
+
+    // MARK: - Subgroup filtering
+
+    private func shouldInclude(lesson: Lesson) -> Bool {
+        guard let target = subgroupFilter.targetSubgroup else { return true }
+        return lesson.numSubgroup == 0 || lesson.numSubgroup == target
+    }
+
+    private func filteredLessons(_ raw: [String: [Lesson]]) -> [String: [Lesson]] {
+        guard subgroupFilter.targetSubgroup != nil else { return raw }
+        return raw.mapValues { $0.filter { shouldInclude(lesson: $0) } }
+    }
+
+    private func applySubgroupFilter() {
+        guard let schedule else { return }
+        lessons = filteredLessons(schedule.weeklyLessons)
+        if displayMode == .timeline {
+            timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
+        }
     }
 
     // MARK: - Timeline generation
@@ -285,6 +312,7 @@ final class ScheduleViewModel {
                         guard current <= calendar.startOfDay(for: endD) else { continue }
                     }
 
+                    guard shouldInclude(lesson: lesson) else { continue }
                     dayLessons.append(lesson)
                 }
             }
@@ -292,6 +320,7 @@ final class ScheduleViewModel {
             // One-time lessons (exams and single-date lessons)
             let currentStr = Self.lessonDateFormatter.string(from: current)
             for exam in schedule.exams where exam.dateLesson == currentStr {
+                guard shouldInclude(lesson: exam) else { continue }
                 dayLessons.append(exam)
             }
 
