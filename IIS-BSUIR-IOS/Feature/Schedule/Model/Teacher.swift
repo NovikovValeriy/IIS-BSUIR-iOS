@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 16.04.26.
 //
 
-struct Teacher: Hashable, Identifiable {
+struct Teacher: Hashable, Identifiable, Codable {
     let id: Int
     let firstName: String
     let lastName: String
@@ -18,6 +18,11 @@ struct Teacher: Hashable, Identifiable {
     let urlId: String
     let calendarId: String?
     let jobPositions: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case id, firstName, lastName, middleName, photoLink
+        case degree, degreeAbbrev, rank, email, urlId, calendarId, jobPositions
+    }
 
     var fullName: String {
         [lastName, firstName, middleName].compactMap { $0 }.joined(separator: " ")

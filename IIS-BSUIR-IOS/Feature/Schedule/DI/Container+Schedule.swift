@@ -12,6 +12,12 @@ extension Container {
         self { @MainActor in ScheduleService(apiClient: self.apiClient()) }.shared
     }
 
+    var pinnedScheduleService: Factory<PinnedScheduleService> {
+        self { @MainActor in PinnedScheduleService(storage: self.storage()) }.shared
+    }
+
+    // MARK: - Browse schedule (second tab)
+
     var scheduleRouter: Factory<ScheduleRouter> {
         self { @MainActor in ScheduleRouter() }.shared
     }
@@ -20,7 +26,27 @@ extension Container {
         self { @MainActor in
             ScheduleViewModel(
                 router: self.scheduleRouter(),
-                scheduleService: self.scheduleService()
+                scheduleService: self.scheduleService(),
+                pinnedScheduleService: self.pinnedScheduleService(),
+                canChangeSubject: true
+            )
+        }
+    }
+
+    // MARK: - Pinned schedule (first tab)
+
+    var pinnedScheduleRouter: Factory<ScheduleRouter> {
+        self { @MainActor in ScheduleRouter() }.shared
+    }
+
+    var pinnedScheduleViewModel: Factory<ScheduleViewModel> {
+        self { @MainActor in
+            ScheduleViewModel(
+                router: self.pinnedScheduleRouter(),
+                scheduleService: self.scheduleService(),
+                pinnedScheduleService: self.pinnedScheduleService(),
+                storage: self.storage(),
+                canChangeSubject: false
             )
         }
     }

@@ -819,7 +819,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select your group to view the schedule."
+            "value" : "Search for a group or teacher to view their schedule."
           }
         }
       }
@@ -849,7 +849,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select Group"
+            "value" : "Search"
           }
         }
       }
@@ -1084,12 +1084,42 @@
         }
       }
     },
-    "tab.schedule" : {
+    "tab.pinned_schedule" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schedule"
+          }
+        }
+      }
+    },
+    "tab.schedule" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "schedule.pinned.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Schedule Pinned"
+          }
+        }
+      }
+    },
+    "schedule.pinned.empty.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the Search tab to find a schedule and tap the bookmark to pin it here."
           }
         }
       }

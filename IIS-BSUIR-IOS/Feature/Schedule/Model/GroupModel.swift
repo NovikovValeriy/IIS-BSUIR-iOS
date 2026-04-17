@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 16.04.26.
 //
 
-struct GroupModel: Hashable, Identifiable {
+struct GroupModel: Hashable, Identifiable, Codable {
     let id: Int
     let name: String
     let specialityAbbrev: String

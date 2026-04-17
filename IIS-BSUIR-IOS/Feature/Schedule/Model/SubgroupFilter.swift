@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 17.04.26.
 //
 
-enum SubgroupFilter: CaseIterable {
+enum SubgroupFilter: String, CaseIterable, Codable {
     case all
     case first
     case second

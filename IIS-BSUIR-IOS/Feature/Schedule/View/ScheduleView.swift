@@ -12,7 +12,7 @@ private enum Constants {
         static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
     }
     enum Icons {
-        static let group = "person.3"
+        static let group = "magnifyingglass"
         static let noClasses = "calendar"
         static let error = "exclamationmark.triangle"
         static let modeWeekly = "list.bullet"
@@ -20,6 +20,9 @@ private enum Constants {
         static let subgroupAll = "person.2"
         static let subgroupFirst = "1.circle"
         static let subgroupSecond = "2.circle"
+        static let pin = "bookmark"
+        static let pinFill = "bookmark.fill"
+        static let noPinned = "bookmark.slash"
     }
 }
 
@@ -32,7 +35,7 @@ struct ScheduleView: View {
                 ProgressView("schedule.loading")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.selectedSubject == nil {
-                noSubjectView
+                if viewModel.canChangeSubject { noSubjectView } else { noPinnedSubjectView }
             } else if let error = viewModel.errorMessage {
                 errorView(message: error)
             } else if viewModel.displayMode == .weekly && viewModel.lessons.isEmpty {
@@ -49,11 +52,22 @@ struct ScheduleView: View {
         }
         .navigationTitle(viewModel.navigationTitle)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    viewModel.didTapSelectGroup()
-                } label: {
-                    Image(systemName: Constants.Icons.group)
+            if viewModel.canChangeSubject {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewModel.didTapSelectGroup()
+                    } label: {
+                        Image(systemName: Constants.Icons.group)
+                    }
+                }
+                if viewModel.selectedSubject != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            viewModel.didTapPin()
+                        } label: {
+                            Image(systemName: viewModel.isPinned ? Constants.Icons.pinFill : Constants.Icons.pin)
+                        }
+                    }
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -85,6 +99,14 @@ struct ScheduleView: View {
                 viewModel.didTapSelectGroup()
             }
             .buttonStyle(.borderedProminent)
+        }
+    }
+
+    private var noPinnedSubjectView: some View {
+        ContentUnavailableView {
+            Label("schedule.pinned.empty.title", systemImage: Constants.Icons.noPinned)
+        } description: {
+            Text("schedule.pinned.empty.description")
         }
     }
 

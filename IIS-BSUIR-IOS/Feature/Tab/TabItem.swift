@@ -8,6 +8,7 @@
 import Foundation
 
 enum TabItem: Int, CaseIterable, Identifiable, Hashable {
+    case pinnedSchedule
     case schedule
     case profile
     case settings
@@ -16,6 +17,7 @@ enum TabItem: Int, CaseIterable, Identifiable, Hashable {
 
     var title: String {
         switch self {
+        case .pinnedSchedule: return String(localized: "tab.pinned_schedule")
         case .schedule: return String(localized: "tab.schedule")
         case .profile: return String(localized: "tab.profile")
         case .settings: return String(localized: "tab.settings")
@@ -24,7 +26,8 @@ enum TabItem: Int, CaseIterable, Identifiable, Hashable {
 
     var systemImage: String {
         switch self {
-        case .schedule: return "calendar"
+        case .pinnedSchedule: return "pin.fill"
+        case .schedule: return "magnifyingglass"
         case .profile: return "person.fill"
         case .settings: return "gearshape.fill"
         }

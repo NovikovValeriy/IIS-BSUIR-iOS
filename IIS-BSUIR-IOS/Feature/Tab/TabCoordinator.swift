@@ -11,7 +11,7 @@ import Observation
 @Observable
 @MainActor
 final class TabCoordinator {
-    var selectedTab: TabItem = .schedule
+    var selectedTab: TabItem = .pinnedSchedule
 
     func select(_ tab: TabItem) {
         if selectedTab == tab {

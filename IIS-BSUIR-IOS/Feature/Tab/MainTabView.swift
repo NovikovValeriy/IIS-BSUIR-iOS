@@ -16,6 +16,10 @@ struct MainTabView: View {
             get: { tabCoordinator.selectedTab },
             set: { tabCoordinator.select($0) }
         )) {
+            PinnedScheduleFlowView()
+                .tabItem { Label(TabItem.pinnedSchedule.title, systemImage: TabItem.pinnedSchedule.systemImage) }
+                .tag(TabItem.pinnedSchedule)
+
             ScheduleFlowView()
                 .tabItem { Label(TabItem.schedule.title, systemImage: TabItem.schedule.systemImage) }
                 .tag(TabItem.schedule)

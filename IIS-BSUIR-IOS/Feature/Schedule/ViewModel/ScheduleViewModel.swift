@@ -12,6 +12,12 @@ import Foundation
 final class ScheduleViewModel {
     private let router: ScheduleRouter
     private let scheduleService: any ScheduleServiceProtocol
+    private let pinnedScheduleService: any PinnedScheduleServiceProtocol
+    private let storage: (any StorageProtocol)?
+
+    /// When `false` the subject-picker button is hidden and the schedule source
+    /// is driven by the pinned service instead of user selection.
+    let canChangeSubject: Bool
 
     // Ordered Russian weekday names matching the API
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
@@ -27,12 +33,17 @@ final class ScheduleViewModel {
 
     // MARK: - Display mode
 
-    var displayMode: ScheduleDisplayMode = .timeline
+    var displayMode: ScheduleDisplayMode = .timeline {
+        didSet { storage?.setValue(displayMode, for: .scheduleDisplayMode) }
+    }
 
     // MARK: - Subgroup filter
 
     var subgroupFilter: SubgroupFilter = .all {
-        didSet { applySubgroupFilter() }
+        didSet {
+            applySubgroupFilter()
+            storage?.setValue(subgroupFilter, for: .scheduleSubgroupFilter)
+        }
     }
 
     // MARK: - Timeline
@@ -82,13 +93,35 @@ final class ScheduleViewModel {
         return false
     }
 
-    init(router: ScheduleRouter, scheduleService: any ScheduleServiceProtocol) {
+    /// `true` when the currently displayed subject is the one saved in the pinned service.
+    var isPinned: Bool {
+        guard let subject = selectedSubject else { return false }
+        return pinnedScheduleService.subject == subject
+    }
+
+    init(
+        router: ScheduleRouter,
+        scheduleService: any ScheduleServiceProtocol,
+        pinnedScheduleService: any PinnedScheduleServiceProtocol,
+        storage: (any StorageProtocol)? = nil,
+        canChangeSubject: Bool = true
+    ) {
         self.router = router
         self.scheduleService = scheduleService
+        self.pinnedScheduleService = pinnedScheduleService
+        self.storage = storage
+        self.canChangeSubject = canChangeSubject
+        // Restore persisted preferences — assignments in init do not trigger didSet.
+        self.displayMode = storage?.value(for: .scheduleDisplayMode) ?? .timeline
+        self.subgroupFilter = storage?.value(for: .scheduleSubgroupFilter) ?? .all
     }
 
     func onAppear() {
-        Task { await loadGroups() }
+        if canChangeSubject {
+            Task { await loadGroups() }
+        } else if let subject = pinnedScheduleService.subject, selectedSubject == nil {
+            loadFromPinnedService(subject: subject)
+        }
         Task { await loadCurrentWeek() }
     }
 
@@ -121,6 +154,29 @@ final class ScheduleViewModel {
 
     func didTapLesson(_ lesson: Lesson) {
         router.push(.lessonDetail(lesson))
+    }
+
+    func didTapPin() {
+        guard let subject = selectedSubject else { return }
+        if pinnedScheduleService.subject == subject {
+            pinnedScheduleService.clear()
+        } else {
+            pinnedScheduleService.save(subject)
+        }
+    }
+
+    /// Called by `PinnedScheduleFlowView` when the pinned service subject changes.
+    func pinnedSubjectDidChange(to subject: ScheduleSubject?) {
+        guard !canChangeSubject else { return }
+        guard subject != selectedSubject else { return }
+        if let subject {
+            loadFromPinnedService(subject: subject)
+        } else {
+            selectedSubject = nil
+            schedule = nil
+            lessons = [:]
+            timelineDays = []
+        }
     }
 
     func didTapFilter() {
@@ -226,6 +282,18 @@ final class ScheduleViewModel {
             lessons = [:]
         }
         isLoadingSchedule = false
+    }
+
+    // MARK: - Pinned schedule
+
+    private func loadFromPinnedService(subject: ScheduleSubject) {
+        selectedSubject = subject
+        schedule = nil
+        lessons = [:]
+        timelineDays = []
+        timelineExhausted = false
+        timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
+        Task { await loadSchedule(for: subject) }
     }
 
     // MARK: - Subgroup filtering
