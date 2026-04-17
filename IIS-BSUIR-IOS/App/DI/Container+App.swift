@@ -20,7 +20,7 @@ extension Container {
     }
 
     var storage: Factory<any StorageProtocol> {
-        self { UserDefaultsStorage() }.shared
+        self { @MainActor in UserDefaultsStorage() }.shared
     }
 
     var appCoordinator: Factory<AppCoordinator> {

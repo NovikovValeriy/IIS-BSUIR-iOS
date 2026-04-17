@@ -32,7 +32,11 @@ enum ScheduleSubject: Hashable, Codable {
         case "teacher":
             self = .teacher(try container.decode(Teacher.self, forKey: .teacher))
         default:
-            throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "Unknown type '\(type)'")
+            throw DecodingError.dataCorruptedError(
+                forKey: .type,
+                in: container,
+                debugDescription: "Unknown type '\(type)'"
+            )
         }
     }
 
