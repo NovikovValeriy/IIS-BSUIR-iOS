@@ -9,25 +9,16 @@ import Foundation
 
 @Observable
 @MainActor
-final class ScheduleViewModel {
-    private let router: ScheduleRouter
-    private let scheduleService: any ScheduleServiceProtocol
-    private let pinnedScheduleService: any PinnedScheduleServiceProtocol
+class ScheduleViewModel {
+    let router: ScheduleRouter
+    let scheduleService: any ScheduleServiceProtocol
     private let storage: (any StorageProtocol)?
-
-    /// When `false` the subject-picker button is hidden and the schedule source
-    /// is driven by the pinned service instead of user selection.
-    let canChangeSubject: Bool
 
     // Ordered Russian weekday names matching the API
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
 
-    var groups: [GroupModel] = []
-    var teachers: [Teacher] = []
     var selectedSubject: ScheduleSubject?
     var lessons: [String: [Lesson]] = [:]
-    var isLoadingGroups = false
-    var isLoadingTeachers = false
     var isLoadingSchedule = false
     var errorMessage: String?
 
@@ -60,6 +51,7 @@ final class ScheduleViewModel {
     }()
 
     // MARK: - Date formatters
+
     @ObservationIgnored
     private lazy var weekdayFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -93,90 +85,33 @@ final class ScheduleViewModel {
         return false
     }
 
-    /// `true` when the currently displayed subject is the one saved in the pinned service.
-    var isPinned: Bool {
-        guard let subject = selectedSubject else { return false }
-        return pinnedScheduleService.subject == subject
-    }
+    var canChangeSubject: Bool { false }
+
+    // MARK: - Init
 
     init(
         router: ScheduleRouter,
         scheduleService: any ScheduleServiceProtocol,
-        pinnedScheduleService: any PinnedScheduleServiceProtocol,
-        storage: (any StorageProtocol)? = nil,
-        canChangeSubject: Bool = true
+        storage: (any StorageProtocol)? = nil
     ) {
         self.router = router
         self.scheduleService = scheduleService
-        self.pinnedScheduleService = pinnedScheduleService
         self.storage = storage
-        self.canChangeSubject = canChangeSubject
         // Restore persisted preferences — assignments in init do not trigger didSet.
         self.displayMode = storage?.value(for: .scheduleDisplayMode) ?? .timeline
         self.subgroupFilter = storage?.value(for: .scheduleSubgroupFilter) ?? .all
     }
 
+    // MARK: - Lifecycle
+
     func onAppear() {
-        if canChangeSubject {
-            Task { await loadGroups() }
-        } else if let subject = pinnedScheduleService.subject, selectedSubject == nil {
-            loadFromPinnedService(subject: subject)
-        }
         Task { await loadCurrentWeek() }
     }
 
-    func didTapSelectGroup() {
-        router.present(sheet: .groupPicker)
-    }
-
-    /// Called when the teacher tab in the picker becomes visible for the first time.
-    func ensureTeachersLoaded() {
-        guard teachers.isEmpty, !isLoadingTeachers else { return }
-        isLoadingTeachers = true
-        Task { await loadTeachers() }
-    }
-
-    func didSelectGroup(_ group: GroupModel) {
-        didSelectSubject(.group(group))
-    }
-
-    func didSelectSubject(_ subject: ScheduleSubject) {
-        selectedSubject = subject
-        schedule = nil
-        lessons = [:]
-        timelineDays = []
-        timelineExhausted = false
-        subgroupFilter = .all
-        timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
-        router.dismissSheet()
-        Task { await loadSchedule(for: subject) }
-    }
+    // MARK: - Actions
 
     func didTapLesson(_ lesson: Lesson) {
         router.push(.lessonDetail(lesson))
-    }
-
-    func didTapPin() {
-        guard let subject = selectedSubject else { return }
-        if pinnedScheduleService.subject == subject {
-            pinnedScheduleService.clear()
-        } else {
-            pinnedScheduleService.save(subject)
-        }
-    }
-
-    /// Called by `PinnedScheduleFlowView` when the pinned service subject changes.
-    func pinnedSubjectDidChange(to subject: ScheduleSubject?) {
-        guard !canChangeSubject else { return }
-        guard subject != selectedSubject else { return }
-        if let subject {
-            loadFromPinnedService(subject: subject)
-        } else {
-            selectedSubject = nil
-            schedule = nil
-            lessons = [:]
-            timelineDays = []
-        }
     }
 
     func didTapFilter() {
@@ -185,6 +120,11 @@ final class ScheduleViewModel {
 
     func didTapWeekPicker() {
         router.present(sheet: .weekPicker)
+    }
+
+    func didTapRetry() {
+        guard let subject = selectedSubject else { return }
+        Task { await loadSchedule(for: subject) }
     }
 
     /// Called when switching to timeline mode if no days are loaded yet.
@@ -231,41 +171,30 @@ final class ScheduleViewModel {
         return parts.joined(separator: ", ")
     }
 
+    // MARK: - Internal (available to subclasses)
+
+    /// Resets stale schedule state and kicks off loading a new subject.
+    /// Pass `resetFilter: true` when the user actively selects a new subject.
+    func beginLoadingSubject(_ subject: ScheduleSubject, resetFilter: Bool = false) {
+        selectedSubject = subject
+        schedule = nil
+        lessons = [:]
+        timelineDays = []
+        timelineExhausted = false
+        timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
+        if resetFilter { subgroupFilter = .all }
+        Task { await loadSchedule(for: subject) }
+    }
+
+    /// Clears all schedule state without loading a new subject.
+    func unloadSubject() {
+        selectedSubject = nil
+        schedule = nil
+        lessons = [:]
+        timelineDays = []
+    }
+
     // MARK: - Private
-
-    private func loadGroups() async {
-        guard groups.isEmpty else { return }
-        isLoadingGroups = true
-        errorMessage = nil
-        do {
-            groups = try await scheduleService.fetchGroups()
-        } catch {
-            errorMessage = String(localized: "schedule.error.load_groups")
-        }
-        isLoadingGroups = false
-    }
-
-    private func loadTeachers() async {
-        do {
-            teachers = try await scheduleService.fetchTeachers()
-        } catch {
-            // Non-fatal: teacher tab will show an empty state
-        }
-        isLoadingTeachers = false
-    }
-
-    private func loadCurrentWeek() async {
-        guard currentSemesterWeek == nil else { return }
-        do {
-            currentSemesterWeek = try await scheduleService.fetchCurrentWeek()
-            // If a schedule is already loaded and the timeline is visible, refresh it
-            if displayMode == .timeline, let schedule {
-                timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
-            }
-        } catch {
-            // Non-fatal: timeline falls back to showing all week-numbers if nil
-        }
-    }
 
     private func loadSchedule(for subject: ScheduleSubject) async {
         isLoadingSchedule = true
@@ -284,16 +213,17 @@ final class ScheduleViewModel {
         isLoadingSchedule = false
     }
 
-    // MARK: - Pinned schedule
-
-    private func loadFromPinnedService(subject: ScheduleSubject) {
-        selectedSubject = subject
-        schedule = nil
-        lessons = [:]
-        timelineDays = []
-        timelineExhausted = false
-        timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
-        Task { await loadSchedule(for: subject) }
+    private func loadCurrentWeek() async {
+        guard currentSemesterWeek == nil else { return }
+        do {
+            currentSemesterWeek = try await scheduleService.fetchCurrentWeek()
+            // If a schedule is already loaded and the timeline is visible, refresh it
+            if displayMode == .timeline, let schedule {
+                timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
+            }
+        } catch {
+            // Non-fatal: timeline falls back to showing all week-numbers if nil
+        }
     }
 
     // MARK: - Subgroup filtering

@@ -16,19 +16,18 @@ extension Container {
         self { @MainActor in PinnedScheduleService(storage: self.storage()) }.shared
     }
 
-    // MARK: - Browse schedule (second tab)
+    // MARK: - Search schedule (second tab)
 
     var scheduleRouter: Factory<ScheduleRouter> {
         self { @MainActor in ScheduleRouter() }.shared
     }
 
-    var scheduleViewModel: Factory<ScheduleViewModel> {
+    var scheduleViewModel: Factory<SearchScheduleViewModel> {
         self { @MainActor in
-            ScheduleViewModel(
+            SearchScheduleViewModel(
                 router: self.scheduleRouter(),
                 scheduleService: self.scheduleService(),
-                pinnedScheduleService: self.pinnedScheduleService(),
-                canChangeSubject: true
+                pinnedScheduleService: self.pinnedScheduleService()
             )
         }
     }
@@ -39,14 +38,13 @@ extension Container {
         self { @MainActor in ScheduleRouter() }.shared
     }
 
-    var pinnedScheduleViewModel: Factory<ScheduleViewModel> {
+    var pinnedScheduleViewModel: Factory<PinnedScheduleViewModel> {
         self { @MainActor in
-            ScheduleViewModel(
+            PinnedScheduleViewModel(
                 router: self.pinnedScheduleRouter(),
                 scheduleService: self.scheduleService(),
                 pinnedScheduleService: self.pinnedScheduleService(),
-                storage: self.storage(),
-                canChangeSubject: false
+                storage: self.storage()
             )
         }
     }

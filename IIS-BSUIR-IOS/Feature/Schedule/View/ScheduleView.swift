@@ -12,7 +12,6 @@ private enum Constants {
         static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
     }
     enum Icons {
-        static let group = "magnifyingglass"
         static let noClasses = "calendar"
         static let error = "exclamationmark.triangle"
         static let modeWeekly = "list.bullet"
@@ -20,14 +19,16 @@ private enum Constants {
         static let subgroupAll = "person.2"
         static let subgroupFirst = "1.circle"
         static let subgroupSecond = "2.circle"
-        static let pin = "bookmark"
-        static let pinFill = "bookmark.fill"
-        static let noPinned = "bookmark.slash"
     }
 }
 
-struct ScheduleView: View {
+/// Core schedule content view shared by both schedule screens.
+/// Renders the lesson list, loading/error states, and the display-mode and
+/// subgroup-filter toolbar buttons. Screen-specific empty states and toolbar
+/// items are supplied by the calling view.
+struct ScheduleView<EmptyState: View>: View {
     @Bindable var viewModel: ScheduleViewModel
+    @ViewBuilder let emptyState: () -> EmptyState
 
     var body: some View {
         Group {
@@ -35,7 +36,7 @@ struct ScheduleView: View {
                 ProgressView("schedule.loading")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.selectedSubject == nil {
-                if viewModel.canChangeSubject { noSubjectView } else { noPinnedSubjectView }
+                emptyState()
             } else if let error = viewModel.errorMessage {
                 errorView(message: error)
             } else if viewModel.displayMode == .weekly && viewModel.lessons.isEmpty {
@@ -52,24 +53,6 @@ struct ScheduleView: View {
         }
         .navigationTitle(viewModel.navigationTitle)
         .toolbar {
-            if viewModel.canChangeSubject {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        viewModel.didTapSelectGroup()
-                    } label: {
-                        Image(systemName: Constants.Icons.group)
-                    }
-                }
-                if viewModel.selectedSubject != nil {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            viewModel.didTapPin()
-                        } label: {
-                            Image(systemName: viewModel.isPinned ? Constants.Icons.pinFill : Constants.Icons.pin)
-                        }
-                    }
-                }
-            }
             ToolbarItem(placement: .topBarTrailing) {
                 subgroupFilterPicker
             }
@@ -89,27 +72,6 @@ struct ScheduleView: View {
 
     // MARK: - Subviews
 
-    private var noSubjectView: some View {
-        ContentUnavailableView {
-            Label("schedule.no_subject.title", systemImage: Constants.Icons.group)
-        } description: {
-            Text("schedule.no_subject.description")
-        } actions: {
-            Button("schedule.select_subject.action") {
-                viewModel.didTapSelectGroup()
-            }
-            .buttonStyle(.borderedProminent)
-        }
-    }
-
-    private var noPinnedSubjectView: some View {
-        ContentUnavailableView {
-            Label("schedule.pinned.empty.title", systemImage: Constants.Icons.noPinned)
-        } description: {
-            Text("schedule.pinned.empty.description")
-        }
-    }
-
     private func errorView(message: String) -> some View {
         ContentUnavailableView {
             Label("common.error.title", systemImage: Constants.Icons.error)
@@ -117,7 +79,7 @@ struct ScheduleView: View {
             Text(message)
         } actions: {
             Button("schedule.retry") {
-                viewModel.didTapSelectGroup()
+                viewModel.didTapRetry()
             }
             .buttonStyle(.borderedProminent)
         }

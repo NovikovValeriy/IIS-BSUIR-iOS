@@ -10,11 +10,11 @@ import Factory
 
 struct ScheduleFlowView: View {
     @State private var router: ScheduleRouter = Container.shared.scheduleRouter()
-    @State private var viewModel: ScheduleViewModel = Container.shared.scheduleViewModel()
+    @State private var viewModel: SearchScheduleViewModel = Container.shared.scheduleViewModel()
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            ScheduleView(viewModel: viewModel)
+            SearchScheduleView(viewModel: viewModel)
                 .navigationDestination(for: ScheduleDestination.self) { destination in
                     switch destination {
                     case .lessonDetail(let lesson):

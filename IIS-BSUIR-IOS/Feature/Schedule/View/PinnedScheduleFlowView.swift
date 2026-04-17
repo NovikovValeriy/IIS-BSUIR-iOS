@@ -10,12 +10,12 @@ import Factory
 
 struct PinnedScheduleFlowView: View {
     @State private var router: ScheduleRouter = Container.shared.pinnedScheduleRouter()
-    @State private var viewModel: ScheduleViewModel = Container.shared.pinnedScheduleViewModel()
+    @State private var viewModel: PinnedScheduleViewModel = Container.shared.pinnedScheduleViewModel()
     @State private var pinnedService: PinnedScheduleService = Container.shared.pinnedScheduleService()
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            ScheduleView(viewModel: viewModel)
+            PinnedScheduleView(viewModel: viewModel)
                 .navigationDestination(for: ScheduleDestination.self) { destination in
                     switch destination {
                     case .lessonDetail(let lesson):
