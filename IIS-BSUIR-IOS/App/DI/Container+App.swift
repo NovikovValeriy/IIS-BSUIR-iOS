@@ -38,9 +38,12 @@ extension Container {
 
     var apiClient: Factory<any APIClient> {
         self { @MainActor in
-            DefaultAPIClient(
+            let delegate = BsuirTLSDelegate()
+            let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+            return DefaultAPIClient(
                 baseURL: URL(string: "https://iis.bsuir.by")!,
-                keychain: self.keychain()
+                keychain: self.keychain(),
+                session: session
             )
         }.shared
     }
