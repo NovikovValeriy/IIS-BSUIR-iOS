@@ -50,11 +50,18 @@ struct ScheduleView<EmptyState: View>: View {
                 weeklyScheduleList
             } else if viewModel.displayMode == .exams {
 
-                TimelineScheduleView(viewModel: viewModel, days: viewModel.examsDays) {
+                TimelineScheduleView(
+                    viewModel: viewModel,
+                    days: viewModel.examsDays,
+                    isExhausted: true,
+                    onLoadMore: nil
+                ) {
                     ContentUnavailableView(
                         "schedule.no_exams.title",
                         systemImage: Constants.Icons.modeExams,
-                        description: Text("schedule.no_exams.description \(viewModel.selectedSubject?.displayName ?? "")")
+                        description: Text(
+                            "schedule.no_exams.description \(viewModel.selectedSubject?.displayName ?? "")"
+                        )
                     )
                 }
             } else {
@@ -62,14 +69,19 @@ struct ScheduleView<EmptyState: View>: View {
                     viewModel: viewModel,
                     days: viewModel.timelineDays,
                     isExhausted: viewModel.timelineExhausted,
-                    onLoadMore: { viewModel.loadMoreTimelineDays() }
-                ) {
-                    ContentUnavailableView(
-                        "schedule.no_classes.title",
-                        systemImage: Constants.Icons.noClasses,
-                        description: Text("schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")")
-                    )
-                }
+                    onLoadMore: {
+                        viewModel.loadMoreTimelineDays()
+                    },
+                    emptyState: {
+                        ContentUnavailableView(
+                            "schedule.no_classes.title",
+                            systemImage: Constants.Icons.noClasses,
+                            description: Text(
+                                "schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")"
+                            )
+                        )
+                    }
+                )
             }
         }
         .navigationTitle(viewModel.navigationTitle)

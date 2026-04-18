@@ -17,8 +17,8 @@ private enum Constants {
 struct TimelineScheduleView<EmptyState: View>: View {
     var viewModel: ScheduleViewModel
     var days: [TimelineDay]
-    var isExhausted: Bool = true
-    var onLoadMore: (() -> Void)? = nil
+    var isExhausted: Bool
+    var onLoadMore: (() -> Void)?
     @ViewBuilder var emptyState: () -> EmptyState
 
     var body: some View {
