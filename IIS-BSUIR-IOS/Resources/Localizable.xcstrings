@@ -4,15 +4,8 @@
     "…" : {
 
     },
-    "%@ – %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ – %2$@"
-          }
-        }
-      }
+    "%lld" : {
+
     },
     "auth.confirm_contact.coming_soon" : {
       "localizations" : {
@@ -395,6 +388,7 @@
       }
     },
     "lesson.row.subgroup %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -405,6 +399,7 @@
       }
     },
     "lesson.row.weeks %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

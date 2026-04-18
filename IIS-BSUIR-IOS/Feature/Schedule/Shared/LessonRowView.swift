@@ -11,10 +11,8 @@ import SwiftUI
 private enum Constants {
     enum Layout {
         static let outerSpacing: CGFloat = 12
-        static let contentSpacing: CGFloat = 6
-        static let badgePaddingHorizontal: CGFloat = 6
-        static let badgePaddingVertical: CGFloat = 2
-        static let badgeCornerRadius: CGFloat = 4
+        static let contentSpacing: CGFloat = 4
+        static let subjectTitleSpacing: CGFloat = 2
         static let photoSize: CGFloat = 50
         static let groupsColumnWidth: CGFloat = 50
         static let groupsColumnSpacing: CGFloat = 3
@@ -23,17 +21,17 @@ private enum Constants {
         static let cardCornerRadius: CGFloat = 12
         static let shadowRadius: CGFloat = 4
         static let shadowOffsetY: CGFloat = 1
+        static let timeColumnWidth: CGFloat = 50
+        static let timeColumnSpacing: CGFloat = 4
+        static let stripeWidth: CGFloat = 8
     }
     enum Colors {
-        static let badgeBackgroundOpacity: Double = 0.15
         static let cardBackground = Color(.secondarySystemGroupedBackground)
         static let shadowColor = Color.black.opacity(0.05)
     }
     enum Icons {
-        static let weekNumber = "number"
-        static let time = "clock"
-        static let room = "mappin"
-        static let teacher = "person"
+        static let weekNumber = "calendar"
+        static let subgroup = "person"
         static let teacherPhotoPlaceholder = "person.circle.fill"
     }
 }
@@ -44,68 +42,61 @@ struct LessonRowView: View {
     var showGroups: Bool = false
 
     var body: some View {
-        HStack(alignment: .center, spacing: Constants.Layout.outerSpacing) {
-            VStack(alignment: .leading, spacing: Constants.Layout.contentSpacing) {
-                HStack(alignment: .firstTextBaseline) {
-                    Text(lesson.announcement ? String(localized: "lesson.row.announcement") : (lesson.subject ?? "—"))
+        HStack(alignment: .center, spacing: 0) {
+            LessonTypeColors.color(forType: lesson.lessonTypeAbbrev, isAnnouncement: lesson.announcement)
+                .frame(width: Constants.Layout.stripeWidth)
+
+            HStack(alignment: .center, spacing: Constants.Layout.outerSpacing) {
+                timeColumn
+
+                VStack(alignment: .leading, spacing: Constants.Layout.contentSpacing) {
+                    HStack(alignment: .center, spacing: Constants.Layout.subjectTitleSpacing) {
+                        Text(
+                            lesson.announcement
+                            ? String(localized: "lesson.row.announcement")
+                            : (lesson.subject ?? "—")
+                        )
                         .font(.headline)
-                    if let type = lesson.lessonTypeAbbrev {
-                        Text(type)
-                            .font(.caption)
-                            .padding(.horizontal, Constants.Layout.badgePaddingHorizontal)
-                            .padding(.vertical, Constants.Layout.badgePaddingVertical)
-                            .background(Color.accentColor.opacity(Constants.Colors.badgeBackgroundOpacity))
-                            .foregroundStyle(Color.accentColor)
-                            .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.badgeCornerRadius))
-                    }
-                    if lesson.numSubgroup != 0 {
-                        Text("lesson.row.subgroup \(lesson.numSubgroup)")
-                            .font(.caption)
-                            .padding(.horizontal, Constants.Layout.badgePaddingHorizontal)
-                            .padding(.vertical, Constants.Layout.badgePaddingVertical)
-                            .background(Color.secondary.opacity(Constants.Colors.badgeBackgroundOpacity))
+                        if showWeeks, let weeks = lesson.weekNumber, !weeks.isEmpty {
+                            HStack(spacing: 2) {
+                                Image(systemName: Constants.Icons.weekNumber)
+                                Text(weeks.weekDisplayString())
+                            }
+                            .font(.subheadline)
                             .foregroundStyle(.secondary)
-                            .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.badgeCornerRadius))
+                        }
+                        if lesson.numSubgroup != 0 {
+                            HStack(spacing: 2) {
+                                Image(systemName: Constants.Icons.subgroup)
+                                Text("\(lesson.numSubgroup)")
+                            }
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        }
+                        Spacer()
                     }
-                    Spacer()
+
+                    if let room = lesson.auditories.first {
+                        Text(room)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    if !showGroups, let teacher = lesson.teachers.first {
+                        Text(teacher.shortName)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
-                if showWeeks, let weeks = lesson.weekNumber, !weeks.isEmpty {
-                    Label(
-                        "lesson.row.weeks \(weeks.formattedNumbers())",
-                        systemImage: Constants.Icons.weekNumber
-                    )
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                }
-
-                Label(
-                    "\(lesson.startTime) – \(lesson.endTime)",
-                    systemImage: Constants.Icons.time
-                )
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-
-                if let room = lesson.auditories.first {
-                    Label(room, systemImage: Constants.Icons.room)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-
-                if !showGroups, let teacher = lesson.teachers.first {
-                    Label(teacher.shortName, systemImage: Constants.Icons.teacher)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                if showGroups {
+                    groupsColumn
+                } else if let teacher = lesson.teachers.first {
+                    teacherPhoto(for: teacher)
                 }
             }
-
-            if showGroups {
-                groupsColumn
-            } else if let teacher = lesson.teachers.first {
-                teacherPhoto(for: teacher)
-            }
+            .padding(Constants.Layout.cardPadding)
         }
-        .padding(Constants.Layout.cardPadding)
         .background(Constants.Colors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
         .shadow(
@@ -114,6 +105,19 @@ struct LessonRowView: View {
             x: 0,
             y: Constants.Layout.shadowOffsetY
         )
+    }
+
+    private var timeColumn: some View {
+        VStack(alignment: .center, spacing: Constants.Layout.timeColumnSpacing) {
+            Text(lesson.startTime)
+                .font(.headline)
+//                .fontWeight(.medium)
+                .foregroundStyle(.primary)
+            Text(lesson.endTime)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(width: Constants.Layout.timeColumnWidth, alignment: .center)
     }
 
     @ViewBuilder
@@ -165,22 +169,9 @@ struct LessonRowView: View {
 }
 
 private extension [Int] {
-    /// Formats a sorted list of week numbers into a compact string, e.g. [1,2,3,5] → "1–3, 5"
-    func formattedNumbers() -> String {
-        guard !isEmpty else { return "" }
+    func weekDisplayString() -> String {
         let sorted = self.sorted()
-        var ranges: [(Int, Int)] = []
-        var start = sorted[0], end = sorted[0]
-        for week in sorted.dropFirst() {
-            if week == end + 1 {
-                end = week
-            } else {
-                ranges.append((start, end))
-                start = week; end = week
-            }
-        }
-        ranges.append((start, end))
-        let parts = ranges.map { start, end in start == end ? "\(start)" : "\(start)–\(end)" }
-        return parts.joined(separator: ", ")
+        if sorted == [1, 2, 3, 4] { return "1-4" }
+        return sorted.map { "\($0)" }.joined(separator: ", ")
     }
 }
