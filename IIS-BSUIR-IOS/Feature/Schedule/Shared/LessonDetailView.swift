@@ -24,6 +24,9 @@ struct LessonDetailView: View {
     var body: some View {
         List {
             subjectSection
+            if let note = lesson.note, !note.isEmpty {
+                noteSection(note)
+            }
             timeSection
             if !lesson.auditories.isEmpty {
                 roomsSection(lesson.auditories)
@@ -37,9 +40,6 @@ struct LessonDetailView: View {
             if let weeks = lesson.weekNumber, !weeks.isEmpty {
                 weeksSection(weeks)
             }
-            if let note = lesson.note, !note.isEmpty {
-                noteSection(note)
-            }
         }
         .navigationTitle(lesson.subjectFullName ?? lesson.subject ?? String(localized: "lesson.detail.default_title"))
         .navigationBarTitleDisplayMode(.inline)
@@ -49,7 +49,9 @@ struct LessonDetailView: View {
 
     private var subjectSection: some View {
         Section {
-            LabeledContent("lesson.detail.subject", value: lesson.subjectFullName ?? lesson.subject ?? "—")
+            if !lesson.announcement {
+                LabeledContent("lesson.detail.subject", value: lesson.subjectFullName ?? lesson.subject ?? "—")
+            }
             if let type = lesson.lessonTypeAbbrev {
                 LabeledContent("lesson.detail.type", value: type)
             }

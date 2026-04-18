@@ -384,6 +384,16 @@
         }
       }
     },
+    "lesson.row.announcement" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Announcement"
+          }
+        }
+      }
+    },
     "lesson.row.subgroup %lld" : {
       "localizations" : {
         "en" : {

@@ -47,7 +47,7 @@ struct LessonRowView: View {
         HStack(alignment: .center, spacing: Constants.Layout.outerSpacing) {
             VStack(alignment: .leading, spacing: Constants.Layout.contentSpacing) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text(lesson.subject ?? "—")
+                    Text(lesson.announcement ? String(localized: "lesson.row.announcement") : (lesson.subject ?? "—"))
                         .font(.headline)
                     if let type = lesson.lessonTypeAbbrev {
                         Text(type)
