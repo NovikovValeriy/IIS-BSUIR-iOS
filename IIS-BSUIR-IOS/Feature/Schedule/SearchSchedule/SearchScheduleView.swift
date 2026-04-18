@@ -10,8 +10,8 @@ import SwiftUI
 private enum Constants {
     enum Icons {
         static let search = "magnifyingglass"
-        static let pin = "bookmark"
-        static let pinFill = "bookmark.fill"
+        static let pin = "pin"
+        static let pinFill = "pin.fill"
     }
 }
 
