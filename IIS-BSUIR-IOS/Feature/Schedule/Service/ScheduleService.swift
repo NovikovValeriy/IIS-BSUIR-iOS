@@ -161,7 +161,9 @@ private extension ScheduleResponseDTO {
         Schedule(
             weeklyLessons: schedules?.mapValues { $0.map { $0.toDomain() } } ?? [:],
             exams: exams?.map { $0.toDomain() } ?? [],
-            semesterEndDate: endDate
+            semesterEndDate: endDate,
+            examsStartDate: startExamsDate,
+            examsEndDate: endExamsDate
         )
     }
 }

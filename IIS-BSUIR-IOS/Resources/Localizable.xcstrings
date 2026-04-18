@@ -692,6 +692,7 @@
       }
     },
     "schedule.filter.coming_soon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -729,6 +730,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading schedule…"
+          }
+        }
+      }
+    },
+    "schedule.mode.exams" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exams"
           }
         }
       }
@@ -779,6 +790,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Classes"
+          }
+        }
+      }
+    },
+    "schedule.no_exams.description %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No exams scheduled for %@."
+          }
+        }
+      }
+    },
+    "schedule.no_exams.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Exams"
           }
         }
       }
@@ -946,6 +977,7 @@
       }
     },
     "schedule.week_picker.coming_soon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

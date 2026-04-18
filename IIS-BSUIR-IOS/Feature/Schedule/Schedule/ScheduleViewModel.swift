@@ -42,6 +42,10 @@ class ScheduleViewModel {
     var timelineDays: [TimelineDay] = []
     private(set) var timelineExhausted = false
 
+    // MARK: - Exams
+
+    var examsDays: [TimelineDay] = []
+
     private var schedule: Schedule?
     /// The current semester week number as returned by the API (e.g. 7).
     /// Used to anchor the 4-week cycle without relying on startDate arithmetic.
@@ -133,6 +137,12 @@ class ScheduleViewModel {
         timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
     }
 
+    /// Called when switching to exams mode if no days are loaded yet.
+    func ensureExamsGenerated() {
+        guard let schedule, examsDays.isEmpty else { return }
+        examsDays = buildExamsTimeline(from: schedule)
+    }
+
     /// Extends the visible timeline window by 14 days and regenerates.
     func loadMoreTimelineDays() {
         guard let schedule else { return }
@@ -180,6 +190,7 @@ class ScheduleViewModel {
         schedule = nil
         lessons = [:]
         timelineDays = []
+        examsDays = []
         timelineExhausted = false
         timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
         if resetFilter { subgroupFilter = .all }
@@ -192,6 +203,7 @@ class ScheduleViewModel {
         schedule = nil
         lessons = [:]
         timelineDays = []
+        examsDays = []
     }
 
     // MARK: - Private
@@ -203,8 +215,13 @@ class ScheduleViewModel {
             let loaded = try await scheduleService.fetchSchedule(for: subject)
             schedule = loaded
             lessons = filteredLessons(loaded.weeklyLessons)
-            if displayMode == .timeline {
+            switch displayMode {
+            case .timeline:
                 timelineDays = buildTimeline(from: loaded, until: timelineLoadedUntil)
+            case .exams:
+                examsDays = buildExamsTimeline(from: loaded)
+            case .weekly:
+                break
             }
         } catch {
             errorMessage = String(localized: "schedule.error.load_schedule \(subject.displayName)")
@@ -241,8 +258,13 @@ class ScheduleViewModel {
     private func applySubgroupFilter() {
         guard let schedule else { return }
         lessons = filteredLessons(schedule.weeklyLessons)
-        if displayMode == .timeline {
+        switch displayMode {
+        case .timeline:
             timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
+        case .exams:
+            examsDays = buildExamsTimeline(from: schedule)
+        case .weekly:
+            break
         }
     }
 
@@ -308,16 +330,45 @@ class ScheduleViewModel {
                 }
             }
 
-            // One-time lessons (exams and single-date lessons)
-            let currentStr = lessonDateFormatter.string(from: current)
-            for exam in schedule.exams where exam.dateLesson == currentStr {
-                guard shouldInclude(lesson: exam) else { continue }
-                dayLessons.append(exam)
-            }
-
             if !dayLessons.isEmpty {
                 let sorted = dayLessons.sorted { $0.startTime < $1.startTime }
                 days.append(TimelineDay(date: current, lessons: sorted, cycleWeek: cycleWeek(for: current)))
+            }
+
+            guard let next = calendar.date(byAdding: .day, value: 1, to: current) else { break }
+            current = next
+        }
+
+        return days
+    }
+
+    private func buildExamsTimeline(from schedule: Schedule) -> [TimelineDay] {
+        guard !schedule.exams.isEmpty else { return [] }
+
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        let iterEnd: Date
+        if let endStr = schedule.examsEndDate,
+           let endDate = lessonDateFormatter.date(from: endStr) {
+            iterEnd = calendar.startOfDay(for: endDate)
+        } else {
+            iterEnd = today
+        }
+
+        guard today <= iterEnd else { return [] }
+
+        var days: [TimelineDay] = []
+        var current = today
+
+        while current <= iterEnd {
+            let currentStr = lessonDateFormatter.string(from: current)
+            let dayLessons = schedule.exams
+                .filter { $0.dateLesson == currentStr && shouldInclude(lesson: $0) }
+                .sorted { $0.startTime < $1.startTime }
+
+            if !dayLessons.isEmpty {
+                days.append(TimelineDay(date: current, lessons: dayLessons, cycleWeek: nil))
             }
 
             guard let next = calendar.date(byAdding: .day, value: 1, to: current) else { break }

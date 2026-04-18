@@ -16,6 +16,7 @@ private enum Constants {
         static let error = "exclamationmark.triangle"
         static let modeWeekly = "list.bullet"
         static let modeTimeline = "calendar.badge.clock"
+        static let modeExams = "graduationcap"
         static let subgroupAll = "person.2"
         static let subgroupFirst = "1.circle"
         static let subgroupSecond = "2.circle"
@@ -47,6 +48,8 @@ struct ScheduleView<EmptyState: View>: View {
                 )
             } else if viewModel.displayMode == .weekly {
                 weeklyScheduleList
+            } else if viewModel.displayMode == .exams {
+                ExamsScheduleView(viewModel: viewModel)
             } else {
                 TimelineScheduleView(viewModel: viewModel)
             }
@@ -64,8 +67,13 @@ struct ScheduleView<EmptyState: View>: View {
             viewModel.onAppear()
         }
         .onChange(of: viewModel.displayMode) { _, newMode in
-            if newMode == .timeline {
+            switch newMode {
+            case .timeline:
                 viewModel.ensureTimelineGenerated()
+            case .exams:
+                viewModel.ensureExamsGenerated()
+            case .weekly:
+                break
             }
         }
     }
@@ -140,6 +148,8 @@ struct ScheduleView<EmptyState: View>: View {
                     .tag(ScheduleDisplayMode.timeline)
                 Label("schedule.mode.weekly", systemImage: Constants.Icons.modeWeekly)
                     .tag(ScheduleDisplayMode.weekly)
+                Label("schedule.mode.exams", systemImage: Constants.Icons.modeExams)
+                    .tag(ScheduleDisplayMode.exams)
             }
         } label: {
             Image(systemName: displayModeIcon)
@@ -150,6 +160,7 @@ struct ScheduleView<EmptyState: View>: View {
         switch viewModel.displayMode {
         case .timeline: return Constants.Icons.modeTimeline
         case .weekly: return Constants.Icons.modeWeekly
+        case .exams: return Constants.Icons.modeExams
         }
     }
 }

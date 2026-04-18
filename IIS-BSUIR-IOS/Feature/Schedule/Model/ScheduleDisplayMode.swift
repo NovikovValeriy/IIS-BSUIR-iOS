@@ -8,4 +8,5 @@
 enum ScheduleDisplayMode: String, CaseIterable, Codable {
     case weekly
     case timeline
+    case exams
 }
