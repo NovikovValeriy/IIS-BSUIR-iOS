@@ -113,9 +113,12 @@ struct ScheduleView<EmptyState: View>: View {
     private var subgroupFilterPicker: some View {
         Menu {
             Picker("schedule.subgroup.label", selection: $viewModel.subgroupFilter) {
-                Text("schedule.subgroup.all").tag(SubgroupFilter.all)
-                Text("schedule.subgroup.first").tag(SubgroupFilter.first)
-                Text("schedule.subgroup.second").tag(SubgroupFilter.second)
+                Label("schedule.subgroup.all", systemImage: Constants.Icons.subgroupAll)
+                    .tag(SubgroupFilter.all)
+                Label("schedule.subgroup.first", systemImage: Constants.Icons.subgroupFirst)
+                    .tag(SubgroupFilter.first)
+                Label("schedule.subgroup.second", systemImage: Constants.Icons.subgroupSecond)
+                    .tag(SubgroupFilter.second)
             }
         } label: {
             Image(systemName: subgroupFilterIcon)
@@ -139,11 +142,14 @@ struct ScheduleView<EmptyState: View>: View {
                     .tag(ScheduleDisplayMode.weekly)
             }
         } label: {
-            Image(
-                systemName: viewModel.displayMode == .weekly
-                ? Constants.Icons.modeWeekly
-                : Constants.Icons.modeTimeline
-            )
+            Image(systemName: displayModeIcon)
+        }
+    }
+
+    private var displayModeIcon: String {
+        switch viewModel.displayMode {
+        case .timeline: return Constants.Icons.modeTimeline
+        case .weekly: return Constants.Icons.modeWeekly
         }
     }
 }
