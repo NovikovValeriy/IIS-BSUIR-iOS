@@ -19,13 +19,11 @@ struct PinnedScheduleFlowView: View {
                 .navigationDestination(for: ScheduleDestination.self) { destination in
                     switch destination {
                     case .lessonDetail(let lesson):
-                        LessonDetailView(lesson: lesson)
-                    case .employeeSchedule(let employeeId):
-                        Text("schedule.employee_schedule.detail \(employeeId)")
-                            .navigationTitle("schedule.employee_schedule.title")
-                    case .groupSchedule(let groupId):
-                        Text("schedule.group_schedule.detail \(groupId)")
-                            .navigationTitle("schedule.group_schedule.title")
+                        LessonDetailView(lesson: lesson, router: router)
+                    case .employeeSchedule(let teacher):
+                        LinkedScheduleView(subject: .teacher(teacher), router: router)
+                    case .groupSchedule(let groupName):
+                        LinkedScheduleView(subject: .group(.minimal(name: groupName)), router: router)
                     }
                 }
         }

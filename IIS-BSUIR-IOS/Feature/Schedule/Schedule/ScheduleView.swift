@@ -31,7 +31,7 @@ struct ScheduleView<EmptyState: View>: View {
     @ViewBuilder let emptyState: () -> EmptyState
 
     var body: some View {
-        Group {
+        ZStack {
             if viewModel.isLoadingSchedule {
                 ProgressView("schedule.loading")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

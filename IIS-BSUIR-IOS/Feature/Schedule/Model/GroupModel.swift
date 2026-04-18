@@ -5,6 +5,16 @@
 //  Created by Valery Novikau on 16.04.26.
 //
 
+extension GroupModel {
+    static func minimal(name: String) -> GroupModel {
+        GroupModel(
+            id: 0, name: name, specialityAbbrev: "", specialityName: "",
+            facultyAbbrev: "", facultyId: 0, facultyName: nil, course: nil,
+            educationDegree: 0, calendarId: nil, specialityDepartmentEducationFormId: 0
+        )
+    }
+}
+
 struct GroupModel: Hashable, Identifiable, Codable {
     let id: Int
     let name: String

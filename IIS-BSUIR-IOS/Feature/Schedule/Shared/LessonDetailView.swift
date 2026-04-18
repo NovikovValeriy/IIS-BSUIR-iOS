@@ -12,10 +12,14 @@ private enum Constants {
         static let itemSpacing: CGFloat = 4
         static let itemPaddingVertical: CGFloat = 2
     }
+    enum Icons {
+        static let chevron = "chevron.right"
+    }
 }
 
 struct LessonDetailView: View {
     let lesson: Lesson
+    let router: ScheduleRouter
 
     var body: some View {
         List {
@@ -33,7 +37,7 @@ struct LessonDetailView: View {
             if let weeks = lesson.weekNumber, !weeks.isEmpty {
                 weeksSection(weeks)
             }
-            if let note = lesson.note {
+            if let note = lesson.note, !note.isEmpty {
                 noteSection(note)
             }
         }
@@ -82,50 +86,84 @@ struct LessonDetailView: View {
     private func teachersSection(_ teachers: [Teacher]) -> some View {
         Section(teachers.count == 1 ? "lesson.detail.teacher" : "lesson.detail.teachers") {
             ForEach(teachers) { teacher in
-                VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
-                    Text(teacher.fullName)
-                        .font(.body)
-                    if let rank = teacher.rank {
-                        Text(rank)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    if let degree = teacher.degree {
-                        Text(degree)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    if let email = teacher.email {
-                        Text(email)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+                Button {
+                    router.push(.employeeSchedule(teacher))
+                } label: {
+                    teacherRow(teacher)
                 }
-                .padding(.vertical, Constants.Layout.itemPaddingVertical)
+                .buttonStyle(.plain)
             }
         }
+    }
+
+    private func teacherRow(_ teacher: Teacher) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
+                Text(teacher.fullName)
+                    .font(.body)
+                    .foregroundStyle(.primary)
+                if let rank = teacher.rank, !rank.isEmpty {
+                    Text(rank)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                if let degree = teacher.degree, !degree.isEmpty {
+                    Text(degree)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                if let email = teacher.email, !email.isEmpty {
+                    Text(email)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            Spacer()
+            Image(systemName: Constants.Icons.chevron)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .contentShape(Rectangle())
+        .padding(.vertical, Constants.Layout.itemPaddingVertical)
     }
 
     private func groupsSection(_ groups: [LessonGroup]) -> some View {
         Section(groups.count == 1 ? "lesson.detail.group" : "lesson.detail.groups") {
             ForEach(groups, id: \.name) { group in
-                VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
-                    Text(group.name)
-                        .font(.body)
-                    if let speciality = group.specialityName {
-                        Text(speciality)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    if let count = group.numberOfStudents {
-                        Text("lesson.detail.students_count \(count)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+                Button {
+                    router.push(.groupSchedule(group.name))
+                } label: {
+                    groupRow(group)
                 }
-                .padding(.vertical, Constants.Layout.itemPaddingVertical)
+                .buttonStyle(.plain)
             }
         }
+    }
+
+    private func groupRow(_ group: LessonGroup) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: Constants.Layout.itemSpacing) {
+                Text(group.name)
+                    .font(.body)
+                    .foregroundStyle(.primary)
+                if let speciality = group.specialityName, !speciality.isEmpty {
+                    Text(speciality)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                if let count = group.numberOfStudents {
+                    Text("lesson.detail.students_count \(count)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            Spacer()
+            Image(systemName: Constants.Icons.chevron)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .contentShape(Rectangle())
+        .padding(.vertical, Constants.Layout.itemPaddingVertical)
     }
 
     private func weeksSection(_ weeks: [Int]) -> some View {

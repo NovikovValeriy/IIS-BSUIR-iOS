@@ -645,6 +645,7 @@
       }
     },
     "schedule.employee_schedule.detail %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -655,6 +656,7 @@
       }
     },
     "schedule.employee_schedule.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -695,6 +697,7 @@
       }
     },
     "schedule.group_schedule.detail %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -705,6 +708,7 @@
       }
     },
     "schedule.group_schedule.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
