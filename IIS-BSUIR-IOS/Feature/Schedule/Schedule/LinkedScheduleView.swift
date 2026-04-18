@@ -23,8 +23,5 @@ struct LinkedScheduleView: View {
         ScheduleView(viewModel: viewModel) {
             EmptyView()
         }
-        .onAppear {
-            print("LinkedSchedule onAppear test")
-        }
     }
 }

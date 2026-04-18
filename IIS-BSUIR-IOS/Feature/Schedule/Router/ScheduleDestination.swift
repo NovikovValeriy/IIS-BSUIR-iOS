@@ -15,8 +15,6 @@ enum ScheduleDestination: Hashable {
 
 enum ScheduleSheet: Identifiable {
     case groupPicker
-    case filterOptions
-    case weekPicker
 
     var id: String { "\(self)" }
 }

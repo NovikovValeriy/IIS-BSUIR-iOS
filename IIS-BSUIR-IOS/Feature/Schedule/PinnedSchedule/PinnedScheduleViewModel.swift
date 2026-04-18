@@ -43,5 +43,6 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         } else {
             unloadSubject()
         }
+        router.popToRoot()
     }
 }

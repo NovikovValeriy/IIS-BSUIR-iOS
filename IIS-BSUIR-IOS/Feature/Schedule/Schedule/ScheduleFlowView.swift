@@ -37,12 +37,6 @@ struct ScheduleFlowView: View {
                     onSelect: viewModel.didSelectSubject,
                     onTeacherTabAppear: viewModel.ensureTeachersLoaded
                 )
-            case .filterOptions:
-                Text("schedule.filter.coming_soon")
-                    .presentationDetents([.medium])
-            case .weekPicker:
-                Text("schedule.week_picker.coming_soon")
-                    .presentationDetents([.height(300)])
             }
         }
         .alert(item: $router.alert) { alert in
