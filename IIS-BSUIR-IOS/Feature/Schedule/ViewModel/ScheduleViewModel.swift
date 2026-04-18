@@ -73,6 +73,14 @@ class ScheduleViewModel {
         return formatter
     }()
 
+    @ObservationIgnored
+    private lazy var lessonDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+
     // MARK: - Computed
 
     var navigationTitle: String {
@@ -112,14 +120,6 @@ class ScheduleViewModel {
 
     func didTapLesson(_ lesson: Lesson) {
         router.push(.lessonDetail(lesson))
-    }
-
-    func didTapFilter() {
-        router.present(sheet: .filterOptions)
-    }
-
-    func didTapWeekPicker() {
-        router.present(sheet: .weekPicker)
     }
 
     func didTapRetry() {
@@ -248,13 +248,6 @@ class ScheduleViewModel {
 
     // MARK: - Timeline generation
 
-    private static let lessonDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter
-    }()
-
     private func buildTimeline(
         from schedule: Schedule,
         until endDate: Date
@@ -262,7 +255,7 @@ class ScheduleViewModel {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
-        let semesterEnd = schedule.semesterEndDate.flatMap { Self.lessonDateFormatter.date(from: $0) }
+        let semesterEnd = schedule.semesterEndDate.flatMap { lessonDateFormatter.date(from: $0) }
 
         let iterEnd: Date
         if let semesterEnd {
@@ -302,11 +295,11 @@ class ScheduleViewModel {
 
                     // Filter by lesson-level date range (e.g. lesson only valid for part of semester)
                     if let startStr = lesson.startLessonDate,
-                       let startD = Self.lessonDateFormatter.date(from: startStr) {
+                       let startD = lessonDateFormatter.date(from: startStr) {
                         guard current >= calendar.startOfDay(for: startD) else { continue }
                     }
                     if let endStr = lesson.endLessonDate,
-                       let endD = Self.lessonDateFormatter.date(from: endStr) {
+                       let endD = lessonDateFormatter.date(from: endStr) {
                         guard current <= calendar.startOfDay(for: endD) else { continue }
                     }
 
@@ -316,7 +309,7 @@ class ScheduleViewModel {
             }
 
             // One-time lessons (exams and single-date lessons)
-            let currentStr = Self.lessonDateFormatter.string(from: current)
+            let currentStr = lessonDateFormatter.string(from: current)
             for exam in schedule.exams where exam.dateLesson == currentStr {
                 guard shouldInclude(lesson: exam) else { continue }
                 dayLessons.append(exam)

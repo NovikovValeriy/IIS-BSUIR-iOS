@@ -754,46 +754,6 @@
         }
       }
     },
-    "schedule.subgroup.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subgroup"
-          }
-        }
-      }
-    },
-    "schedule.subgroup.all" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All"
-          }
-        }
-      }
-    },
-    "schedule.subgroup.first" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subgroup 1"
-          }
-        }
-      }
-    },
-    "schedule.subgroup.second" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subgroup 2"
-          }
-        }
-      }
-    },
     "schedule.no_classes.description %@" : {
       "localizations" : {
         "en" : {
@@ -834,6 +794,37 @@
         }
       }
     },
+    "schedule.pinned.empty.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the Search tab to find a schedule and tap the bookmark to pin it here."
+          }
+        }
+      }
+    },
+    "schedule.pinned.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Schedule Pinned"
+          }
+        }
+      }
+    },
+    "schedule.pinned.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned Schedule"
+          }
+        }
+      }
+    },
     "schedule.retry" : {
       "localizations" : {
         "en" : {
@@ -844,12 +835,63 @@
         }
       }
     },
+    "schedule.search.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Schedule"
+          }
+        }
+      }
+    },
     "schedule.select_subject.action" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.all" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.first" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subgroup 1"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subgroup"
+          }
+        }
+      }
+    },
+    "schedule.subgroup.second" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subgroup 2"
           }
         }
       }
@@ -1074,6 +1116,16 @@
         }
       }
     },
+    "tab.pinned_schedule" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned"
+          }
+        }
+      }
+    },
     "tab.profile" : {
       "localizations" : {
         "en" : {
@@ -1084,42 +1136,12 @@
         }
       }
     },
-    "tab.pinned_schedule" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schedule"
-          }
-        }
-      }
-    },
     "tab.schedule" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search"
-          }
-        }
-      }
-    },
-    "schedule.pinned.empty.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Schedule Pinned"
-          }
-        }
-      }
-    },
-    "schedule.pinned.empty.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the Search tab to find a schedule and tap the bookmark to pin it here."
           }
         }
       }

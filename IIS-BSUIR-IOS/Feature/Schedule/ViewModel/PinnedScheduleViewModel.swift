@@ -29,6 +29,10 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         beginLoadingSubject(subject)
     }
 
+    override var navigationTitle: String {
+        selectedSubject?.displayName ?? String(localized: "schedule.pinned.title")
+    }
+
     // MARK: - Pinned subject sync
 
     /// Called by `PinnedScheduleFlowView` when the pinned service subject changes.

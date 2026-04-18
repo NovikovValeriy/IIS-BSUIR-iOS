@@ -42,6 +42,10 @@ final class SearchScheduleViewModel: ScheduleViewModel {
         Task { await loadGroups() }
     }
 
+    override var navigationTitle: String {
+        selectedSubject?.displayName ?? String(localized: "schedule.search.title")
+    }
+
     // MARK: - Actions
 
     func didTapSelectGroup() {
