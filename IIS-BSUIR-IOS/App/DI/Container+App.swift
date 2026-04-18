@@ -19,6 +19,10 @@ extension Container {
         // self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.shared
     }
 
+    var storage: Factory<any StorageProtocol> {
+        self { @MainActor in UserDefaultsStorage() }.shared
+    }
+
     var appCoordinator: Factory<AppCoordinator> {
         self { @MainActor in AppCoordinator(authState: self.authState(), authService: self.authService()) }.shared
     }

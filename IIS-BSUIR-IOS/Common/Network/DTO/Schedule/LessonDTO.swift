@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 9.04.26.
 //
 
-struct LessonDTO: Decodable, Hashable {
+struct LessonDTO: Decodable {
     let auditories: [String]?
     let endLessonTime: String
     let lessonTypeAbbrev: String?
@@ -26,7 +26,7 @@ struct LessonDTO: Decodable, Hashable {
     let split: Bool
 }
 
-struct LessonStudentGroupDTO: Decodable, Hashable {
+struct LessonStudentGroupDTO: Decodable {
     let specialityName: String?
     let specialityCode: String?
     let numberOfStudents: Int?

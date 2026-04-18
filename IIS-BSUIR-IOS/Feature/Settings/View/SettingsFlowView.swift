@@ -17,14 +17,14 @@ struct SettingsFlowView: View {
                 .navigationDestination(for: SettingsDestination.self) { destination in
                     switch destination {
                     case .appearance:
-                        Text("Appearance")
-                            .navigationTitle("Appearance")
+                        Text("settings.appearance.title")
+                            .navigationTitle("settings.appearance.title")
                     case .notifications:
-                        Text("Notification settings")
-                            .navigationTitle("Notifications")
+                        Text("settings.notifications_settings.description")
+                            .navigationTitle("settings.notifications.title")
                     case .about:
-                        Text("IIS BSUIR — unofficial client")
-                            .navigationTitle("About")
+                        Text("settings.about.description")
+                            .navigationTitle("settings.about.title")
                     }
                 }
         }
@@ -32,7 +32,7 @@ struct SettingsFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("common.ok"))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .settings))) { _ in

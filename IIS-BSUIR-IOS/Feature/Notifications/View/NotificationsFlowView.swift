@@ -17,15 +17,15 @@ struct NotificationsFlowView: View {
                 .navigationDestination(for: NotificationsDestination.self) { destination in
                     switch destination {
                     case .notificationDetail(let id):
-                        Text("Notification: \(id)")
-                            .navigationTitle("Notification")
+                        Text("notifications.notification_detail \(id)")
+                            .navigationTitle("notifications.notification.title")
                     }
                 }
         }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .filterOptions:
-                Text("Filter — coming soon")
+                Text("notifications.filter.coming_soon")
                     .presentationDetents([.medium])
             }
         }
@@ -33,7 +33,7 @@ struct NotificationsFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("common.ok"))
             )
         }
     }

@@ -45,7 +45,7 @@ final class LoginViewModel {
                 password: password,
                 rememberDevice: rememberDevice
             )
-            appCoordinator.userDidAuthenticate(response: response)
+            appCoordinator.userDidAuthenticate(user: response)
         } catch let error as APIError {
             router.present(alert: .error(error.localizedDescription))
         } catch {

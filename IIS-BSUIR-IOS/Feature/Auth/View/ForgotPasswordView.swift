@@ -7,14 +7,20 @@
 
 import SwiftUI
 
+private enum Constants {
+    enum Icons {
+        static let key = "key.fill"
+    }
+}
+
 struct ForgotPasswordView: View {
     var body: some View {
         ContentUnavailableView(
-            "Forgot Password",
-            systemImage: "key.fill",
-            description: Text("Password reset is not yet implemented.")
+            "auth.forgot_password.title",
+            systemImage: Constants.Icons.key,
+            description: Text("auth.forgot_password.description")
         )
-        .navigationTitle("Forgot Password")
+        .navigationTitle("auth.forgot_password.title")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -10,6 +10,7 @@
 		53FD0D5F2F86F41400F099C9 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D5E2F86F41400F099C9 /* Factory */; };
 		53FD0D612F86F41400F099C9 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D602F86F41400F099C9 /* FactoryKit */; };
 		53FD0D642F86F42B00F099C9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D632F86F42B00F099C9 /* Kingfisher */; };
+		53FD13A02F8D903900F099C9 /* Wormholy in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD139F2F8D903900F099C9 /* Wormholy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53FD0D642F86F42B00F099C9 /* Kingfisher in Frameworks */,
+				53FD13A02F8D903900F099C9 /* Wormholy in Frameworks */,
 				53FD0D612F86F41400F099C9 /* FactoryKit in Frameworks */,
 				53FD0D5F2F86F41400F099C9 /* Factory in Frameworks */,
 			);
@@ -78,6 +80,7 @@
 				53FD0D5E2F86F41400F099C9 /* Factory */,
 				53FD0D602F86F41400F099C9 /* FactoryKit */,
 				53FD0D632F86F42B00F099C9 /* Kingfisher */,
+				53FD139F2F8D903900F099C9 /* Wormholy */,
 			);
 			productName = "IIS-BSUIR-IOS";
 			productReference = 53FD0B612F83E47200F099C9 /* IIS-BSUIR-IOS.app */;
@@ -110,6 +113,7 @@
 			packageReferences = (
 				53FD0D5D2F86F41400F099C9 /* XCRemoteSwiftPackageReference "Factory" */,
 				53FD0D622F86F42B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				53FD139E2F8D903900F099C9 /* XCRemoteSwiftPackageReference "Wormholy" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 53FD0B622F83E47200F099C9 /* Products */;
@@ -405,6 +409,14 @@
 				minimumVersion = 8.8.1;
 			};
 		};
+		53FD139E2F8D903900F099C9 /* XCRemoteSwiftPackageReference "Wormholy" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pmusolino/Wormholy.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -422,6 +434,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 53FD0D622F86F42B00F099C9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		53FD139F2F8D903900F099C9 /* Wormholy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53FD139E2F8D903900F099C9 /* XCRemoteSwiftPackageReference "Wormholy" */;
+			productName = Wormholy;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

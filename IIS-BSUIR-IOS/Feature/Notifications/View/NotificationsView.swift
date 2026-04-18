@@ -13,10 +13,10 @@ struct NotificationsView: View {
 
     var body: some View {
         ContentUnavailableView(
-            "Notifications",
+            "notifications.title",
             systemImage: "bell.fill",
-            description: Text("Notifications screen coming soon.")
+            description: Text("notifications.coming_soon")
         )
-        .navigationTitle("Notifications")
+        .navigationTitle("notifications.title")
     }
 }

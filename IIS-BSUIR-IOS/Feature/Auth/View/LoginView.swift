@@ -8,28 +8,36 @@
 import SwiftUI
 import Factory
 
+private enum Constants {
+    enum Layout {
+        static let outerSpacing: CGFloat = 24
+        static let fieldSpacing: CGFloat = 16
+        static let buttonHeight: CGFloat = 44
+    }
+}
+
 struct LoginView: View {
     @State private var viewModel: LoginViewModel = Container.shared.loginViewModel()
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: Constants.Layout.outerSpacing) {
             Spacer()
 
-            Text("IIS BSUIR")
+            Text("auth.title")
                 .font(.largeTitle.bold())
 
-            VStack(spacing: 16) {
-                TextField("Username", text: $viewModel.username)
+            VStack(spacing: Constants.Layout.fieldSpacing) {
+                TextField("auth.username.placeholder", text: $viewModel.username)
                     .textContentType(.username)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .textFieldStyle(.roundedBorder)
 
-                SecureField("Password", text: $viewModel.password)
+                SecureField("auth.password.placeholder", text: $viewModel.password)
                     .textContentType(.password)
                     .textFieldStyle(.roundedBorder)
 
-                Toggle("Remember device", isOn: $viewModel.rememberDevice)
+                Toggle("auth.remember_device", isOn: $viewModel.rememberDevice)
             }
             .padding(.horizontal)
 
@@ -40,24 +48,24 @@ struct LoginView: View {
                     if viewModel.isLoading {
                         ProgressView()
                     } else {
-                        Text("Sign In")
+                        Text("auth.sign_in.button")
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 44)
+                .frame(height: Constants.Layout.buttonHeight)
             }
             .buttonStyle(.borderedProminent)
             .disabled(!viewModel.canSubmit)
             .padding(.horizontal)
 
-            Button("Forgot password?") {
+            Button("auth.forgot_password.button") {
                 viewModel.didTapForgotPassword()
             }
             .font(.footnote)
 
             Spacer()
         }
-        .navigationTitle("Sign In")
+        .navigationTitle("auth.sign_in.title")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

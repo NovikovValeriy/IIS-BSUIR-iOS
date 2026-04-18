@@ -7,13 +7,19 @@
 
 import SwiftUI
 
+private enum Constants {
+    enum Layout {
+        static let progressScale: CGFloat = 1.5
+    }
+}
+
 struct SplashView: View {
     var body: some View {
         ZStack {
             Color(.systemBackground)
                 .ignoresSafeArea()
             ProgressView()
-                .scaleEffect(1.5)
+                .scaleEffect(Constants.Layout.progressScale)
         }
     }
 }

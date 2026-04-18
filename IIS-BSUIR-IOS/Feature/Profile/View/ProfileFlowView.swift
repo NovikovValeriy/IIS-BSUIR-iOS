@@ -19,50 +19,50 @@ struct ProfileFlowView: View {
                     switch destination {
                     case .grades:
                         GradesView()
-                            .navigationTitle("Grades")
+                            .navigationTitle("grades.title")
                     case .notifications:
                         NotificationsView()
-                            .navigationTitle("Notifications")
+                            .navigationTitle("notifications.title")
                     case .dormitory:
-                        Text("Dormitory")
-                            .navigationTitle("Dormitory")
+                        Text("profile.dormitory.title")
+                            .navigationTitle("profile.dormitory.title")
                     case .documents:
-                        Text("Documents")
-                            .navigationTitle("Documents")
+                        Text("profile.documents.title")
+                            .navigationTitle("profile.documents.title")
                     case .contacts:
-                        Text("Contacts")
-                            .navigationTitle("Contacts")
+                        Text("profile.contacts.title")
+                            .navigationTitle("profile.contacts.title")
                     case .changePassword:
-                        Text("Change Password")
-                            .navigationTitle("Change Password")
+                        Text("profile.change_password.title")
+                            .navigationTitle("profile.change_password.title")
                     }
                 }
         }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .editProfile:
-                Text("Edit profile — coming soon")
+                Text("profile.edit.coming_soon")
                     .presentationDetents([.large])
             }
         }
         .confirmationDialog(
-            "Are you sure you want to log out?",
+            "profile.logout_confirmation.title",
             isPresented: Binding(
                 get: { router.confirmationDialog != nil },
                 set: { if !$0 { router.confirmationDialog = nil } }
             ),
             titleVisibility: .visible
         ) {
-            Button("Log out", role: .destructive) {
+            Button("profile.logout_confirmation.button", role: .destructive) {
                 viewModel.confirmLogout()
             }
-            Button("Cancel", role: .cancel) {}
+            Button("common.cancel", role: .cancel) {}
         }
         .alert(item: $router.alert) { alert in
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("common.ok"))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .profile))) { _ in

@@ -7,10 +7,11 @@
 
 struct StudentGroupDTO: Decodable {
     let calendarId: String?
-    let course: Int
+    let course: Int?
     let educationDegree: Int
     let facultyAbbrev: String
     let facultyId: Int
+    let facultyName: String?
     let id: Int
     let name: String
     let specialityAbbrev: String
