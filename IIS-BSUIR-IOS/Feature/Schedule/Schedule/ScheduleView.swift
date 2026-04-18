@@ -49,9 +49,27 @@ struct ScheduleView<EmptyState: View>: View {
             } else if viewModel.displayMode == .weekly {
                 weeklyScheduleList
             } else if viewModel.displayMode == .exams {
-                ExamsScheduleView(viewModel: viewModel)
+
+                TimelineScheduleView(viewModel: viewModel, days: viewModel.examsDays) {
+                    ContentUnavailableView(
+                        "schedule.no_exams.title",
+                        systemImage: Constants.Icons.modeExams,
+                        description: Text("schedule.no_exams.description \(viewModel.selectedSubject?.displayName ?? "")")
+                    )
+                }
             } else {
-                TimelineScheduleView(viewModel: viewModel)
+                TimelineScheduleView(
+                    viewModel: viewModel,
+                    days: viewModel.timelineDays,
+                    isExhausted: viewModel.timelineExhausted,
+                    onLoadMore: { viewModel.loadMoreTimelineDays() }
+                ) {
+                    ContentUnavailableView(
+                        "schedule.no_classes.title",
+                        systemImage: Constants.Icons.noClasses,
+                        description: Text("schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")")
+                    )
+                }
             }
         }
         .navigationTitle(viewModel.navigationTitle)

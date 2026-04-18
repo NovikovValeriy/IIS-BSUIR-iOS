@@ -12,24 +12,21 @@ private enum Constants {
         static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
         static let sentinelHeight: CGFloat = 1
     }
-    enum Icons {
-        static let noClasses = "calendar"
-    }
 }
 
-struct TimelineScheduleView: View {
+struct TimelineScheduleView<EmptyState: View>: View {
     var viewModel: ScheduleViewModel
+    var days: [TimelineDay]
+    var isExhausted: Bool = true
+    var onLoadMore: (() -> Void)? = nil
+    @ViewBuilder var emptyState: () -> EmptyState
 
     var body: some View {
-        if viewModel.timelineDays.isEmpty {
-            ContentUnavailableView(
-                "schedule.no_classes.title",
-                systemImage: Constants.Icons.noClasses,
-                description: Text("schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")")
-            )
+        if days.isEmpty {
+            emptyState()
         } else {
             List {
-                ForEach(viewModel.timelineDays) { day in
+                ForEach(days) { day in
                     Section(viewModel.sectionTitle(for: day)) {
                         ForEach(day.lessons, id: \.self) { lesson in
                             Button {
@@ -45,15 +42,13 @@ struct TimelineScheduleView: View {
                     }
                 }
 
-                if !viewModel.timelineExhausted {
+                if !isExhausted, let onLoadMore {
                     Color.clear
                         .frame(height: Constants.Layout.sentinelHeight)
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
-                        .onAppear {
-                            viewModel.loadMoreTimelineDays()
-                        }
+                        .onAppear { onLoadMore() }
                 }
             }
             .listStyle(.plain)
