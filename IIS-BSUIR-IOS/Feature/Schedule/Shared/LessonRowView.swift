@@ -24,9 +24,11 @@ private enum Constants {
         static let timeColumnWidth: CGFloat = 50
         static let timeColumnSpacing: CGFloat = 4
         static let stripeWidth: CGFloat = 8
+        static let notePaddingVertical: CGFloat = 8
     }
     enum Colors {
         static let cardBackground = Color(.secondarySystemGroupedBackground)
+        static let noteBackground = Color(.tertiarySystemGroupedBackground)
         static let shadowColor = Color.black.opacity(0.05)
     }
     enum Icons {
@@ -42,6 +44,17 @@ struct LessonRowView: View {
     var showGroups: Bool = false
 
     var body: some View {
+        VStack(spacing: -Constants.Layout.cardCornerRadius) {
+            mainCard
+                .zIndex(1)
+            if let note = lesson.note, !note.isEmpty {
+                noteCard(note)
+                    .zIndex(0)
+            }
+        }
+    }
+
+    private var mainCard: some View {
         HStack(alignment: .center, spacing: 0) {
             LessonTypeColors.color(forType: lesson.lessonTypeAbbrev, isAnnouncement: lesson.announcement)
                 .frame(width: Constants.Layout.stripeWidth)
@@ -105,6 +118,24 @@ struct LessonRowView: View {
             x: 0,
             y: Constants.Layout.shadowOffsetY
         )
+    }
+
+    private func noteCard(_ note: String) -> some View {
+        Text(note)
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .lineLimit(2)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, Constants.Layout.cardPadding)
+            .padding(.top, Constants.Layout.cardCornerRadius + Constants.Layout.notePaddingVertical)
+            .padding(.bottom, Constants.Layout.notePaddingVertical)
+            .background(Constants.Colors.noteBackground)
+            .clipShape(UnevenRoundedRectangle(
+                topLeadingRadius: 0,
+                bottomLeadingRadius: Constants.Layout.cardCornerRadius,
+                bottomTrailingRadius: Constants.Layout.cardCornerRadius,
+                topTrailingRadius: 0
+            ))
     }
 
     private var timeColumn: some View {
