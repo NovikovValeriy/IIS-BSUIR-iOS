@@ -13,10 +13,8 @@ extension Container {
         self { @MainActor in AuthState() }.shared
     }
 
-    // MARK: - Swap these two lines when real networking is ready
     var authService: Factory<any AuthServiceProtocol> {
-        self { @MainActor in MockAuthService() }.shared
-        // self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.shared
+         self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.shared
     }
 
     var storage: Factory<any StorageProtocol> {
@@ -41,7 +39,7 @@ extension Container {
             let delegate = BsuirTLSDelegate()
             let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
             return DefaultAPIClient(
-                baseURL: URL(string: "https://iis.bsuir.by")!,
+                baseURL: URL(string: "https://iis.bsuir.by/api/v1")!,
                 keychain: self.keychain(),
                 session: session
             )
