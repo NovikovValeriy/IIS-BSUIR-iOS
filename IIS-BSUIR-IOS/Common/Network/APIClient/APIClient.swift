@@ -14,6 +14,26 @@ protocol APIClient {
 }
 
 extension APIClient {
+    func sendRequest(
+        path: String,
+        httpMethod: HTTPMethod,
+        queryParams: [String: String]? = nil,
+        body: APIRequestBody? = nil,
+        additionalHeaders: [String: String] = [:]
+    ) async throws(APIError) {
+        let request = try self.buildRequest(
+            path: path,
+            method: httpMethod,
+            queryParams: queryParams,
+            body: body,
+            additionalHeaders: additionalHeaders
+        )
+        let response = try? await self.send(request: request)
+        guard let response, (200...299).contains(response.statusCode) else {
+            throw APIError.networkError(statusCode: response?.statusCode ?? 400)
+        }
+    }
+
     func sendRequest<T: Decodable>(
         path: String,
         httpMethod: HTTPMethod,

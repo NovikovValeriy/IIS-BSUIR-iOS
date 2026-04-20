@@ -52,7 +52,6 @@ final class KeychainService {
     func delete(forKey key: String) {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
             kSecAttrAccount as String: key
         ]
         SecItemDelete(query as CFDictionary)
@@ -60,8 +59,7 @@ final class KeychainService {
 
     func clearAll() {
         let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service
+            kSecClass as String: kSecClassGenericPassword
         ]
         SecItemDelete(query as CFDictionary)
     }

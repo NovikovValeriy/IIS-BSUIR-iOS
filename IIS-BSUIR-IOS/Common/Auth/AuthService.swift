@@ -26,7 +26,7 @@ final class AuthService: AuthServiceProtocol {
 
     func login(username: String, password: String, rememberDevice: Bool) async throws -> User {
         let body = LoginRequestDTO(username: username, password: password, rememberDevice: rememberDevice)
-        let (response, apiResponse): (LoginResponseDTO, APIResponse) = try await apiClient.sendRequestWithAPIResponse(
+        let (_, apiResponse): (LoginResponseDTO, APIResponse) = try await apiClient.sendRequestWithAPIResponse(
             path: "/auth/login",
             httpMethod: .POST,
             body: .jsonBody(body)
@@ -35,10 +35,14 @@ final class AuthService: AuthServiceProtocol {
         if let jsessionId = apiResponse.jsessionId {
             keychain.save(jsessionId, forKey: KeychainService.Keys.authToken)
         }
-        return response.toDomain()
+        return try await self.getPersonalProfile(username: username)
     }
 
     func logout() async {
+        try? await apiClient.sendRequest(
+            path: "/auth/logout",
+            httpMethod: .GET
+        )
         keychain.clearAll()
     }
 
@@ -47,15 +51,19 @@ final class AuthService: AuthServiceProtocol {
             return nil
         }
         do {
-            let profile: AccountProfileDTO = try await apiClient.sendRequest(
-                path: "/profiles/personal-profile",
-                httpMethod: .GET
-            )
-            return profile.toDomain(username: username)
+            return try await self.getPersonalProfile(username: username)
         } catch {
-            keychain.delete(forKey: KeychainService.Keys.authToken)
+            keychain.clearAll()
             return nil
         }
+    }
+
+    private func getPersonalProfile(username: String) async throws -> User {
+        let profile: AccountProfileDTO = try await apiClient.sendRequest(
+            path: "/profiles/personal-profile",
+            httpMethod: .GET
+        )
+        return profile.toDomain(username: username)
     }
 }
 
@@ -75,23 +83,6 @@ private extension AccountProfileDTO {
             canStudentNote: false,
             hasNotConfirmedContact: false,
             authorities: []
-        )
-    }
-}
-
-private extension LoginResponseDTO {
-    func toDomain() -> User {
-        User(
-            username: username,
-            fio: fio,
-            group: group,
-            email: email,
-            phone: phone,
-            photoUrl: photoUrl,
-            isGroupHead: isGroupHead,
-            canStudentNote: canStudentNote,
-            hasNotConfirmedContact: hasNotConfirmedContact,
-            authorities: authorities
         )
     }
 }
