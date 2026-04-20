@@ -26,7 +26,7 @@ private enum Constants {
 }
 
 private enum LoginField {
-    case username, passwordHidden, passwordVisible
+    case username, password
 }
 
 struct LoginView: View {
@@ -49,7 +49,7 @@ struct LoginView: View {
                     .textInputAutocapitalization(.never)
                     .submitLabel(.next)
                     .focused($focusedField, equals: .username)
-                    .onSubmit { focusedField = .passwordHidden }
+                    .onSubmit { focusedField = .password }
                     .padding(.horizontal, Constants.Layout.fieldHorizontalPadding)
                     .frame(height: Constants.Layout.fieldHeight)
                     .background(
@@ -103,25 +103,13 @@ struct LoginView: View {
 
     private var passwordField: some View {
         ZStack(alignment: .trailing) {
-            ZStack {
-                // Both fields live in the hierarchy at all times so toggling
-                // visibility never destroys/recreates the focused view.
-                SecureField("auth.password.placeholder", text: $viewModel.password)
-                    .textContentType(.password)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .focused($focusedField, equals: .passwordHidden)
-                    .opacity(isPasswordVisible ? 0 : 1)
-                    .allowsHitTesting(!isPasswordVisible)
-
-                TextField("auth.password.placeholder", text: $viewModel.password)
-                    .textContentType(.password)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .focused($focusedField, equals: .passwordVisible)
-                    .opacity(isPasswordVisible ? 1 : 0)
-                    .allowsHitTesting(isPasswordVisible)
-            }
+            PasswordTextField(
+                placeholder: String(localized: "auth.password.placeholder"),
+                text: $viewModel.password,
+                isSecure: !isPasswordVisible,
+                onSubmit: { Task { await viewModel.login() } }
+            )
+            .focused($focusedField, equals: .password)
             .padding(.horizontal, Constants.Layout.fieldHorizontalPadding)
             .padding(.trailing, Constants.Layout.eyeButtonWidth)
             .frame(height: Constants.Layout.fieldHeight)
@@ -129,15 +117,9 @@ struct LoginView: View {
                 Color(.secondarySystemBackground),
                 in: RoundedRectangle(cornerRadius: Constants.Layout.fieldCornerRadius)
             )
-            .submitLabel(.send)
-            .onSubmit {
-                Task { await viewModel.login() }
-            }
 
             Button {
                 isPasswordVisible.toggle()
-                guard focusedField == .passwordVisible || focusedField == .passwordHidden else { return }
-                focusedField = isPasswordVisible ? .passwordVisible : .passwordHidden
             } label: {
                 Image(systemName: isPasswordVisible ? Constants.Icons.hidePassword : Constants.Icons.showPassword)
                     .foregroundStyle(.secondary)
