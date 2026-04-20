@@ -43,23 +43,41 @@ final class AuthService: AuthServiceProtocol {
     }
 
     func validateStoredSession() async -> User? {
-        guard keychain.load(forKey: KeychainService.Keys.username) != nil else {
+        guard let username = keychain.load(forKey: KeychainService.Keys.username) else {
             return nil
         }
         do {
-            let profile: LoginResponseDTO = try await apiClient.sendRequest(
-                path: "/profile/me",
+            let profile: AccountProfileDTO = try await apiClient.sendRequest(
+                path: "/profiles/personal-profile",
                 httpMethod: .GET
             )
-            return profile.toDomain()
+            return profile.toDomain(username: username)
         } catch {
-            keychain.clearAll()
+            keychain.delete(forKey: KeychainService.Keys.authToken)
             return nil
         }
     }
 }
 
 // MARK: - Mapping
+
+private extension AccountProfileDTO {
+    func toDomain(username: String) -> User {
+        let nameParts = [lastName, firstName, middleName].compactMap { $0 }
+        return User(
+            username: username,
+            fio: nameParts.joined(separator: " "),
+            group: studentGroup ?? "",
+            email: officeEmail,
+            phone: "",
+            photoUrl: photoUrl,
+            isGroupHead: false,
+            canStudentNote: false,
+            hasNotConfirmedContact: false,
+            authorities: []
+        )
+    }
+}
 
 private extension LoginResponseDTO {
     func toDomain() -> User {

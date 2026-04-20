@@ -46,7 +46,7 @@ final class DefaultAPIClient: APIClient {
             "Accept": "application/json"
         ]
         if let token = keychain.load(forKey: KeychainService.Keys.authToken) {
-            headers["Cookie"] = "JSESSIONID=\(token)"
+            headers["Cookie"] = "SESSION=\(token)"
         }
         additionalHeaders.forEach { headers[$0.key] = $0.value }
         return headers

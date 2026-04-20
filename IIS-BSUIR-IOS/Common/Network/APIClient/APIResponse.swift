@@ -15,7 +15,8 @@ struct APIResponse {
 
 extension APIResponse {
     var jsessionId: String? {
-        guard let cookie = headers["Set-Cookie"] else { return nil }
+        let cookie = headers.first(where: { $0.key.lowercased() == "set-cookie" })?.value
+        guard let cookie else { return nil }
         return cookie
             .components(separatedBy: ";")
             .first?
