@@ -10,14 +10,30 @@ import Factory
 
 private enum Constants {
     enum Layout {
-        static let outerSpacing: CGFloat = 24
-        static let fieldSpacing: CGFloat = 16
-        static let buttonHeight: CGFloat = 44
+        static let outerSpacing: CGFloat = 32
+        static let fieldSpacing: CGFloat = 12
+        static let buttonHeight: CGFloat = 50
+        static let fieldHeight: CGFloat = 54
+        static let fieldCornerRadius: CGFloat = 12
+        static let fieldHorizontalPadding: CGFloat = 14
+        static let eyeButtonWidth: CGFloat = 44
+        static let keyboardOffset: CGFloat = 120
     }
+    enum Icons {
+        static let showPassword = "eye"
+        static let hidePassword = "eye.slash"
+    }
+}
+
+private enum LoginField {
+    case username, passwordHidden, passwordVisible
 }
 
 struct LoginView: View {
     @State private var viewModel: LoginViewModel = Container.shared.loginViewModel()
+    @State private var isPasswordVisible: Bool = false
+    @State private var keyboardVisible: Bool = false
+    @FocusState private var focusedField: LoginField?
 
     var body: some View {
         VStack(spacing: Constants.Layout.outerSpacing) {
@@ -31,13 +47,17 @@ struct LoginView: View {
                     .textContentType(.username)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
-                    .textFieldStyle(.roundedBorder)
+                    .submitLabel(.next)
+                    .focused($focusedField, equals: .username)
+                    .onSubmit { focusedField = .passwordHidden }
+                    .padding(.horizontal, Constants.Layout.fieldHorizontalPadding)
+                    .frame(height: Constants.Layout.fieldHeight)
+                    .background(
+                        Color(.secondarySystemBackground),
+                        in: RoundedRectangle(cornerRadius: Constants.Layout.fieldCornerRadius)
+                    )
 
-                SecureField("auth.password.placeholder", text: $viewModel.password)
-                    .textContentType(.password)
-                    .textFieldStyle(.roundedBorder)
-
-                Toggle("auth.remember_device", isOn: $viewModel.rememberDevice)
+                passwordField
             }
             .padding(.horizontal)
 
@@ -58,14 +78,71 @@ struct LoginView: View {
             .disabled(!viewModel.canSubmit)
             .padding(.horizontal)
 
-            Button("auth.forgot_password.button") {
-                viewModel.didTapForgotPassword()
-            }
-            .font(.footnote)
-
             Spacer()
         }
+        .contentShape(Rectangle())
+        .onTapGesture { focusedField = nil }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 30)
+                .onEnded { value in
+                    if value.translation.height > 0 { focusedField = nil }
+                }
+        )
+        .offset(y: keyboardVisible ? -Constants.Layout.keyboardOffset : 0)
+        .animation(.easeInOut(duration: 0.25), value: keyboardVisible)
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+            keyboardVisible = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            keyboardVisible = false
+        }
+        .ignoresSafeArea(.keyboard)
         .navigationTitle("auth.sign_in.title")
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var passwordField: some View {
+        ZStack(alignment: .trailing) {
+            ZStack {
+                // Both fields live in the hierarchy at all times so toggling
+                // visibility never destroys/recreates the focused view.
+                SecureField("auth.password.placeholder", text: $viewModel.password)
+                    .textContentType(.password)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .focused($focusedField, equals: .passwordHidden)
+                    .opacity(isPasswordVisible ? 0 : 1)
+                    .allowsHitTesting(!isPasswordVisible)
+
+                TextField("auth.password.placeholder", text: $viewModel.password)
+                    .textContentType(.password)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .focused($focusedField, equals: .passwordVisible)
+                    .opacity(isPasswordVisible ? 1 : 0)
+                    .allowsHitTesting(isPasswordVisible)
+            }
+            .padding(.horizontal, Constants.Layout.fieldHorizontalPadding)
+            .padding(.trailing, Constants.Layout.eyeButtonWidth)
+            .frame(height: Constants.Layout.fieldHeight)
+            .background(
+                Color(.secondarySystemBackground),
+                in: RoundedRectangle(cornerRadius: Constants.Layout.fieldCornerRadius)
+            )
+            .submitLabel(.send)
+            .onSubmit {
+                Task { await viewModel.login() }
+            }
+
+            Button {
+                isPasswordVisible.toggle()
+                guard focusedField == .passwordVisible || focusedField == .passwordHidden else { return }
+                focusedField = isPasswordVisible ? .passwordVisible : .passwordHidden
+            } label: {
+                Image(systemName: isPasswordVisible ? Constants.Icons.hidePassword : Constants.Icons.showPassword)
+                    .foregroundStyle(.secondary)
+                    .frame(width: Constants.Layout.eyeButtonWidth, height: Constants.Layout.fieldHeight)
+            }
+        }
     }
 }

@@ -7,9 +7,7 @@
 
 import Foundation
 
-enum AuthDestination: Hashable {
-    case forgotPassword
-}
+enum AuthDestination: Hashable {}
 
 enum AuthSheet: Identifiable {
     case confirmContact

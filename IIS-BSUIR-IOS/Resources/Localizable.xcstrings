@@ -17,36 +17,6 @@
         }
       }
     },
-    "auth.forgot_password.button" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forgot password?"
-          }
-        }
-      }
-    },
-    "auth.forgot_password.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password reset is not yet implemented."
-          }
-        }
-      }
-    },
-    "auth.forgot_password.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forgot Password"
-          }
-        }
-      }
-    },
     "auth.password.placeholder" : {
       "localizations" : {
         "en" : {
@@ -58,6 +28,7 @@
       }
     },
     "auth.remember_device" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
