@@ -7,20 +7,7 @@
 
 import Foundation
 
-enum ProfileDestination: Hashable {
-    case grades
-    case notifications
-    case dormitory
-    case documents
-    case contacts
-    case changePassword
-}
-
-enum ProfileSheet: Identifiable {
-    case editProfile
-
-    var id: String { "\(self)" }
-}
+enum ProfileDestination: Hashable {}
 
 enum ProfileConfirmationDialog: Identifiable {
     case logout

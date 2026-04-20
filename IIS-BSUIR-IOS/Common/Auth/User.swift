@@ -9,6 +9,11 @@ struct User {
     let username: String
     let fio: String
     let group: String
+    let faculty: String?
+    let speciality: String?
+    let course: Int?
+    let rating: Int?
+    let birthDate: String?
     let email: String?
     let phone: String
     let photoUrl: String?
