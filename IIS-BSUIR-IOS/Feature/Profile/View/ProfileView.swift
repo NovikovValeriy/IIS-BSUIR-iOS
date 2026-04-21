@@ -136,8 +136,7 @@ struct ProfileView: View {
         let rawBase64 = base64.flatMap { $0.components(separatedBy: ",").last }
         if let rawBase64,
            let data = Data(base64Encoded: rawBase64, options: .ignoreUnknownCharacters),
-           let uiImage = UIImage(data: data)
-        {
+           let uiImage = UIImage(data: data) {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFill()

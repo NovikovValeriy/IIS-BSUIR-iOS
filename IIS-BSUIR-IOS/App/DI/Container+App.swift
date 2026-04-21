@@ -10,11 +10,11 @@ import Factory
 
 extension Container {
     var authState: Factory<AuthState> {
-        self { @MainActor in AuthState() }.shared
+        self { @MainActor in AuthState() }.singleton
     }
 
     var authService: Factory<any AuthServiceProtocol> {
-         self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.shared
+         self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.singleton
     }
 
     var storage: Factory<any StorageProtocol> {
@@ -22,7 +22,7 @@ extension Container {
     }
 
     var appCoordinator: Factory<AppCoordinator> {
-        self { @MainActor in AppCoordinator(authState: self.authState(), authService: self.authService()) }.shared
+        self { @MainActor in AppCoordinator(authState: self.authState(), authService: self.authService()) }.singleton
     }
 
     var tabCoordinator: Factory<TabCoordinator> {

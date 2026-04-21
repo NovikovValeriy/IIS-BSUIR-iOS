@@ -62,6 +62,7 @@ struct LoginView: View {
             .padding(.horizontal)
 
             Button {
+                focusedField = nil
                 Task { await viewModel.login() }
             } label: {
                 Group {
@@ -107,7 +108,10 @@ struct LoginView: View {
                 placeholder: String(localized: "auth.password.placeholder"),
                 text: $viewModel.password,
                 isSecure: !isPasswordVisible,
-                onSubmit: { Task { await viewModel.login() } }
+                onSubmit: {
+                    focusedField = nil
+                    Task { await viewModel.login() }
+                }
             )
             .focused($focusedField, equals: .password)
             .padding(.horizontal, Constants.Layout.fieldHorizontalPadding)
