@@ -23,6 +23,7 @@ private enum Constants {
         static let starFilled = "star.fill"
         static let starEmpty = "star"
         static let logout = "rectangle.portrait.and.arrow.right"
+        static let gradeBook = "graduationcap"
     }
     enum Colors {
         static let avatarBackground = Color(.secondarySystemGroupedBackground)
@@ -72,6 +73,13 @@ struct ProfileView: View {
                 }
             }
 
+            Section {
+                Button {
+                    viewModel.didTapGradeBook()
+                } label: {
+                    Label("grades.title", systemImage: Constants.Icons.gradeBook)
+                }
+            }
         }
         .navigationTitle("profile.title")
         .navigationBarTitleDisplayMode(.inline)

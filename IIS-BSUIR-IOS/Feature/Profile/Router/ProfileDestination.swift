@@ -7,7 +7,9 @@
 
 import Foundation
 
-enum ProfileDestination: Hashable {}
+enum ProfileDestination: Hashable {
+    case gradeBook
+}
 
 enum ProfileConfirmationDialog: Identifiable {
     case logout

@@ -39,6 +39,10 @@ final class ProfileViewModel {
         router.present(confirmationDialog: .logout)
     }
 
+    func didTapGradeBook() {
+        router.navigateToGradeBook()
+    }
+
     func confirmLogout() {
         appCoordinator.userDidLogout()
     }

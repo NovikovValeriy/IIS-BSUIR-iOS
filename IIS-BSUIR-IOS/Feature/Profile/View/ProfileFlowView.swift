@@ -15,6 +15,12 @@ struct ProfileFlowView: View {
     var body: some View {
         NavigationStack(path: $router.path) {
             ProfileView()
+                .navigationDestination(for: ProfileDestination.self) { destination in
+                    switch destination {
+                    case .gradeBook:
+                        GradeBookView()
+                    }
+                }
         }
         .alert(
             "profile.logout_confirmation.title",

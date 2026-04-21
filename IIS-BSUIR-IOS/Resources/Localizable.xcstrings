@@ -4,6 +4,16 @@
     "…" : {
 
     },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -108,52 +118,117 @@
         }
       }
     },
-    "grades.coming_soon" : {
-      "extractionState" : "stale",
+    "grades.average %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grades screen coming soon."
+            "value" : "avg %@"
           }
         }
       }
     },
-    "grades.grade_book_detail %@" : {
-      "extractionState" : "stale",
+    "grades.credits %lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grade book: %@"
+            "value" : "%lldcr"
           }
         }
       }
     },
-    "grades.omissions" : {
-      "extractionState" : "stale",
+    "grades.empty.title" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omissions"
+            "value" : "No grade book data"
           }
         }
       }
     },
-    "grades.semester_picker.coming_soon" : {
-      "extractionState" : "stale",
+    "grades.footer.label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Semester picker — coming soon"
+            "value" : "Average in 4 years:"
+          }
+        }
+      }
+    },
+    "grades.footer.retakes %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%% retakes"
+          }
+        }
+      }
+    },
+    "grades.hours %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@h"
+          }
+        }
+      }
+    },
+    "grades.markbook.number %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No. %@"
+          }
+        }
+      }
+    },
+    "grades.no_mark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "—"
+          }
+        }
+      }
+    },
+    "grades.retakes %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "↺ %lld"
+          }
+        }
+      }
+    },
+    "grades.semester %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semester %lld"
+          }
+        }
+      }
+    },
+    "grades.semester.short %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem %lld"
           }
         }
       }
     },
     "grades.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
