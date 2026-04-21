@@ -21,6 +21,15 @@ private enum Constants {
     }
 }
 
+private extension Double {
+    var formattedAverage: String {
+        var result = String(format: "%.2f", self)
+        while result.hasSuffix("0") { result.removeLast() }
+        if result.hasSuffix(".") { result.removeLast() }
+        return result
+    }
+}
+
 struct GradeBookView: View {
     @State private var viewModel: GradeBookViewModel = Container.shared.gradeBookViewModel()
 
@@ -60,15 +69,22 @@ struct GradeBookView: View {
     private var summaryStrip: some View {
         Group {
             if let markBook = viewModel.markBook {
-                HStack {
-                    Text(String(format: String(localized: "grades.markbook.number %@"), markBook.number))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("grades.markbook.number.label")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(markBook.number)
+                            .font(.title3.bold())
+                    }
                     Spacer()
-                    let avgString = String(format: "%.1f", markBook.averageMark)
-                    Text(String(format: String(localized: "grades.average %@"), avgString))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text("grades.total.average.label")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text(markBook.averageMark.formattedAverage)
+                            .font(.title3.bold())
+                    }
                 }
                 .padding(.horizontal, Constants.Layout.summaryHorizontalPadding)
                 .padding(.vertical, Constants.Layout.summaryVerticalPadding)
@@ -115,7 +131,7 @@ struct GradeBookView: View {
                         .listRowInsets(Constants.Layout.rowInsets)
                 }
             } header: {
-                let avgString = String(format: "%.1f", semester.averageMark)
+                let avgString = semester.averageMark.formattedAverage
                 HStack {
                     Text(String(format: String(localized: "grades.semester %lld"), semester.semester))
                     Spacer()
@@ -128,5 +144,6 @@ struct GradeBookView: View {
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
+        .scrollIndicators(.hidden)
     }
 }

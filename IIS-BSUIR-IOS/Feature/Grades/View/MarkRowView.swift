@@ -22,6 +22,15 @@ private enum Constants {
     }
 }
 
+private extension Double {
+    var formattedAverage: String {
+        var result = String(format: "%.2f", self)
+        while result.hasSuffix("0") { result.removeLast() }
+        if result.hasSuffix(".") { result.removeLast() }
+        return result
+    }
+}
+
 struct MarkRowView: View {
     let mark: Mark
 
@@ -110,7 +119,7 @@ struct MarkRowView: View {
             Spacer()
 
             Group {
-                let avgPart = mark.commonMark.map { String(format: "%.1f", $0) }
+                let avgPart = mark.commonMark.map { $0.formattedAverage }
                 let retakesPart = mark.commonRetakes.map { pct -> String in
                     let pctStr = pct.truncatingRemainder(dividingBy: 1) == 0
                         ? String(format: "%.0f", pct)
