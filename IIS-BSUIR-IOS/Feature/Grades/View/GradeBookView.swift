@@ -10,14 +10,14 @@ import Factory
 
 private enum Constants {
     enum Layout {
-        static let pickerVerticalPadding: CGFloat = 10
+        static let summaryHorizontalPadding: CGFloat = 16
+        static let summaryVerticalPadding: CGFloat = 10
+        static let pickerVerticalPadding: CGFloat = 8
         static let pickerHorizontalPadding: CGFloat = 16
         static let pickerSpacing: CGFloat = 8
         static let pillHorizontalPadding: CGFloat = 14
         static let pillVerticalPadding: CGFloat = 7
-        static let pillCornerRadius: CGFloat = 20
         static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
-        static let summaryRowInsets = EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16)
     }
 }
 
@@ -41,16 +41,39 @@ struct GradeBookView: View {
 
     private var loadedView: some View {
         VStack(spacing: 0) {
+            summaryStrip
+
             semesterPicker
-            Divider()
-            List {
-                summaryRow
-                marksSection
+
+            TabView(selection: $viewModel.selectedSemesterIndex) {
+                ForEach(viewModel.semesters.indices, id: \.self) { index in
+                    semesterList(for: viewModel.semesters[index])
+                        .tag(index)
+                }
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(.easeInOut(duration: 0.25), value: viewModel.selectedSemesterIndex)
         }
         .background(Color(.systemGroupedBackground))
+    }
+
+    private var summaryStrip: some View {
+        Group {
+            if let markBook = viewModel.markBook {
+                HStack {
+                    Text(String(format: String(localized: "grades.markbook.number %@"), markBook.number))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    let avgString = String(format: "%.1f", markBook.averageMark)
+                    Text(String(format: String(localized: "grades.average %@"), avgString))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, Constants.Layout.summaryHorizontalPadding)
+                .padding(.vertical, Constants.Layout.summaryVerticalPadding)
+            }
+        }
     }
 
     private var semesterPicker: some View {
@@ -60,7 +83,7 @@ struct GradeBookView: View {
                     let semester = viewModel.semesters[index]
                     let isSelected = viewModel.selectedSemesterIndex == index
                     Button {
-                        withAnimation(.easeInOut(duration: 0.2)) {
+                        withAnimation(.easeInOut(duration: 0.25)) {
                             viewModel.selectedSemesterIndex = index
                         }
                     } label: {
@@ -80,32 +103,10 @@ struct GradeBookView: View {
             .padding(.horizontal, Constants.Layout.pickerHorizontalPadding)
             .padding(.vertical, Constants.Layout.pickerVerticalPadding)
         }
-        .background(Color(.systemGroupedBackground))
     }
 
-    private var summaryRow: some View {
-        Group {
-            if let markBook = viewModel.markBook {
-                HStack {
-                    Text(String(format: String(localized: "grades.markbook.number %@"), markBook.number))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    let avgString = String(format: "%.1f", markBook.averageMark)
-                    Text(String(format: String(localized: "grades.average %@"), avgString))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
-        .listRowBackground(Color.clear)
-        .listRowSeparator(.hidden)
-        .listRowInsets(Constants.Layout.summaryRowInsets)
-    }
-
-    @ViewBuilder
-    private var marksSection: some View {
-        if let semester = viewModel.currentSemester {
+    private func semesterList(for semester: MarkBookSemester) -> some View {
+        List {
             Section {
                 ForEach(semester.marks.indices, id: \.self) { index in
                     MarkRowView(mark: semester.marks[index])
@@ -125,5 +126,7 @@ struct GradeBookView: View {
                 .textCase(nil)
             }
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
     }
 }
