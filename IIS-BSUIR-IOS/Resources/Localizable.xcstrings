@@ -804,16 +804,6 @@
         }
       }
     },
-    "schedule.offline.banner" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Showing cached schedule"
-          }
-        }
-      }
-    },
     "schedule.error.load_groups" : {
       "localizations" : {
         "en" : {
@@ -973,6 +963,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Schedule Selected"
+          }
+        }
+      }
+    },
+    "schedule.offline.banner" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No network connection"
           }
         }
       }

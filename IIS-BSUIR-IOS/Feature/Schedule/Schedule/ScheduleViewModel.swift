@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import Network
+
+// swiftlint:disable type_body_length
 
 @Observable
 @MainActor
@@ -58,6 +61,9 @@ class ScheduleViewModel {
 
     @ObservationIgnored
     private var loadScheduleTask: Task<Void, Never>?
+
+    @ObservationIgnored
+    private var pathMonitor: NWPathMonitor?
 
     // MARK: - Date formatters
 
@@ -121,10 +127,15 @@ class ScheduleViewModel {
         self.subgroupFilter = storage?.value(for: .scheduleSubgroupFilter) ?? .all
     }
 
+    deinit {
+        pathMonitor?.cancel()
+    }
+
     // MARK: - Lifecycle
 
     func onAppear() {
         Task { await loadCurrentWeek() }
+        startNetworkMonitor()
     }
 
     // MARK: - Actions
@@ -223,9 +234,34 @@ class ScheduleViewModel {
         timelineDays = []
         examsDays = []
         isOfflineFallback = false
+        stopNetworkMonitor()
     }
 
     // MARK: - Private
+
+    private func startNetworkMonitor() {
+        guard pathMonitor == nil else { return }
+        let monitor = NWPathMonitor()
+        pathMonitor = monitor
+        monitor.pathUpdateHandler = { [weak self] path in
+            guard path.status == .satisfied else { return }
+            Task { @MainActor [weak self] in self?.retryIfOffline() }
+        }
+        monitor.start(queue: .global(qos: .utility))
+    }
+
+    private func stopNetworkMonitor() {
+        pathMonitor?.cancel()
+        pathMonitor = nil
+    }
+
+    private func retryIfOffline() {
+        guard isOfflineFallback || (errorMessage != nil && schedule == nil) else { return }
+        guard let subject = selectedSubject else { return }
+        loadScheduleTask?.cancel()
+        Task { await loadCurrentWeek() }
+        loadScheduleTask = Task { await loadSchedule(for: subject) }
+    }
 
     private func loadSchedule(for subject: ScheduleSubject) async {
         defer { isLoadingSchedule = false }
@@ -450,3 +486,4 @@ class ScheduleViewModel {
         return ((semesterWeekForDate - 1) % 4) + 1
     }
 }
+// swiftlint:enable type_body_length
