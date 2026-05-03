@@ -138,6 +138,13 @@ class ScheduleViewModel {
         Task { await loadSchedule(for: subject) }
     }
 
+    func didPullToRefresh() async {
+        guard let subject = selectedSubject else { return }
+        loadScheduleTask?.cancel()
+        Task { await loadCurrentWeek() }
+        await loadSchedule(for: subject)
+    }
+
     /// Called when switching to timeline mode if no days are loaded yet.
     func ensureTimelineGenerated() {
         guard let schedule, timelineDays.isEmpty else { return }

@@ -54,7 +54,8 @@ struct ScheduleView<EmptyState: View>: View {
                     viewModel: viewModel,
                     days: viewModel.examsDays,
                     isExhausted: true,
-                    onLoadMore: nil
+                    onLoadMore: nil,
+                    onRefresh: { await viewModel.didPullToRefresh() }
                 ) {
                     ContentUnavailableView(
                         "schedule.no_exams.title",
@@ -72,6 +73,7 @@ struct ScheduleView<EmptyState: View>: View {
                     onLoadMore: {
                         viewModel.loadMoreTimelineDays()
                     },
+                    onRefresh: { await viewModel.didPullToRefresh() },
                     emptyState: {
                         ContentUnavailableView(
                             "schedule.no_classes.title",
@@ -153,6 +155,9 @@ struct ScheduleView<EmptyState: View>: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Color(.systemGroupedBackground))
+        .refreshable {
+            await viewModel.didPullToRefresh()
+        }
     }
 
     private var subgroupFilterPicker: some View {

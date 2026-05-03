@@ -19,6 +19,7 @@ struct TimelineScheduleView<EmptyState: View>: View {
     var days: [TimelineDay]
     var isExhausted: Bool
     var onLoadMore: (() -> Void)?
+    var onRefresh: (() async -> Void)?
     @ViewBuilder var emptyState: () -> EmptyState
 
     var body: some View {
@@ -54,6 +55,9 @@ struct TimelineScheduleView<EmptyState: View>: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .background(Color(.systemGroupedBackground))
+            .refreshable {
+                await onRefresh?()
+            }
         }
     }
 }
