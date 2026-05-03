@@ -804,6 +804,16 @@
         }
       }
     },
+    "schedule.offline.banner" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Showing cached schedule"
+          }
+        }
+      }
+    },
     "schedule.error.load_groups" : {
       "localizations" : {
         "en" : {

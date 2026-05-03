@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 16.04.26.
 //
 
-struct LessonGroup: Hashable {
+struct LessonGroup: Hashable, Codable {
     let name: String
     let specialityName: String?
     let specialityCode: String?

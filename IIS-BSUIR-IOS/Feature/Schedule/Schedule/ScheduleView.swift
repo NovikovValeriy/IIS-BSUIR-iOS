@@ -106,6 +106,13 @@ struct ScheduleView<EmptyState: View>: View {
                 break
             }
         }
+        .overlay(alignment: .bottom) {
+            if viewModel.isOfflineFallback {
+                OfflineBannerView()
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.isOfflineFallback)
+            }
+        }
     }
 
     // MARK: - Subviews

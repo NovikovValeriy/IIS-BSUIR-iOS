@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 16.04.26.
 //
 
-struct Schedule {
+struct Schedule: Codable, Equatable {
     // Keys are Russian weekday names: "Понедельник", "Вторник", etc.
     let weeklyLessons: [String: [Lesson]]
     let exams: [Lesson]

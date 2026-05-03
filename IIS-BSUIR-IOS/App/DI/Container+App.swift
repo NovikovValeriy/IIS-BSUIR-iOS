@@ -7,6 +7,7 @@
 
 import Foundation
 import Factory
+import SwiftData
 
 extension Container {
     var authState: Factory<AuthState> {
@@ -45,4 +46,18 @@ extension Container {
             )
         }.shared
     }
+
+    // swiftlint:disable force_try
+    var scheduleModelContainer: Factory<ModelContainer> {
+        self { @MainActor in
+            let schema = Schema([CachedScheduleEntry.self])
+            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            if let container = try? ModelContainer(for: schema, configurations: [config]) {
+                return container
+            }
+            let fallback = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+            return try! ModelContainer(for: schema, configurations: [fallback])
+        }.singleton
+    }
+    // swiftlint:enable force_try
 }

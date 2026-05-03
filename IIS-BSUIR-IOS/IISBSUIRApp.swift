@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
+import Factory
 
 @main
 struct IISBSUIRApp: App {
     var body: some Scene {
         WindowGroup {
             AppView()
+                .modelContainer(Container.shared.scheduleModelContainer())
         }
     }
 }
