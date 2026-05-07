@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import Network
+
+// swiftlint:disable type_body_length
 
 @Observable
 @MainActor
@@ -13,6 +16,7 @@ class ScheduleViewModel {
     let router: ScheduleRouter
     let scheduleService: any ScheduleServiceProtocol
     private let storage: (any StorageProtocol)?
+    private let cacheService: (any ScheduleCacheServiceProtocol)?
 
     // Ordered Russian weekday names matching the API
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
@@ -20,6 +24,7 @@ class ScheduleViewModel {
     var selectedSubject: ScheduleSubject?
     var lessons: [String: [Lesson]] = [:]
     var isLoadingSchedule = false
+    var isOfflineFallback = false
     var errorMessage: String?
 
     // MARK: - Display mode
@@ -53,6 +58,12 @@ class ScheduleViewModel {
     private var timelineLoadedUntil: Date = {
         Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
     }()
+
+    @ObservationIgnored
+    private var loadScheduleTask: Task<Void, Never>?
+
+    @ObservationIgnored
+    private var pathMonitor: NWPathMonitor?
 
     // MARK: - Date formatters
 
@@ -104,20 +115,27 @@ class ScheduleViewModel {
     init(
         router: ScheduleRouter,
         scheduleService: any ScheduleServiceProtocol,
-        storage: (any StorageProtocol)? = nil
+        storage: (any StorageProtocol)? = nil,
+        cacheService: (any ScheduleCacheServiceProtocol)? = nil
     ) {
         self.router = router
         self.scheduleService = scheduleService
         self.storage = storage
+        self.cacheService = cacheService
         // Restore persisted preferences — assignments in init do not trigger didSet.
         self.displayMode = storage?.value(for: .scheduleDisplayMode) ?? .timeline
         self.subgroupFilter = storage?.value(for: .scheduleSubgroupFilter) ?? .all
+    }
+
+    deinit {
+        pathMonitor?.cancel()
     }
 
     // MARK: - Lifecycle
 
     func onAppear() {
         Task { await loadCurrentWeek() }
+        startNetworkMonitor()
     }
 
     // MARK: - Actions
@@ -129,6 +147,13 @@ class ScheduleViewModel {
     func didTapRetry() {
         guard let subject = selectedSubject else { return }
         Task { await loadSchedule(for: subject) }
+    }
+
+    func didPullToRefresh() async {
+        guard let subject = selectedSubject else { return }
+        loadScheduleTask?.cancel()
+        Task { await loadCurrentWeek() }
+        await loadSchedule(for: subject)
     }
 
     /// Called when switching to timeline mode if no days are loaded yet.
@@ -186,60 +211,118 @@ class ScheduleViewModel {
     /// Resets stale schedule state and kicks off loading a new subject.
     /// Pass `resetFilter: true` when the user actively selects a new subject.
     func beginLoadingSubject(_ subject: ScheduleSubject, resetFilter: Bool = false) {
+        loadScheduleTask?.cancel()
         selectedSubject = subject
         schedule = nil
         lessons = [:]
         timelineDays = []
         examsDays = []
         timelineExhausted = false
+        isOfflineFallback = false
         timelineLoadedUntil = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
         if resetFilter { subgroupFilter = .all }
-        Task { await loadSchedule(for: subject) }
+        loadScheduleTask = Task { await loadSchedule(for: subject) }
     }
 
     /// Clears all schedule state without loading a new subject.
     func unloadSubject() {
+        loadScheduleTask?.cancel()
+        loadScheduleTask = nil
         selectedSubject = nil
         schedule = nil
         lessons = [:]
         timelineDays = []
         examsDays = []
+        isOfflineFallback = false
+        stopNetworkMonitor()
     }
 
     // MARK: - Private
 
-    private func loadSchedule(for subject: ScheduleSubject) async {
-        isLoadingSchedule = true
-        errorMessage = nil
-        do {
-            let loaded = try await scheduleService.fetchSchedule(for: subject)
-            schedule = loaded
-            lessons = filteredLessons(loaded.weeklyLessons)
-            switch displayMode {
-            case .timeline:
-                timelineDays = buildTimeline(from: loaded, until: timelineLoadedUntil)
-            case .exams:
-                examsDays = buildExamsTimeline(from: loaded)
-            case .weekly:
-                break
-            }
-        } catch {
-            errorMessage = String(localized: "schedule.error.load_schedule \(subject.displayName)")
-            lessons = [:]
+    private func startNetworkMonitor() {
+        guard pathMonitor == nil else { return }
+        let monitor = NWPathMonitor()
+        pathMonitor = monitor
+        monitor.pathUpdateHandler = { [weak self] path in
+            guard path.status == .satisfied else { return }
+            Task { @MainActor [weak self] in self?.retryIfOffline() }
         }
-        isLoadingSchedule = false
+        monitor.start(queue: .global(qos: .utility))
+    }
+
+    private func stopNetworkMonitor() {
+        pathMonitor?.cancel()
+        pathMonitor = nil
+    }
+
+    private func retryIfOffline() {
+        guard isOfflineFallback || (errorMessage != nil && schedule == nil) else { return }
+        guard let subject = selectedSubject else { return }
+        loadScheduleTask?.cancel()
+        Task { await loadCurrentWeek() }
+        loadScheduleTask = Task { await loadSchedule(for: subject) }
+    }
+
+    private func loadSchedule(for subject: ScheduleSubject) async {
+        defer { isLoadingSchedule = false }
+        errorMessage = nil
+
+        if let cached = cacheService?.loadCachedSchedule(for: subject) {
+            applySchedule(cached)
+        } else {
+            isLoadingSchedule = true
+        }
+
+        do {
+            let fresh = try await scheduleService.fetchSchedule(for: subject)
+            guard !Task.isCancelled else { return }
+            if schedule == nil || fresh != schedule {
+                applySchedule(fresh)
+            }
+            cacheService?.saveSchedule(fresh, for: subject)
+            isOfflineFallback = false
+        } catch {
+            guard !Task.isCancelled else { return }
+            if schedule != nil {
+                isOfflineFallback = true
+            } else {
+                errorMessage = String(localized: "schedule.error.load_schedule \(subject.displayName)")
+                lessons = [:]
+            }
+        }
+    }
+
+    private func applySchedule(_ loaded: Schedule) {
+        schedule = loaded
+        lessons = filteredLessons(loaded.weeklyLessons)
+        switch displayMode {
+        case .timeline:
+            timelineDays = buildTimeline(from: loaded, until: timelineLoadedUntil)
+        case .exams:
+            examsDays = buildExamsTimeline(from: loaded)
+        case .weekly:
+            break
+        }
     }
 
     private func loadCurrentWeek() async {
-        guard currentSemesterWeek == nil else { return }
-        do {
-            currentSemesterWeek = try await scheduleService.fetchCurrentWeek()
-            // If a schedule is already loaded and the timeline is visible, refresh it
+        if currentSemesterWeek == nil, let cached: Int = storage?.value(for: .currentSemesterWeek) {
+            currentSemesterWeek = cached
             if displayMode == .timeline, let schedule {
                 timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
             }
+        }
+        do {
+            let fresh = try await scheduleService.fetchCurrentWeek()
+            if fresh != currentSemesterWeek {
+                currentSemesterWeek = fresh
+                storage?.setValue(fresh, for: .currentSemesterWeek)
+                if displayMode == .timeline, let schedule {
+                    timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
+                }
+            }
         } catch {
-            // Non-fatal: timeline falls back to showing all week-numbers if nil
+            // Non-fatal — currentSemesterWeek may already be set from UserDefaults above
         }
     }
 
@@ -403,3 +486,4 @@ class ScheduleViewModel {
         return ((semesterWeekForDate - 1) % 4) + 1
     }
 }
+// swiftlint:enable type_body_length

@@ -13,7 +13,6 @@ import Factory
 final class LoginViewModel {
     var username: String = ""
     var password: String = ""
-    var rememberDevice: Bool = true
     var isLoading: Bool = false
 
     private let authService: any AuthServiceProtocol
@@ -43,7 +42,7 @@ final class LoginViewModel {
             let response = try await authService.login(
                 username: username,
                 password: password,
-                rememberDevice: rememberDevice
+                rememberDevice: true
             )
             appCoordinator.userDidAuthenticate(user: response)
         } catch let error as APIError {
@@ -53,7 +52,4 @@ final class LoginViewModel {
         }
     }
 
-    func didTapForgotPassword() {
-        router.push(.forgotPassword)
-    }
 }

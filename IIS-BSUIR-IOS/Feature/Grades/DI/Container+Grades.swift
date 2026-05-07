@@ -2,17 +2,17 @@
 //  Container+Grades.swift
 //  IIS-BSUIR-IOS
 //
-//  Created by Valery Novikau on 6.04.26.
+//  Created by Valery Novikau on 21.04.26.
 //
 
 import Factory
 
 extension Container {
-    var gradesRouter: Factory<GradesRouter> {
-        self { @MainActor in GradesRouter() }.shared
+    var gradesService: Factory<any GradesServiceProtocol> {
+        self { @MainActor in GradesService(apiClient: self.apiClient()) }.shared
     }
 
-    var gradesViewModel: Factory<GradesViewModel> {
-        self { @MainActor in GradesViewModel(router: self.gradesRouter()) }
+    var gradeBookViewModel: Factory<GradeBookViewModel> {
+        self { @MainActor in GradeBookViewModel(gradesService: self.gradesService()) }
     }
 }

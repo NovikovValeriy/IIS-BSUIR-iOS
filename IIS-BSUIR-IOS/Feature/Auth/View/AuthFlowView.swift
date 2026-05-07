@@ -15,12 +15,6 @@ struct AuthFlowView: View {
     var body: some View {
         NavigationStack(path: $router.path) {
             LoginView()
-                .navigationDestination(for: AuthDestination.self) { destination in
-                    switch destination {
-                    case .forgotPassword:
-                        ForgotPasswordView()
-                    }
-                }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button("common.cancel") { dismiss() }

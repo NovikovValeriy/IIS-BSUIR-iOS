@@ -17,4 +17,5 @@ enum StorageKey: String {
     case pinnedScheduleSubject
     case scheduleDisplayMode
     case scheduleSubgroupFilter
+    case currentSemesterWeek
 }

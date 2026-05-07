@@ -4,6 +4,16 @@
     "…" : {
 
     },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -13,36 +23,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Confirm Contact — coming soon"
-          }
-        }
-      }
-    },
-    "auth.forgot_password.button" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forgot password?"
-          }
-        }
-      }
-    },
-    "auth.forgot_password.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password reset is not yet implemented."
-          }
-        }
-      }
-    },
-    "auth.forgot_password.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forgot Password"
           }
         }
       }
@@ -58,6 +38,7 @@
       }
     },
     "auth.remember_device" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -137,42 +118,123 @@
         }
       }
     },
-    "grades.coming_soon" : {
+    "grades.average %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grades screen coming soon."
+            "value" : "avg %@"
           }
         }
       }
     },
-    "grades.grade_book_detail %@" : {
+    "grades.credits %lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grade book: %@"
+            "value" : "%lldcr"
           }
         }
       }
     },
-    "grades.omissions" : {
+    "grades.empty.title" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Omissions"
+            "value" : "No grade book data"
           }
         }
       }
     },
-    "grades.semester_picker.coming_soon" : {
+    "grades.footer.label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Semester picker — coming soon"
+            "value" : "Average in 4 years:"
+          }
+        }
+      }
+    },
+    "grades.footer.retakes %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%% retakes"
+          }
+        }
+      }
+    },
+    "grades.hours %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@h"
+          }
+        }
+      }
+    },
+    "grades.markbook.number %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No. %@"
+          }
+        }
+      }
+    },
+    "grades.markbook.number.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grade book number"
+          }
+        }
+      }
+    },
+    "grades.no_mark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "—"
+          }
+        }
+      }
+    },
+    "grades.retakes %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "↺ %lld"
+          }
+        }
+      }
+    },
+    "grades.semester %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semester %lld"
+          }
+        }
+      }
+    },
+    "grades.semester.short %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem %lld"
           }
         }
       }
@@ -183,6 +245,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grades"
+          }
+        }
+      }
+    },
+    "grades.total.average.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total average"
           }
         }
       }
@@ -410,6 +482,7 @@
       }
     },
     "notifications.coming_soon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -420,6 +493,7 @@
       }
     },
     "notifications.filter.coming_soon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -430,6 +504,7 @@
       }
     },
     "notifications.notification_detail %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -440,6 +515,7 @@
       }
     },
     "notifications.notification.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -450,6 +526,7 @@
       }
     },
     "notifications.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -460,6 +537,7 @@
       }
     },
     "profile.academic_section" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -470,6 +548,7 @@
       }
     },
     "profile.campus_section" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -480,6 +559,7 @@
       }
     },
     "profile.change_password.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -490,6 +570,7 @@
       }
     },
     "profile.contacts" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -500,6 +581,7 @@
       }
     },
     "profile.contacts.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -510,6 +592,7 @@
       }
     },
     "profile.documents" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -520,6 +603,7 @@
       }
     },
     "profile.documents.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -530,6 +614,7 @@
       }
     },
     "profile.dormitory" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -540,6 +625,7 @@
       }
     },
     "profile.dormitory.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -550,6 +636,7 @@
       }
     },
     "profile.edit.coming_soon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -560,6 +647,7 @@
       }
     },
     "profile.grades" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -569,7 +657,51 @@
         }
       }
     },
+    "profile.info.course %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ year"
+          }
+        }
+      }
+    },
+    "profile.info.faculty" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faculty"
+          }
+        }
+      }
+    },
+    "profile.info.rating" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rating"
+          }
+        }
+      }
+    },
+    "profile.info.speciality" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speciality"
+          }
+        }
+      }
+    },
     "profile.logout" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -620,6 +752,7 @@
       }
     },
     "profile.notifications" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -830,6 +963,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Schedule Selected"
+          }
+        }
+      }
+    },
+    "schedule.offline.banner" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No network connection"
           }
         }
       }

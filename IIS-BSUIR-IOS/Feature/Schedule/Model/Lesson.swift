@@ -5,7 +5,7 @@
 //  Created by Valery Novikau on 16.04.26.
 //
 
-struct Lesson: Hashable {
+struct Lesson: Hashable, Codable {
     let subject: String?
     let subjectFullName: String?
     let lessonTypeAbbrev: String?

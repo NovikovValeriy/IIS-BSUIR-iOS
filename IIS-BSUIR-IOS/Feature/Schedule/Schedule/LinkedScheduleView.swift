@@ -15,7 +15,8 @@ struct LinkedScheduleView: View {
         _viewModel = State(initialValue: LinkedScheduleViewModel(
             subject: subject,
             router: router,
-            scheduleService: Container.shared.scheduleService()
+            scheduleService: Container.shared.scheduleService(),
+            cacheService: Container.shared.scheduleCacheService()
         ))
     }
 

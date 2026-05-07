@@ -7,16 +7,15 @@
 
 import Foundation
 import Factory
+import SwiftData
 
 extension Container {
     var authState: Factory<AuthState> {
-        self { @MainActor in AuthState() }.shared
+        self { @MainActor in AuthState() }.singleton
     }
 
-    // MARK: - Swap these two lines when real networking is ready
     var authService: Factory<any AuthServiceProtocol> {
-        self { @MainActor in MockAuthService() }.shared
-        // self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.shared
+         self { @MainActor in AuthService(apiClient: self.apiClient(), keychain: self.keychain()) }.singleton
     }
 
     var storage: Factory<any StorageProtocol> {
@@ -24,7 +23,7 @@ extension Container {
     }
 
     var appCoordinator: Factory<AppCoordinator> {
-        self { @MainActor in AppCoordinator(authState: self.authState(), authService: self.authService()) }.shared
+        self { @MainActor in AppCoordinator(authState: self.authState(), authService: self.authService()) }.singleton
     }
 
     var tabCoordinator: Factory<TabCoordinator> {
@@ -38,10 +37,27 @@ extension Container {
 
     var apiClient: Factory<any APIClient> {
         self { @MainActor in
-            DefaultAPIClient(
-                baseURL: URL(string: "https://iis.bsuir.by")!,
-                keychain: self.keychain()
+            let delegate = BsuirTLSDelegate()
+            let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+            return DefaultAPIClient(
+                baseURL: URL(string: "https://iis.bsuir.by/api/v1")!,
+                keychain: self.keychain(),
+                session: session
             )
         }.shared
     }
+
+    // swiftlint:disable force_try
+    var scheduleModelContainer: Factory<ModelContainer> {
+        self { @MainActor in
+            let schema = Schema([CachedScheduleEntry.self])
+            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            if let container = try? ModelContainer(for: schema, configurations: [config]) {
+                return container
+            }
+            let fallback = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+            return try! ModelContainer(for: schema, configurations: [fallback])
+        }.singleton
+    }
+    // swiftlint:enable force_try
 }

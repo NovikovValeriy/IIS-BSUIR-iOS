@@ -14,6 +14,26 @@ protocol APIClient {
 }
 
 extension APIClient {
+    func sendRequest(
+        path: String,
+        httpMethod: HTTPMethod,
+        queryParams: [String: String]? = nil,
+        body: APIRequestBody? = nil,
+        additionalHeaders: [String: String] = [:]
+    ) async throws(APIError) {
+        let request = try self.buildRequest(
+            path: path,
+            method: httpMethod,
+            queryParams: queryParams,
+            body: body,
+            additionalHeaders: additionalHeaders
+        )
+        let response = try? await self.send(request: request)
+        guard let response, (200...299).contains(response.statusCode) else {
+            throw APIError.networkError(statusCode: response?.statusCode ?? 400)
+        }
+    }
+
     func sendRequest<T: Decodable>(
         path: String,
         httpMethod: HTTPMethod,
@@ -21,8 +41,23 @@ extension APIClient {
         body: APIRequestBody? = nil,
         additionalHeaders: [String: String] = [:]
     ) async throws(APIError) -> T {
-        var response: APIResponse?
+        let (value, _): (T, APIResponse) = try await sendRequestWithAPIResponse(
+            path: path,
+            httpMethod: httpMethod,
+            queryParams: queryParams,
+            body: body,
+            additionalHeaders: additionalHeaders
+        )
+        return value
+    }
 
+    func sendRequestWithAPIResponse<T: Decodable>(
+        path: String,
+        httpMethod: HTTPMethod,
+        queryParams: [String: String]? = nil,
+        body: APIRequestBody? = nil,
+        additionalHeaders: [String: String] = [:]
+    ) async throws(APIError) -> (value: T, response: APIResponse) {
         let request = try self.buildRequest(
             path: path,
             method: httpMethod,
@@ -31,22 +66,23 @@ extension APIClient {
             additionalHeaders: additionalHeaders
         )
 
-        response = try? await self.send(request: request)
+        var apiResponse: APIResponse?
+        apiResponse = try? await self.send(request: request)
 
         guard
-            let response,
-            (200...299).contains(response.statusCode)
+            let apiResponse,
+            (200...299).contains(apiResponse.statusCode)
         else {
-            throw APIError.networkError(statusCode: response?.statusCode ?? 400)
+            throw APIError.networkError(statusCode: apiResponse?.statusCode ?? 400)
         }
 
         let decodedResponse: T
         do {
-             decodedResponse = try self.decodeData(response: response)
+            decodedResponse = try self.decodeData(response: apiResponse)
         } catch {
             throw APIError.parsingError(error)
         }
-        return decodedResponse
+        return (decodedResponse, apiResponse)
     }
 
     private func buildRequest(
@@ -87,7 +123,6 @@ extension APIClient {
         switch body {
         case .jsonBody(let body):
             let encoder = JSONEncoder()
-            encoder.keyEncodingStrategy = .convertToSnakeCase
             request.httpBody = try? encoder.encode(body)
             contentType = "application/json"
         case .urlEncodedBody(let body):

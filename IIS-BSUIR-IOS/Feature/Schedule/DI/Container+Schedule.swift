@@ -6,6 +6,7 @@
 //
 
 import Factory
+import SwiftData
 
 extension Container {
     var scheduleService: Factory<any ScheduleServiceProtocol> {
@@ -14,6 +15,10 @@ extension Container {
 
     var pinnedScheduleService: Factory<PinnedScheduleService> {
         self { @MainActor in PinnedScheduleService(storage: self.storage()) }.shared
+    }
+
+    var scheduleCacheService: Factory<any ScheduleCacheServiceProtocol> {
+        self { @MainActor in ScheduleCacheService(modelContainer: self.scheduleModelContainer()) }.shared
     }
 
     // MARK: - Search schedule (second tab)
@@ -27,7 +32,8 @@ extension Container {
             SearchScheduleViewModel(
                 router: self.scheduleRouter(),
                 scheduleService: self.scheduleService(),
-                pinnedScheduleService: self.pinnedScheduleService()
+                pinnedScheduleService: self.pinnedScheduleService(),
+                cacheService: self.scheduleCacheService()
             )
         }
     }
@@ -44,7 +50,8 @@ extension Container {
                 router: self.pinnedScheduleRouter(),
                 scheduleService: self.scheduleService(),
                 pinnedScheduleService: self.pinnedScheduleService(),
-                storage: self.storage()
+                storage: self.storage(),
+                cacheService: self.scheduleCacheService()
             )
         }
     }

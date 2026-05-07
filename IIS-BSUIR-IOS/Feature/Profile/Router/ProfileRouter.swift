@@ -14,12 +14,10 @@ final class ProfileRouter: @MainActor RouterProtocol {
     typealias Destination = ProfileDestination
 
     var path: NavigationPath = .init()
-    var presentedSheet: ProfileSheet?
     var confirmationDialog: ProfileConfirmationDialog?
     var alert: AppAlert?
 
-    func present(sheet: ProfileSheet) { presentedSheet = sheet }
-    func dismissSheet() { presentedSheet = nil }
+    func navigateToGradeBook() { path.append(ProfileDestination.gradeBook) }
     func present(confirmationDialog: ProfileConfirmationDialog) { self.confirmationDialog = confirmationDialog }
     func present(alert: AppAlert) { self.alert = alert }
 }

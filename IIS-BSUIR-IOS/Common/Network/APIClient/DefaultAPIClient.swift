@@ -28,7 +28,12 @@ final class DefaultAPIClient: APIClient {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw APIError.invalidResponse
             }
-            return APIResponse(statusCode: httpResponse.statusCode, data: data)
+            let headers = httpResponse.allHeaderFields.reduce(into: [String: String]()) { result, pair in
+                if let key = pair.key as? String, let value = pair.value as? String {
+                    result[key] = value
+                }
+            }
+            return APIResponse(statusCode: httpResponse.statusCode, data: data, headers: headers)
         } catch let error as APIError {
             throw error
         } catch {
@@ -41,7 +46,7 @@ final class DefaultAPIClient: APIClient {
             "Accept": "application/json"
         ]
         if let token = keychain.load(forKey: KeychainService.Keys.authToken) {
-            headers["Cookie"] = "JSESSIONID=\(token)"
+            headers["Cookie"] = "SESSION=\(token)"
         }
         additionalHeaders.forEach { headers[$0.key] = $0.value }
         return headers

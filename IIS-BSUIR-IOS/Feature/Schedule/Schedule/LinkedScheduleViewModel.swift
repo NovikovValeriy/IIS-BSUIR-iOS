@@ -15,10 +15,11 @@ final class LinkedScheduleViewModel: ScheduleViewModel {
     init(
         subject: ScheduleSubject,
         router: ScheduleRouter,
-        scheduleService: any ScheduleServiceProtocol
+        scheduleService: any ScheduleServiceProtocol,
+        cacheService: (any ScheduleCacheServiceProtocol)? = nil
     ) {
         self.initialSubject = subject
-        super.init(router: router, scheduleService: scheduleService)
+        super.init(router: router, scheduleService: scheduleService, cacheService: cacheService)
     }
 
     override func onAppear() {

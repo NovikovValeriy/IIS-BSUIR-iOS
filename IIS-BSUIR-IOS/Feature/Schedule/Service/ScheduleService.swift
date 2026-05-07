@@ -23,7 +23,7 @@ final class ScheduleService: ScheduleServiceProtocol {
 
     func fetchGroups() async throws -> [GroupModel] {
         let dtos: [StudentGroupDTO] = try await apiClient.sendRequest(
-            path: "/api/v1/student-groups",
+            path: "/student-groups",
             httpMethod: .GET
         )
         return dtos.map { $0.toDomain() }
@@ -31,7 +31,7 @@ final class ScheduleService: ScheduleServiceProtocol {
 
     func fetchTeachers() async throws -> [Teacher] {
         let dtos: [EmployeeDTO] = try await apiClient.sendRequest(
-            path: "/api/v1/employees/all",
+            path: "/employees/all",
             httpMethod: .GET
         )
         return dtos.map { $0.toDomain() }
@@ -41,14 +41,14 @@ final class ScheduleService: ScheduleServiceProtocol {
         switch subject {
         case .group(let group):
             let dto: ScheduleResponseDTO = try await apiClient.sendRequest(
-                path: "/api/v1/schedule",
+                path: "/schedule",
                 httpMethod: .GET,
                 queryParams: ["studentGroup": group.name]
             )
             return dto.toDomain()
         case .teacher(let teacher):
             let dto: ScheduleResponseDTO = try await apiClient.sendRequest(
-                path: "/api/v1/employees/schedule/\(teacher.urlId)",
+                path: "/employees/schedule/\(teacher.urlId)",
                 httpMethod: .GET
             )
             return dto.toDomain()
@@ -57,7 +57,7 @@ final class ScheduleService: ScheduleServiceProtocol {
 
     func fetchCurrentWeek() async throws -> Int {
         try await apiClient.sendRequest(
-            path: "/api/v1/schedule/current-week",
+            path: "/schedule/current-week",
             httpMethod: .GET
         )
     }

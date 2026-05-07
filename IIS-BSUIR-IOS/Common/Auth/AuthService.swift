@@ -26,51 +26,68 @@ final class AuthService: AuthServiceProtocol {
 
     func login(username: String, password: String, rememberDevice: Bool) async throws -> User {
         let body = LoginRequestDTO(username: username, password: password, rememberDevice: rememberDevice)
-        let response: LoginResponseDTO = try await apiClient.sendRequest(
-            path: "/api/v1/auth/login",
+        let (_, apiResponse): (LoginResponseDTO, APIResponse) = try await apiClient.sendRequestWithAPIResponse(
+            path: "/auth/login",
             httpMethod: .POST,
             body: .jsonBody(body)
         )
         keychain.save(username, forKey: KeychainService.Keys.username)
-        return response.toDomain()
+        if let jsessionId = apiResponse.jsessionId {
+            keychain.save(jsessionId, forKey: KeychainService.Keys.authToken)
+        }
+        return try await self.getPersonalProfile(username: username)
     }
 
     func logout() async {
+        try? await apiClient.sendRequest(
+            path: "/auth/logout",
+            httpMethod: .GET
+        )
         keychain.clearAll()
     }
 
     func validateStoredSession() async -> User? {
-        guard keychain.load(forKey: KeychainService.Keys.username) != nil else {
+        guard let username = keychain.load(forKey: KeychainService.Keys.username) else {
             return nil
         }
         do {
-            let profile: LoginResponseDTO = try await apiClient.sendRequest(
-                path: "/api/v1/profile/me",
-                httpMethod: .GET
-            )
-            return profile.toDomain()
+            return try await self.getPersonalProfile(username: username)
         } catch {
             keychain.clearAll()
             return nil
         }
     }
+
+    private func getPersonalProfile(username: String) async throws -> User {
+        let profile: AccountProfileDTO = try await apiClient.sendRequest(
+            path: "/profiles/personal-profile",
+            httpMethod: .GET
+        )
+        return profile.toDomain(username: username)
+    }
 }
 
 // MARK: - Mapping
 
-private extension LoginResponseDTO {
-    func toDomain() -> User {
-        User(
+private extension AccountProfileDTO {
+    func toDomain(username: String) -> User {
+        let nameParts = [lastName, firstName, middleName].compactMap { $0 }
+        return User(
             username: username,
-            fio: fio,
-            group: group,
-            email: email,
-            phone: phone,
+            fio: nameParts.joined(separator: " "),
+            group: studentGroup ?? "",
+            faculty: faculty,
+            speciality: speciality,
+            course: course,
+            rating: rating,
+            birthDate: birthDate,
+            email: officeEmail,
+            phone: "",
             photoUrl: photoUrl,
-            isGroupHead: isGroupHead,
-            canStudentNote: canStudentNote,
-            hasNotConfirmedContact: hasNotConfirmedContact,
-            authorities: authorities
+            isGroupHead: false,
+            canStudentNote: false,
+            hasNotConfirmedContact: false,
+            authorities: []
         )
     }
 }

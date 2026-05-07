@@ -15,10 +15,11 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         router: ScheduleRouter,
         scheduleService: any ScheduleServiceProtocol,
         pinnedScheduleService: any PinnedScheduleServiceProtocol,
-        storage: any StorageProtocol
+        storage: any StorageProtocol,
+        cacheService: (any ScheduleCacheServiceProtocol)? = nil
     ) {
         self.pinnedScheduleService = pinnedScheduleService
-        super.init(router: router, scheduleService: scheduleService, storage: storage)
+        super.init(router: router, scheduleService: scheduleService, storage: storage, cacheService: cacheService)
     }
 
     // MARK: - Lifecycle

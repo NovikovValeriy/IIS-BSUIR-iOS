@@ -35,28 +35,12 @@ final class ProfileViewModel {
         appCoordinator.presentAuth()
     }
 
-    func didTapGrades() {
-        router.push(.grades)
-    }
-
-    func didTapNotifications() {
-        router.push(.notifications)
-    }
-
-    func didTapDormitory() {
-        router.push(.dormitory)
-    }
-
-    func didTapDocuments() {
-        router.push(.documents)
-    }
-
-    func didTapContacts() {
-        router.push(.contacts)
-    }
-
     func didTapLogout() {
         router.present(confirmationDialog: .logout)
+    }
+
+    func didTapGradeBook() {
+        router.navigateToGradeBook()
     }
 
     func confirmLogout() {

@@ -27,10 +27,11 @@ final class SearchScheduleViewModel: ScheduleViewModel {
     init(
         router: ScheduleRouter,
         scheduleService: any ScheduleServiceProtocol,
-        pinnedScheduleService: any PinnedScheduleServiceProtocol
+        pinnedScheduleService: any PinnedScheduleServiceProtocol,
+        cacheService: (any ScheduleCacheServiceProtocol)? = nil
     ) {
         self.pinnedScheduleService = pinnedScheduleService
-        super.init(router: router, scheduleService: scheduleService)
+        super.init(router: router, scheduleService: scheduleService, cacheService: cacheService)
     }
 
     // MARK: - Lifecycle
