@@ -87,6 +87,7 @@ Package.resolved
 *+Preview.swift
 
 # =========================
-# Markdown files
+# Markdown files and secondary info
 # =========================
 *.md
+*.json
