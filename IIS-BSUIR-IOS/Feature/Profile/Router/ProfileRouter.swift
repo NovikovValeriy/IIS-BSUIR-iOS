@@ -18,6 +18,7 @@ final class ProfileRouter: @MainActor RouterProtocol {
     var alert: AppAlert?
 
     func navigateToMarkBook() { path.append(ProfileDestination.markBook) }
+    func navigateToGrades() { path.append(ProfileDestination.grades) }
     func present(confirmationDialog: ProfileConfirmationDialog) { self.confirmationDialog = confirmationDialog }
     func present(alert: AppAlert) { self.alert = alert }
 }

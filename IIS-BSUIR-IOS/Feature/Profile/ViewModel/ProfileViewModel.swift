@@ -43,6 +43,10 @@ final class ProfileViewModel {
         router.navigateToMarkBook()
     }
 
+    func didTapGrades() {
+        router.navigateToGrades()
+    }
+
     func confirmLogout() {
         appCoordinator.userDidLogout()
     }

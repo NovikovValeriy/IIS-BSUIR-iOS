@@ -19,6 +19,8 @@ struct ProfileFlowView: View {
                     switch destination {
                     case .markBook:
                         MarkBookView()
+                    case .grades:
+                        GradesView()
                     }
                 }
         }

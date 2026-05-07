@@ -12,7 +12,7 @@ struct GradeBookResponseDTO: Decodable {
 
 struct GradeBookStudentDTO: Decodable {
     let fio: String
-    let id: Int
+    let id: Int?
     let subGroup: Int
     let subGroupStudent: Int?
     let lessons: [GradeBookLessonDTO]
@@ -24,6 +24,7 @@ struct GradeBookLessonDTO: Decodable {
     // "dd.MM.yyyy"
     let dateString: String?
     let gradeBookOmissions: Int?
+    let isRespectfulOmission: Bool?
     let id: Int
     let lessonNameAbbrev: String?
     let lessonTypeAbbrev: String?

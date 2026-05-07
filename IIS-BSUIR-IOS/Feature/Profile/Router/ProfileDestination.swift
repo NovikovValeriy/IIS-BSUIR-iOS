@@ -9,6 +9,7 @@ import Foundation
 
 enum ProfileDestination: Hashable {
     case markBook
+    case grades
 }
 
 enum ProfileConfirmationDialog: Identifiable {
