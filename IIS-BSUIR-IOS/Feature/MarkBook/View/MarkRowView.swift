@@ -82,12 +82,12 @@ struct MarkRowView: View {
             Spacer()
 
             VStack(alignment: .trailing, spacing: 2) {
-                Text(mark.mark ?? String(localized: "grades.no_mark"))
+                Text(mark.mark ?? String(localized: "markbook.no_mark"))
                     .font(.title.bold())
                     .foregroundStyle(markColor)
 
                 if mark.retakesCount > 0 {
-                    Text(String(format: String(localized: "grades.retakes %lld"), mark.retakesCount))
+                    Text(String(format: String(localized: "markbook.retakes \(mark.retakesCount)")))
                         .font(.caption)
                         .foregroundStyle(.red)
                 }
@@ -99,8 +99,8 @@ struct MarkRowView: View {
     private var formControlLine: some View {
         let parts: [String] = [
             mark.formOfControl,
-            mark.hours.map { String(format: String(localized: "grades.hours %@"), $0) },
-            mark.credits.map { String(format: String(localized: "grades.credits %lld"), $0) }
+            mark.hours.map { String(format: String(localized: "markbook.hours \($0)")) },
+            mark.credits.map { String(format: String(localized: "markbook.credits \($0)")) }
         ].compactMap { $0 }
 
         if !parts.isEmpty {
@@ -112,7 +112,7 @@ struct MarkRowView: View {
 
     private var footerRow: some View {
         HStack {
-            Text("grades.footer.label")
+            Text("markbook.footer.label")
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -124,7 +124,7 @@ struct MarkRowView: View {
                     let pctStr = pct.truncatingRemainder(dividingBy: 1) == 0
                         ? String(format: "%.0f", pct)
                         : String(format: "%.1f", pct)
-                    return String(format: String(localized: "grades.footer.retakes %@"), pctStr)
+                    return String(format: String(localized: "markbook.footer.retakes \(pctStr)"))
                 }
 
                 switch (avgPart, retakesPart) {

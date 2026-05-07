@@ -118,147 +118,6 @@
         }
       }
     },
-    "grades.average %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "avg %@"
-          }
-        }
-      }
-    },
-    "grades.credits %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lldcr"
-          }
-        }
-      }
-    },
-    "grades.empty.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No grade book data"
-          }
-        }
-      }
-    },
-    "grades.footer.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Average in 4 years:"
-          }
-        }
-      }
-    },
-    "grades.footer.retakes %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@%% retakes"
-          }
-        }
-      }
-    },
-    "grades.hours %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@h"
-          }
-        }
-      }
-    },
-    "grades.markbook.number %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No. %@"
-          }
-        }
-      }
-    },
-    "grades.markbook.number.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grade book number"
-          }
-        }
-      }
-    },
-    "grades.no_mark" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "—"
-          }
-        }
-      }
-    },
-    "grades.retakes %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "↺ %lld"
-          }
-        }
-      }
-    },
-    "grades.semester %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semester %lld"
-          }
-        }
-      }
-    },
-    "grades.semester.short %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sem %lld"
-          }
-        }
-      }
-    },
-    "grades.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grades"
-          }
-        }
-      }
-    },
-    "grades.total.average.label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total average"
-          }
-        }
-      }
-    },
     "lesson.detail.announcement" : {
       "localizations" : {
         "en" : {
@@ -481,6 +340,136 @@
         }
       }
     },
+    "markbook.average %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "avg %@"
+          }
+        }
+      }
+    },
+    "markbook.credits %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldcr"
+          }
+        }
+      }
+    },
+    "markbook.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No mark book data"
+          }
+        }
+      }
+    },
+    "markbook.footer.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average in 4 years:"
+          }
+        }
+      }
+    },
+    "markbook.footer.retakes %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%% retakes"
+          }
+        }
+      }
+    },
+    "markbook.hours %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@h"
+          }
+        }
+      }
+    },
+    "markbook.no_mark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "—"
+          }
+        }
+      }
+    },
+    "markbook.number.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark book number"
+          }
+        }
+      }
+    },
+    "markbook.retakes %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "↺ %lld"
+          }
+        }
+      }
+    },
+    "markbook.semester %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semester %lld"
+          }
+        }
+      }
+    },
+    "markbook.semester.short %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem %lld"
+          }
+        }
+      }
+    },
+    "markbook.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark Book"
+          }
+        }
+      }
+    },
+    "markbook.total.average.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total average"
+          }
+        }
+      }
+    },
     "notifications.coming_soon" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -642,17 +631,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit profile — coming soon"
-          }
-        }
-      }
-    },
-    "profile.grades" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grades"
           }
         }
       }

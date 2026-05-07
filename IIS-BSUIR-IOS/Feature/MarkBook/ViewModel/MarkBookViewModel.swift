@@ -1,5 +1,5 @@
 //
-//  GradeBookViewModel.swift
+//  MarkBookViewModel.swift
 //  IIS-BSUIR-IOS
 //
 //  Created by Valery Novikau on 21.04.26.
@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 @MainActor
-final class GradeBookViewModel {
+final class MarkBookViewModel {
     private(set) var markBook: MarkBook?
     private(set) var isLoading: Bool = false
     var selectedSemesterIndex: Int = 0
@@ -21,16 +21,16 @@ final class GradeBookViewModel {
         return semesters[selectedSemesterIndex]
     }
 
-    private let gradesService: any GradesServiceProtocol
+    private let markBookService: any MarkBookServiceProtocol
 
-    init(gradesService: any GradesServiceProtocol) {
-        self.gradesService = gradesService
+    init(markBookService: any MarkBookServiceProtocol) {
+        self.markBookService = markBookService
     }
 
     func load() async {
         guard !isLoading else { return }
         isLoading = true
         defer { isLoading = false }
-        markBook = try? await gradesService.fetchMarkBook()
+        markBook = try? await markBookService.fetchMarkBook()
     }
 }

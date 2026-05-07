@@ -1,5 +1,5 @@
 //
-//  GradesService.swift
+//  MarkBookService.swift
 //  IIS-BSUIR-IOS
 //
 //  Created by Valery Novikau on 21.04.26.
@@ -8,12 +8,12 @@
 import Foundation
 
 @MainActor
-protocol GradesServiceProtocol: AnyObject {
+protocol MarkBookServiceProtocol: AnyObject {
     func fetchMarkBook() async throws -> MarkBook
 }
 
 @MainActor
-final class GradesService: GradesServiceProtocol {
+final class MarkBookService: MarkBookServiceProtocol {
     private let apiClient: any APIClient
 
     init(apiClient: any APIClient) {

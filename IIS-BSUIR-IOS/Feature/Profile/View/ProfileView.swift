@@ -23,7 +23,7 @@ private enum Constants {
         static let starFilled = "star.fill"
         static let starEmpty = "star"
         static let logout = "rectangle.portrait.and.arrow.right"
-        static let gradeBook = "graduationcap"
+        static let markBook = "graduationcap"
     }
     enum Colors {
         static let avatarBackground = Color(.secondarySystemGroupedBackground)
@@ -75,9 +75,9 @@ struct ProfileView: View {
 
             Section {
                 Button {
-                    viewModel.didTapGradeBook()
+                    viewModel.didTapMarkBook()
                 } label: {
-                    Label("grades.title", systemImage: Constants.Icons.gradeBook)
+                    Label("markbook.title", systemImage: Constants.Icons.markBook)
                 }
             }
         }

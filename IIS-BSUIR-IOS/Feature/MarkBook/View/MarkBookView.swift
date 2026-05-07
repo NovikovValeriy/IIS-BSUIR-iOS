@@ -1,5 +1,5 @@
 //
-//  GradeBookView.swift
+//  MarkBookView.swift
 //  IIS-BSUIR-IOS
 //
 //  Created by Valery Novikau on 21.04.26.
@@ -30,20 +30,20 @@ private extension Double {
     }
 }
 
-struct GradeBookView: View {
-    @State private var viewModel: GradeBookViewModel = Container.shared.gradeBookViewModel()
+struct MarkBookView: View {
+    @State private var viewModel: MarkBookViewModel = Container.shared.markBookViewModel()
 
     var body: some View {
         Group {
             if viewModel.isLoading {
                 ProgressView()
             } else if viewModel.markBook == nil {
-                ContentUnavailableView("grades.empty.title", systemImage: "graduationcap")
+                ContentUnavailableView("markbook.empty.title", systemImage: "graduationcap")
             } else {
                 loadedView
             }
         }
-        .navigationTitle("grades.title")
+        .navigationTitle("markbook.title")
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
@@ -71,7 +71,7 @@ struct GradeBookView: View {
             if let markBook = viewModel.markBook {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("grades.markbook.number.label")
+                        Text("markbook.number.label")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Text(markBook.number)
@@ -79,7 +79,7 @@ struct GradeBookView: View {
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 2) {
-                        Text("grades.total.average.label")
+                        Text("markbook.total.average.label")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Text(markBook.averageMark.formattedAverage)
@@ -103,7 +103,7 @@ struct GradeBookView: View {
                             viewModel.selectedSemesterIndex = index
                         }
                     } label: {
-                        Text(String(format: String(localized: "grades.semester.short %lld"), semester.semester))
+                        Text(String(format: String(localized: "markbook.semester.short \(semester.semester)")))
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(isSelected ? .white : .primary)
                             .padding(.horizontal, Constants.Layout.pillHorizontalPadding)
@@ -133,9 +133,9 @@ struct GradeBookView: View {
             } header: {
                 let avgString = semester.averageMark.formattedAverage
                 HStack {
-                    Text(String(format: String(localized: "grades.semester %lld"), semester.semester))
+                    Text(String(format: String(localized: "markbook.semester \(semester.semester)")))
                     Spacer()
-                    Text(String(format: String(localized: "grades.average %@"), avgString))
+                    Text(String(format: String(localized: "markbook.average \(avgString)")))
                 }
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.primary)

@@ -17,8 +17,8 @@ struct ProfileFlowView: View {
             ProfileView()
                 .navigationDestination(for: ProfileDestination.self) { destination in
                     switch destination {
-                    case .gradeBook:
-                        GradeBookView()
+                    case .markBook:
+                        MarkBookView()
                     }
                 }
         }
