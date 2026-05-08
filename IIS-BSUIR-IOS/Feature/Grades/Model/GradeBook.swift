@@ -41,3 +41,11 @@ struct GradeBookSubjectGroup {
     let totalOmissions: Int
     let hasRespectfulOmissions: Bool
 }
+
+extension GradeBookControlPoint {
+    var average: Double? {
+        let marks = subjects.flatMap { $0.marks }.filter { $0 > 0 }
+        guard !marks.isEmpty else { return nil }
+        return Double(marks.reduce(0, +)) / Double(marks.count)
+    }
+}

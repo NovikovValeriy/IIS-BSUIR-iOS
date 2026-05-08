@@ -26,6 +26,13 @@ final class GradesViewModel {
         return points[selectedControlPointIndex]
     }
 
+    var overallAverage: Double? {
+        guard let gradeBook else { return nil }
+        let marks = gradeBook.lessons.flatMap { $0.marks }.filter { $0 > 0 }
+        guard !marks.isEmpty else { return nil }
+        return Double(marks.reduce(0, +)) / Double(marks.count)
+    }
+
     private let gradesService: any GradesServiceProtocol
 
     init(gradesService: any GradesServiceProtocol) {

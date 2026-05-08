@@ -124,7 +124,7 @@ struct MarkRowView: View {
                     let pctStr = pct.truncatingRemainder(dividingBy: 1) == 0
                         ? String(format: "%.0f", pct)
                         : String(format: "%.1f", pct)
-                    return String(format: String(localized: "markbook.footer.retakes \(pctStr)"))
+                    return String(format: String(localized: "markbook.footer.retakes %@"), pctStr)
                 }
 
                 switch (avgPart, retakesPart) {

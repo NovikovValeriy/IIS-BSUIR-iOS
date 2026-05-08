@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "…" : {
 
     },
@@ -121,6 +118,26 @@
         }
       }
     },
+    "grades.control_point.outside" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outside the control point"
+          }
+        }
+      }
+    },
+    "grades.control_point.outside.short" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outside"
+          }
+        }
+      }
+    },
     "grades.empty.title" : {
       "localizations" : {
         "en" : {
@@ -170,6 +187,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "—"
+          }
+        }
+      }
+    },
+    "grades.omissions %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Absent: %lld"
+          }
+        }
+      }
+    },
+    "grades.summary.average.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average"
           }
         }
       }
