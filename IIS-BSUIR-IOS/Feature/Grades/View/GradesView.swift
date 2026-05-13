@@ -98,8 +98,9 @@ struct GradesView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .animation(.easeInOut(duration: Constants.Layout.animationDuration), value: viewModel.selectedTabIndex)
+            .ignoresSafeArea(.container, edges: .bottom)
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
 
     private var tabPicker: some View {

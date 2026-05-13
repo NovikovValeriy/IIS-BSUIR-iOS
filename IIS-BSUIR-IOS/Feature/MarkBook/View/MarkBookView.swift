@@ -62,8 +62,9 @@ struct MarkBookView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .animation(.easeInOut(duration: 0.25), value: viewModel.selectedSemesterIndex)
+            .ignoresSafeArea(.container, edges: .bottom)
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
 
     private var summaryStrip: some View {
