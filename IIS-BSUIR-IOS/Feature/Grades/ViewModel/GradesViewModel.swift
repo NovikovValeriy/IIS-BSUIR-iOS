@@ -12,18 +12,13 @@ import Foundation
 final class GradesViewModel {
     private(set) var gradeBook: GradeBook?
     private(set) var isLoading: Bool = false
-    var selectedControlPointIndex: Int = 0
+    // 0 = summary tab, 1..n = control point tabs
+    var selectedTabIndex: Int = 0
 
-    // Control points sorted by date ascending
+    // Control points sorted by date ascending, Вне КТ last
     var controlPoints: [GradeBookControlPoint] {
         guard let gradeBook else { return [] }
         return Self.buildControlPoints(from: gradeBook.lessons)
-    }
-
-    var currentControlPoint: GradeBookControlPoint? {
-        let points = controlPoints
-        guard points.indices.contains(selectedControlPointIndex) else { return nil }
-        return points[selectedControlPointIndex]
     }
 
     var overallAverage: Double? {
@@ -31,6 +26,51 @@ final class GradesViewModel {
         let marks = gradeBook.lessons.flatMap { $0.marks }.filter { $0 > 0 }
         guard !marks.isEmpty else { return nil }
         return Double(marks.reduce(0, +)) / Double(marks.count)
+    }
+
+    var overallOmissionHours: Int {
+        subjectSummaries.reduce(0) { $0 + $1.totalOmissionHours }
+    }
+
+    var subjectSummaries: [GradeBookSubjectSummary] {
+        guard let gradeBook else { return [] }
+
+        var bySubject: [String: [GradeBookLesson]] = [:]
+        var subjectOrder: [String] = []
+        for lesson in gradeBook.lessons {
+            if bySubject[lesson.subjectName] == nil { subjectOrder.append(lesson.subjectName) }
+            bySubject[lesson.subjectName, default: []].append(lesson)
+        }
+
+        return subjectOrder.compactMap { name -> GradeBookSubjectSummary? in
+            let lessons = bySubject[name]!
+            let nonZeroMarks = lessons.flatMap { $0.marks }.filter { $0 > 0 }
+            let totalOmissions = lessons.reduce(0) { $0 + $1.omissions }
+            guard !nonZeroMarks.isEmpty || totalOmissions > 0 else { return nil }
+
+            let overallAverage: Double? = nonZeroMarks.isEmpty ? nil :
+                Double(nonZeroMarks.reduce(0, +)) / Double(nonZeroMarks.count)
+
+            var marksByType: [String: [Int]] = [:]
+            for lesson in lessons {
+                guard let type = lesson.lessonTypeAbbrev else { continue }
+                marksByType[type, default: []].append(contentsOf: lesson.marks.filter { $0 > 0 })
+            }
+            let lessonTypeAverages = Self.lessonTypeOrder.compactMap { type -> GradeBookSubjectSummary.LessonTypeAverage? in
+                guard let marks = marksByType[type], !marks.isEmpty else { return nil }
+                return GradeBookSubjectSummary.LessonTypeAverage(
+                    abbrev: type,
+                    average: Double(marks.reduce(0, +)) / Double(marks.count)
+                )
+            }
+
+            return GradeBookSubjectSummary(
+                subjectName: name,
+                overallAverage: overallAverage,
+                lessonTypeAverages: lessonTypeAverages,
+                totalOmissionHours: totalOmissions
+            )
+        }
     }
 
     private let gradesService: any GradesServiceProtocol
@@ -48,10 +88,12 @@ final class GradesViewModel {
         } catch {
             print(error.localizedDescription)
         }
-        selectedControlPointIndex = 0
+        selectedTabIndex = 0
     }
 
     // MARK: - Grouping
+
+    private static let lessonTypeOrder = ["ЛК", "ПЗ", "ЛР"]
 
     private static func buildControlPoints(from lessons: [GradeBookLesson]) -> [GradeBookControlPoint] {
         var lessonsByControlPoint: [String: [GradeBookLesson]] = [:]
@@ -105,9 +147,13 @@ final class GradesViewModel {
                     subjectName: first.subjectName,
                     lessonTypeAbbrev: first.lessonTypeAbbrev,
                     subGroup: first.subGroup,
-                    marks: subjectLessons.flatMap { $0.marks },
-                    totalOmissions: subjectLessons.reduce(0) { $0 + $1.omissions },
-                    hasRespectfulOmissions: subjectLessons.contains { $0.isRespectfulOmission }
+                    marks: subjectLessons.flatMap { lesson in
+                        lesson.marks.map { GradeBookMark(value: $0, date: lesson.date) }
+                    },
+                    omissions: subjectLessons.compactMap { lesson in
+                        guard lesson.omissions > 0 else { return nil }
+                        return GradeBookOmission(count: lesson.omissions, date: lesson.date, isRespectful: lesson.isRespectfulOmission)
+                    }
                 )
             }
             .sorted { $0.subjectName < $1.subjectName }

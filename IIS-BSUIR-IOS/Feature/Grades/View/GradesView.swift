@@ -10,8 +10,6 @@ import SwiftUI
 
 private enum Constants {
     enum Layout {
-        static let summaryHorizontalPadding: CGFloat = 16
-        static let summaryVerticalPadding: CGFloat = 10
         static let pickerVerticalPadding: CGFloat = 8
         static let pickerHorizontalPadding: CGFloat = 16
         static let pickerSpacing: CGFloat = 8
@@ -24,19 +22,31 @@ private enum Constants {
         static let shadowOffsetY: CGFloat = 1
         static let cardRowSpacing: CGFloat = 8
         static let markSpacing: CGFloat = 4
-        static let markSize: CGFloat = 28
-        static let markCornerRadius: CGFloat = 6
-        static let typeColumnWidth: CGFloat = 32
+        static let markSize: CGFloat = 34
+        static let markCornerRadius: CGFloat = 7
+        static let typeColumnWidth: CGFloat = 44
+        static let lessonTypeRowSpacing: CGFloat = 8
+        static let subheadlineFontHeight: CGFloat = 20
+        static let omissionsRowSpacing: CGFloat = 4
+        static let animationDuration: Double = 0.25
+        static let popoverHorizontalPadding: CGFloat = 12
+        static let popoverVerticalPadding: CGFloat = 8
     }
     enum Colors {
         static let cardBackground = Color(.secondarySystemGroupedBackground)
         static let shadowColor = Color.black.opacity(0.05)
-        static let goodMarkBackground = Color.green.opacity(0.18)
-        static let zeroMarkBackground = Color.red.opacity(0.18)
+        static let lowMarkBackground = Color.red.opacity(0.18)
+        static let midMarkBackground = Color.yellow.opacity(0.28)
+        static let highMarkBackground = Color.green.opacity(0.18)
+        static let omissionBackground = Color.red.opacity(0.18)
     }
     enum Icons {
         static let grades = "list.number"
         static let omission = "exclamationmark.circle.fill"
+    }
+    enum Strings {
+        static let omissionsRowLabel: LocalizedStringKey = "grades.omissions.row_label"
+        static let summaryTab: LocalizedStringKey = "grades.summary.tab"
     }
     static let lessonTypes: [(abbrev: String, key: LocalizedStringKey)] = [
         ("ЛК", "grades.lesson_type.lk"),
@@ -75,64 +85,88 @@ struct GradesView: View {
 
     private var loadedView: some View {
         VStack(spacing: 0) {
-            summaryStrip
-            controlPointPicker
-            TabView(selection: Bindable(viewModel).selectedControlPointIndex) {
+            tabPicker
+            TabView(selection: Bindable(viewModel).selectedTabIndex) {
                 ForEach(viewModel.controlPoints.indices, id: \.self) { index in
                     controlPointList(for: viewModel.controlPoints[index])
                         .tag(index)
                 }
+                if !viewModel.subjectSummaries.isEmpty {
+                    subjectSummaryList
+                        .tag(viewModel.controlPoints.count)
+                }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeInOut(duration: 0.25), value: viewModel.selectedControlPointIndex)
+            .animation(.easeInOut(duration: Constants.Layout.animationDuration), value: viewModel.selectedTabIndex)
         }
         .background(Color(.systemGroupedBackground))
     }
 
-    private var summaryStrip: some View {
-        HStack {
-            Spacer()
-            VStack(alignment: .trailing, spacing: 2) {
-                Text("grades.summary.average.label")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text(viewModel.overallAverage.map { $0.formattedAverage } ?? String(localized: "grades.no_mark"))
-                    .font(.title3.bold())
-                    .foregroundStyle(viewModel.overallAverage == nil ? .secondary : .primary)
-            }
-        }
-        .padding(.horizontal, Constants.Layout.summaryHorizontalPadding)
-        .padding(.vertical, Constants.Layout.summaryVerticalPadding)
-    }
-
-    private var controlPointPicker: some View {
+    private var tabPicker: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Constants.Layout.pickerSpacing) {
                 ForEach(viewModel.controlPoints.indices, id: \.self) { index in
-                    let point = viewModel.controlPoints[index]
-                    let isSelected = viewModel.selectedControlPointIndex == index
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.25)) {
-                            viewModel.selectedControlPointIndex = index
-                        }
-                    } label: {
-                        Text(shortLabel(for: point))
-                            .font(.subheadline.weight(.medium))
-                            .foregroundStyle(isSelected ? .white : .primary)
-                            .padding(.horizontal, Constants.Layout.pillHorizontalPadding)
-                            .padding(.vertical, Constants.Layout.pillVerticalPadding)
-                            .background(
-                                isSelected ? Color.accentColor : Color(.secondarySystemGroupedBackground),
-                                in: Capsule()
-                            )
-                    }
-                    .buttonStyle(.plain)
+                    pickerPill(label: shortLabel(for: viewModel.controlPoints[index]), tag: index)
+                }
+                if !viewModel.subjectSummaries.isEmpty {
+                    pickerPill(label: String(localized: "grades.summary.tab"), tag: viewModel.controlPoints.count)
                 }
             }
             .padding(.horizontal, Constants.Layout.pickerHorizontalPadding)
             .padding(.vertical, Constants.Layout.pickerVerticalPadding)
         }
     }
+
+    private func pickerPill(label: String, tag: Int) -> some View {
+        let isSelected = viewModel.selectedTabIndex == tag
+        return Button {
+            withAnimation(.easeInOut(duration: Constants.Layout.animationDuration)) {
+                viewModel.selectedTabIndex = tag
+            }
+        } label: {
+            Text(label)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .padding(.horizontal, Constants.Layout.pillHorizontalPadding)
+                .padding(.vertical, Constants.Layout.pillVerticalPadding)
+                .background(
+                    isSelected ? Color.accentColor : Color(.secondarySystemGroupedBackground),
+                    in: Capsule()
+                )
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Summary tab
+
+    private var subjectSummaryList: some View {
+        List {
+            Section {
+                ForEach(viewModel.subjectSummaries, id: \.subjectName) { summary in
+                    SubjectSummaryCardView(summary: summary)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(Constants.Layout.rowInsets)
+                }
+            } header: {
+                HStack {
+                    Text(Constants.Strings.summaryTab)
+                    Spacer()
+                    if let info = headerInfoText(avg: viewModel.overallAverage, omissionHours: viewModel.overallOmissionHours) {
+                        Text(info)
+                    }
+                }
+                .font(.callout.weight(.semibold))
+                .foregroundStyle(.primary)
+                .textCase(nil)
+            }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .scrollIndicators(.hidden)
+    }
+
+    // MARK: - Control point tab
 
     private func controlPointList(for point: GradeBookControlPoint) -> some View {
         let items = groupedSubjects(point).filter { hasContent($0.groups) }
@@ -148,20 +182,27 @@ struct GradesView: View {
                 HStack {
                     Text(fullLabel(for: point))
                     Spacer()
-                    if let avg = point.average {
-                        Text(avg.formattedAverage)
+                    if let info = headerInfoText(avg: point.average, omissionHours: point.totalOmissionHours) {
+                        Text(info)
                     }
                 }
-                .font(.subheadline.weight(.medium))
+                .font(.callout.weight(.semibold))
                 .foregroundStyle(.primary)
                 .textCase(nil)
             }
         }
-        .ignoresSafeArea(edges: .bottom) // skebob
-        .background(.red)
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
+    }
+
+    // MARK: - Helpers
+
+    private func headerInfoText(avg: Double?, omissionHours: Int) -> String? {
+        var parts: [String] = []
+        if let avg { parts.append(String(localized: "grades.header.avg \(avg.formattedAverage)")) }
+        if omissionHours > 0 { parts.append(String(localized: "grades.header.oms \(omissionHours)")) }
+        return parts.isEmpty ? nil : parts.joined(separator: ", ")
     }
 
     private func shortLabel(for point: GradeBookControlPoint) -> String {
@@ -183,7 +224,7 @@ struct GradesView: View {
     }
 
     private func hasContent(_ groups: [GradeBookSubjectGroup]) -> Bool {
-        groups.contains { !$0.marks.isEmpty || $0.totalOmissions > 0 }
+        groups.contains { !$0.marks.isEmpty || !$0.omissions.isEmpty }
     }
 
     private func groupedSubjects(_ controlPoint: GradeBookControlPoint) -> [(name: String, groups: [GradeBookSubjectGroup])] {
@@ -200,7 +241,69 @@ struct GradesView: View {
     }
 }
 
-// MARK: - Subject Card
+// MARK: - Subject Summary Card
+
+private struct SubjectSummaryCardView: View {
+    let summary: GradeBookSubjectSummary
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text(summary.subjectName)
+                    .font(.headline)
+                Spacer()
+                if let avg = summary.overallAverage {
+                    Text(avg.formattedAverage)
+                        .font(.title3.bold())
+                }
+            }
+            .padding(Constants.Layout.cardPadding)
+
+            if !summary.lessonTypeAverages.isEmpty || summary.totalOmissionHours > 0 {
+                Divider()
+                    .padding(.horizontal, Constants.Layout.cardPadding)
+
+                VStack(alignment: .leading, spacing: Constants.Layout.cardRowSpacing) {
+                    ForEach(summary.lessonTypeAverages, id: \.abbrev) { typeAvg in
+                        HStack {
+                            Text(typeAvg.abbrev)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .frame(width: Constants.Layout.typeColumnWidth, alignment: .leading)
+                            Spacer()
+                            Text(typeAvg.average.formattedAverage)
+                                .font(.subheadline.weight(.medium))
+                        }
+                    }
+
+                    if summary.totalOmissionHours > 0 {
+                        HStack {
+                            Text(Constants.Strings.omissionsRowLabel)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .frame(width: Constants.Layout.typeColumnWidth, alignment: .leading)
+                            Spacer()
+                            Text(String(localized: "grades.omissions.hours \(summary.totalOmissionHours)"))
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(.red)
+                        }
+                    }
+                }
+                .padding(Constants.Layout.cardPadding)
+            }
+        }
+        .background(Constants.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
+    }
+}
+
+// MARK: - Subject Card (control point tab)
 
 private struct SubjectCardView: View {
     let subjectName: String
@@ -223,9 +326,9 @@ private struct SubjectCardView: View {
                     }
                 }
 
-                let totalOmissions = groups.reduce(0) { $0 + $1.totalOmissions }
-                if totalOmissions > 0 {
-                    OmissionsRow(total: totalOmissions)
+                let omissions = groups.flatMap { $0.omissions }
+                if !omissions.isEmpty {
+                    OmissionsRow(omissions: omissions)
                 }
             }
             .padding(Constants.Layout.cardPadding)
@@ -243,48 +346,135 @@ private struct SubjectCardView: View {
 
 private struct LessonTypeRow: View {
     let typeKey: LocalizedStringKey
-    let marks: [Int]
+    let marks: [GradeBookMark]
 
     var body: some View {
-        HStack(alignment: .center, spacing: 8) {
+        HStack(alignment: .top, spacing: Constants.Layout.lessonTypeRowSpacing) {
             Text(typeKey)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(width: Constants.Layout.typeColumnWidth, alignment: .leading)
-            HStack(spacing: Constants.Layout.markSpacing) {
+                .padding(.top, (Constants.Layout.markSize - Constants.Layout.subheadlineFontHeight) / 2)
+            FlowLayout(spacing: Constants.Layout.markSpacing) {
                 ForEach(marks.indices, id: \.self) { index in
-                    MarkBadge(value: marks[index])
+                    MarkBadge(mark: marks[index])
                 }
             }
         }
     }
 }
 
-private struct OmissionsRow: View {
-    let total: Int
+private struct FlowLayout: Layout {
+    var spacing: CGFloat = 4
 
-    var body: some View {
-        HStack(spacing: 4) {
-            Image(systemName: Constants.Icons.omission)
-                .font(.subheadline)
-                .foregroundStyle(.red)
-            Text(String(localized: "grades.omissions \(total)"))
-                .font(.subheadline)
-                .foregroundStyle(.red)
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let maxWidth = proposal.width ?? .infinity
+        var currentX: CGFloat = 0
+        var currentY: CGFloat = 0
+        var rowHeight: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if currentX + size.width > maxWidth, currentX > 0 {
+                currentY += rowHeight + spacing
+                currentX = 0
+                rowHeight = 0
+            }
+            currentX += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
+        }
+
+        return CGSize(width: maxWidth, height: currentY + rowHeight)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        var currentX = bounds.minX
+        var currentY = bounds.minY
+        var rowHeight: CGFloat = 0
+
+        for subview in subviews {
+            let size = subview.sizeThatFits(.unspecified)
+            if currentX + size.width > bounds.maxX, currentX > bounds.minX {
+                currentY += rowHeight + spacing
+                currentX = bounds.minX
+                rowHeight = 0
+            }
+            subview.place(at: CGPoint(x: currentX, y: currentY), proposal: .unspecified)
+            currentX += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
         }
     }
 }
 
-private struct MarkBadge: View {
-    let value: Int
+private struct OmissionsRow: View {
+    let omissions: [GradeBookOmission]
 
     var body: some View {
-        Text("\(value)")
+        HStack(alignment: .top, spacing: Constants.Layout.lessonTypeRowSpacing) {
+            Text(Constants.Strings.omissionsRowLabel)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .frame(width: Constants.Layout.typeColumnWidth, alignment: .leading)
+                .padding(.top, (Constants.Layout.markSize - Constants.Layout.subheadlineFontHeight) / 2)
+            FlowLayout(spacing: Constants.Layout.markSpacing) {
+                ForEach(omissions.indices, id: \.self) { index in
+                    OmissionBadge(omission: omissions[index])
+                }
+            }
+        }
+    }
+}
+
+private struct OmissionBadge: View {
+    let omission: GradeBookOmission
+
+    @State private var showingDate = false
+
+    var body: some View {
+        Text("\(omission.count)")
             .font(.subheadline.weight(.semibold))
             .frame(width: Constants.Layout.markSize, height: Constants.Layout.markSize)
-            .background(
-                value > 0 ? Constants.Colors.goodMarkBackground : Constants.Colors.zeroMarkBackground,
-                in: RoundedRectangle(cornerRadius: Constants.Layout.markCornerRadius)
-            )
+            .background(Constants.Colors.omissionBackground, in: RoundedRectangle(cornerRadius: Constants.Layout.markCornerRadius))
+            .onTapGesture { if omission.date != nil { showingDate = true } }
+            .popover(isPresented: $showingDate) {
+                if let date = omission.date {
+                    Text(date.formatted(.dateTime.day().month().year()))
+                        .font(.subheadline)
+                        .padding(.horizontal, Constants.Layout.popoverHorizontalPadding)
+                        .padding(.vertical, Constants.Layout.popoverVerticalPadding)
+                        .presentationCompactAdaptation(.popover)
+                }
+            }
+    }
+}
+
+private struct MarkBadge: View {
+    let mark: GradeBookMark
+
+    @State private var showingDate = false
+
+    var body: some View {
+        Text("\(mark.value)")
+            .font(.subheadline.weight(.semibold))
+            .frame(width: Constants.Layout.markSize, height: Constants.Layout.markSize)
+            .background(badgeColor, in: RoundedRectangle(cornerRadius: Constants.Layout.markCornerRadius))
+            .onTapGesture { if mark.date != nil { showingDate = true } }
+            .popover(isPresented: $showingDate) {
+                if let date = mark.date {
+                    Text(date.formatted(.dateTime.day().month().year()))
+                        .font(.subheadline)
+                        .padding(.horizontal, Constants.Layout.popoverHorizontalPadding)
+                        .padding(.vertical, Constants.Layout.popoverVerticalPadding)
+                        .presentationCompactAdaptation(.popover)
+                }
+            }
+    }
+
+    private var badgeColor: Color {
+        switch mark.value {
+        case 0...3: return Constants.Colors.lowMarkBackground
+        case 4...7: return Constants.Colors.midMarkBackground
+        default:    return Constants.Colors.highMarkBackground
+        }
     }
 }

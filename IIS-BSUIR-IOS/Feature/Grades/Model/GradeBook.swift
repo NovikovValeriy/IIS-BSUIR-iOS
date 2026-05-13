@@ -27,6 +27,17 @@ struct GradeBookLesson {
     let controlPointString: String
 }
 
+struct GradeBookMark {
+    let value: Int
+    let date: Date?
+}
+
+struct GradeBookOmission {
+    let count: Int
+    let date: Date?
+    let isRespectful: Bool
+}
+
 struct GradeBookControlPoint {
     let date: Date
     let displayString: String
@@ -37,15 +48,29 @@ struct GradeBookSubjectGroup {
     let subjectName: String
     let lessonTypeAbbrev: String?
     let subGroup: Int
-    let marks: [Int]
-    let totalOmissions: Int
-    let hasRespectfulOmissions: Bool
+    let marks: [GradeBookMark]
+    let omissions: [GradeBookOmission]
+}
+
+struct GradeBookSubjectSummary {
+    struct LessonTypeAverage {
+        let abbrev: String
+        let average: Double
+    }
+    let subjectName: String
+    let overallAverage: Double?
+    let lessonTypeAverages: [LessonTypeAverage]
+    let totalOmissionHours: Int
 }
 
 extension GradeBookControlPoint {
     var average: Double? {
-        let marks = subjects.flatMap { $0.marks }.filter { $0 > 0 }
-        guard !marks.isEmpty else { return nil }
-        return Double(marks.reduce(0, +)) / Double(marks.count)
+        let values = subjects.flatMap { $0.marks }.map { $0.value }.filter { $0 > 0 }
+        guard !values.isEmpty else { return nil }
+        return Double(values.reduce(0, +)) / Double(values.count)
+    }
+
+    var totalOmissionHours: Int {
+        subjects.flatMap { $0.omissions }.reduce(0) { $0 + $1.count }
     }
 }

@@ -148,6 +148,26 @@
         }
       }
     },
+    "grades.header.avg %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "avg: %@"
+          }
+        }
+      }
+    },
+    "grades.header.oms %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "oms: %lldh."
+          }
+        }
+      }
+    },
     "grades.lesson_type.lk" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -181,32 +201,32 @@
         }
       }
     },
-    "grades.no_mark" : {
+    "grades.omissions.hours %lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "—"
+            "value" : "%lldh."
           }
         }
       }
     },
-    "grades.omissions %lld" : {
+    "grades.omissions.row_label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Absent: %lld"
+            "value" : "Oms."
           }
         }
       }
     },
-    "grades.summary.average.label" : {
+    "grades.summary.tab" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Average"
+            "value" : "Summary"
           }
         }
       }
