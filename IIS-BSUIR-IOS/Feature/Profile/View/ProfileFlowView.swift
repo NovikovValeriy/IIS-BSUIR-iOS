@@ -20,7 +20,7 @@ struct ProfileFlowView: View {
                     case .markBook:
                         MarkBookView()
                     case .grades:
-                        GradesView()
+                        GradesView(viewModel: Container.shared.gradesViewModel())
                     case .omissions:
                         Text("profile.omissions.title")
                             .navigationTitle("profile.omissions.title")

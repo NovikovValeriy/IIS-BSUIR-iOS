@@ -65,7 +65,13 @@ private extension Double {
 }
 
 struct GradesView: View {
-    @State private var viewModel = Container.shared.gradesViewModel()
+    @State private var viewModel: GradesViewModel
+    private let title: String
+
+    init(viewModel: GradesViewModel, title: String = String(localized: "grades.title")) {
+        _viewModel = State(initialValue: viewModel)
+        self.title = title
+    }
 
     var body: some View {
         Group {
@@ -78,7 +84,7 @@ struct GradesView: View {
                 ContentUnavailableView("grades.empty.title", systemImage: Constants.Icons.grades)
             }
         }
-        .navigationTitle("grades.title")
+        .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }

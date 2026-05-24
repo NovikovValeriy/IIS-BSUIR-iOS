@@ -17,14 +17,22 @@ struct DirectoryFlowView: View {
                 .navigationDestination(for: DirectoryDestination.self) { destination in
                     switch destination {
                     case .ratings:
-                        Text("directory.ratings.title")
-                            .navigationTitle("directory.ratings.title")
+                        RatingsView()
                     case .subjects:
                         Text("directory.subjects.title")
                             .navigationTitle("directory.subjects.title")
                     case .departments:
                         Text("directory.departments.title")
                             .navigationTitle("directory.departments.title")
+                    case .studentGrades(let cardNumber):
+                        let adapter = StudentGradesAdapter(
+                            cardNumber: cardNumber,
+                            service: Container.shared.ratingsService()
+                        )
+                        GradesView(
+                            viewModel: GradesViewModel(gradesService: adapter),
+                            title: String(localized: "ratings.student.grades_title \(cardNumber)")
+                        )
                     }
                 }
         }
