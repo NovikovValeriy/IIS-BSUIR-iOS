@@ -37,7 +37,9 @@ extension Container {
 
     var apiClient: Factory<any APIClient> {
         self { @MainActor in
-            let session = URLSession(configuration: .default, delegate: nil, delegateQueue: nil)
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = 30
+            let session = URLSession(configuration: config)
             return DefaultAPIClient(
                 baseURL: URL(string: "https://iis.bsuir.by/api/v1")!,
                 keychain: self.keychain(),

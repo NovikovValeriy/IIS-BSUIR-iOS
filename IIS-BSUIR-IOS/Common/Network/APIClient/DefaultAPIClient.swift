@@ -12,6 +12,11 @@ final class DefaultAPIClient: APIClient {
     private let session: URLSession
     private let keychain: KeychainService
 
+    private enum Retry {
+        static let maxAttempts = 3
+        static let baseDelay: TimeInterval = 1.0
+    }
+
     init(
         baseURL: URL,
         keychain: KeychainService,
@@ -23,22 +28,34 @@ final class DefaultAPIClient: APIClient {
     }
 
     func send(request: URLRequest) async throws(APIError) -> APIResponse {
-        do {
-            let (data, response) = try await session.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw APIError.invalidResponse
+        var lastError: APIError = .unknown
+        for attempt in 0..<Retry.maxAttempts {
+            if Task.isCancelled { break }
+            if attempt > 0 {
+                let delay = Retry.baseDelay * pow(2.0, Double(attempt - 1))
+                try? await Task.sleep(for: .seconds(delay))
             }
-            let headers = httpResponse.allHeaderFields.reduce(into: [String: String]()) { result, pair in
-                if let key = pair.key as? String, let value = pair.value as? String {
-                    result[key] = value
+            do {
+                let (data, response) = try await session.data(for: request)
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    lastError = .invalidResponse
+                    continue
                 }
+                if (500...599).contains(httpResponse.statusCode) {
+                    lastError = .networkError(statusCode: httpResponse.statusCode)
+                    continue
+                }
+                let headers = httpResponse.allHeaderFields.reduce(into: [String: String]()) { result, pair in
+                    if let key = pair.key as? String, let value = pair.value as? String {
+                        result[key] = value
+                    }
+                }
+                return APIResponse(statusCode: httpResponse.statusCode, data: data, headers: headers)
+            } catch {
+                lastError = .unknown
             }
-            return APIResponse(statusCode: httpResponse.statusCode, data: data, headers: headers)
-        } catch let error as APIError {
-            throw error
-        } catch {
-            throw APIError.unknown
         }
+        throw lastError
     }
 
     func defaultHeaders(additionalHeaders: [String: String]) throws(APIError) -> [String: String] {
