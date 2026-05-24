@@ -28,6 +28,10 @@ struct MainTabView: View {
                 .tabItem { Label(TabItem.profile.title, systemImage: TabItem.profile.systemImage) }
                 .tag(TabItem.profile)
 
+            DirectoryFlowView()
+                .tabItem { Label(TabItem.directory.title, systemImage: TabItem.directory.systemImage) }
+                .tag(TabItem.directory)
+
             SettingsFlowView()
                 .tabItem { Label(TabItem.settings.title, systemImage: TabItem.settings.systemImage) }
                 .tag(TabItem.settings)

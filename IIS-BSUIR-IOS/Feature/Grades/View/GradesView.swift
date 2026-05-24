@@ -153,7 +153,10 @@ struct GradesView: View {
                 HStack {
                     Text(Constants.Strings.summaryTab)
                     Spacer()
-                    if let info = headerInfoText(avg: viewModel.overallAverage, omissionHours: viewModel.overallOmissionHours) {
+                    if let info = headerInfoText(
+                        avg: viewModel.overallAverage,
+                        omissionHours: viewModel.overallOmissionHours
+                    ) {
                         Text(info)
                     }
                 }
@@ -228,7 +231,9 @@ struct GradesView: View {
         groups.contains { !$0.marks.isEmpty || !$0.omissions.isEmpty }
     }
 
-    private func groupedSubjects(_ controlPoint: GradeBookControlPoint) -> [(name: String, groups: [GradeBookSubjectGroup])] {
+    private func groupedSubjects(
+        _ controlPoint: GradeBookControlPoint
+    ) -> [(name: String, groups: [GradeBookSubjectGroup])] {
         var dict: [String: [GradeBookSubjectGroup]] = [:]
         var order: [String] = []
         for group in controlPoint.subjects {
@@ -435,7 +440,10 @@ private struct OmissionBadge: View {
         Text("\(omission.count)")
             .font(.subheadline.weight(.semibold))
             .frame(width: Constants.Layout.markSize, height: Constants.Layout.markSize)
-            .background(Constants.Colors.omissionBackground, in: RoundedRectangle(cornerRadius: Constants.Layout.markCornerRadius))
+            .background(
+                Constants.Colors.omissionBackground,
+                in: RoundedRectangle(cornerRadius: Constants.Layout.markCornerRadius)
+            )
             .onTapGesture { if omission.date != nil { showingDate = true } }
             .popover(isPresented: $showingDate) {
                 if let date = omission.date {

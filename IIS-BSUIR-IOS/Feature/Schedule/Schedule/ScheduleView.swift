@@ -55,16 +55,17 @@ struct ScheduleView<EmptyState: View>: View {
                     days: viewModel.examsDays,
                     isExhausted: true,
                     onLoadMore: nil,
-                    onRefresh: { await viewModel.didPullToRefresh() }
-                ) {
-                    ContentUnavailableView(
-                        "schedule.no_exams.title",
-                        systemImage: Constants.Icons.modeExams,
-                        description: Text(
-                            "schedule.no_exams.description \(viewModel.selectedSubject?.displayName ?? "")"
+                    onRefresh: { await viewModel.didPullToRefresh() },
+                    emptyState: {
+                        ContentUnavailableView(
+                            "schedule.no_exams.title",
+                            systemImage: Constants.Icons.modeExams,
+                            description: Text(
+                                "schedule.no_exams.description \(viewModel.selectedSubject?.displayName ?? "")"
+                            )
                         )
-                    )
-                }
+                    }
+                )
             } else {
                 TimelineScheduleView(
                     viewModel: viewModel,

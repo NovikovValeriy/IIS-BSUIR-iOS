@@ -118,6 +118,76 @@
         }
       }
     },
+    "directory.departments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Departments"
+          }
+        }
+      }
+    },
+    "directory.departments.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Departments"
+          }
+        }
+      }
+    },
+    "directory.ratings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ratings"
+          }
+        }
+      }
+    },
+    "directory.ratings.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Student Ratings"
+          }
+        }
+      }
+    },
+    "directory.subjects" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subjects"
+          }
+        }
+      }
+    },
+    "directory.subjects.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subjects"
+          }
+        }
+      }
+    },
+    "directory.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Directory"
+          }
+        }
+      }
+    },
     "grades.control_point.outside" : {
       "localizations" : {
         "en" : {
@@ -649,7 +719,6 @@
       }
     },
     "profile.academic_section" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -659,13 +728,72 @@
         }
       }
     },
+    "profile.activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
+    "profile.activity.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
+    "profile.announcements" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Announcements"
+          }
+        }
+      }
+    },
+    "profile.announcements.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Announcements"
+          }
+        }
+      }
+    },
     "profile.campus_section" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Campus"
+          }
+        }
+      }
+    },
+    "profile.certificates" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificates"
+          }
+        }
+      }
+    },
+    "profile.certificates.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificates"
           }
         }
       }
@@ -726,7 +854,6 @@
       }
     },
     "profile.dormitory" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -737,7 +864,6 @@
       }
     },
     "profile.dormitory.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -754,6 +880,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit profile — coming soon"
+          }
+        }
+      }
+    },
+    "profile.group_info" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group"
+          }
+        }
+      }
+    },
+    "profile.group_info.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group"
           }
         }
       }
@@ -797,6 +943,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Speciality"
+          }
+        }
+      }
+    },
+    "profile.library" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library"
+          }
+        }
+      }
+    },
+    "profile.library.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library"
           }
         }
       }
@@ -859,6 +1025,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "profile.omissions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendance"
+          }
+        }
+      }
+    },
+    "profile.omissions.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendance"
+          }
+        }
+      }
+    },
+    "profile.penalties" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Awards & Penalties"
+          }
+        }
+      }
+    },
+    "profile.penalties.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Awards & Penalties"
           }
         }
       }
@@ -1397,6 +1603,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select Schedule"
+          }
+        }
+      }
+    },
+    "tab.directory" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Directory"
           }
         }
       }

@@ -25,6 +25,14 @@ private enum Constants {
         static let logout = "rectangle.portrait.and.arrow.right"
         static let markBook = "graduationcap"
         static let grades = "list.number"
+        static let omissions = "clock.badge.xmark"
+        static let certificates = "doc.text"
+        static let groupInfo = "person.3.fill"
+        static let library = "books.vertical.fill"
+        static let announcements = "bell.fill"
+        static let dormitory = "house.fill"
+        static let penalties = "flag.fill"
+        static let activity = "chart.line.uptrend.xyaxis"
     }
     enum Colors {
         static let avatarBackground = Color(.secondarySystemGroupedBackground)
@@ -74,16 +82,39 @@ struct ProfileView: View {
                 }
             }
 
-            Section {
-                Button {
-                    viewModel.didTapMarkBook()
-                } label: {
+            Section("profile.academic_section") {
+                Button { viewModel.didTapMarkBook() } label: {
                     Label("markbook.title", systemImage: Constants.Icons.markBook)
                 }
-                Button {
-                    viewModel.didTapGrades()
-                } label: {
+                Button { viewModel.didTapGrades() } label: {
                     Label("grades.title", systemImage: Constants.Icons.grades)
+                }
+                Button { viewModel.didTapOmissions() } label: {
+                    Label("profile.omissions", systemImage: Constants.Icons.omissions)
+                }
+                Button { viewModel.didTapCertificates() } label: {
+                    Label("profile.certificates", systemImage: Constants.Icons.certificates)
+                }
+            }
+
+            Section("profile.campus_section") {
+                Button { viewModel.didTapGroupInfo() } label: {
+                    Label("profile.group_info", systemImage: Constants.Icons.groupInfo)
+                }
+                Button { viewModel.didTapLibrary() } label: {
+                    Label("profile.library", systemImage: Constants.Icons.library)
+                }
+                Button { viewModel.didTapAnnouncements() } label: {
+                    Label("profile.announcements", systemImage: Constants.Icons.announcements)
+                }
+                Button { viewModel.didTapDormitory() } label: {
+                    Label("profile.dormitory", systemImage: Constants.Icons.dormitory)
+                }
+                Button { viewModel.didTapPenalties() } label: {
+                    Label("profile.penalties", systemImage: Constants.Icons.penalties)
+                }
+                Button { viewModel.didTapActivity() } label: {
+                    Label("profile.activity", systemImage: Constants.Icons.activity)
                 }
             }
         }

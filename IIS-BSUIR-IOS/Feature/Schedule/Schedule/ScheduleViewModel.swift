@@ -9,7 +9,6 @@ import Foundation
 import Network
 
 // swiftlint:disable type_body_length
-
 @Observable
 @MainActor
 class ScheduleViewModel {

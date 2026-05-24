@@ -21,6 +21,30 @@ struct ProfileFlowView: View {
                         MarkBookView()
                     case .grades:
                         GradesView()
+                    case .omissions:
+                        Text("profile.omissions.title")
+                            .navigationTitle("profile.omissions.title")
+                    case .certificates:
+                        Text("profile.certificates.title")
+                            .navigationTitle("profile.certificates.title")
+                    case .groupInfo:
+                        Text("profile.group_info.title")
+                            .navigationTitle("profile.group_info.title")
+                    case .library:
+                        Text("profile.library.title")
+                            .navigationTitle("profile.library.title")
+                    case .announcements:
+                        Text("profile.announcements.title")
+                            .navigationTitle("profile.announcements.title")
+                    case .dormitory:
+                        Text("profile.dormitory.title")
+                            .navigationTitle("profile.dormitory.title")
+                    case .penalties:
+                        Text("profile.penalties.title")
+                            .navigationTitle("profile.penalties.title")
+                    case .activity:
+                        Text("profile.activity.title")
+                            .navigationTitle("profile.activity.title")
                     }
                 }
         }

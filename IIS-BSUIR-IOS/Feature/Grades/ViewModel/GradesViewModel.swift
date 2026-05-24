@@ -56,13 +56,15 @@ final class GradesViewModel {
                 guard let type = lesson.lessonTypeAbbrev else { continue }
                 marksByType[type, default: []].append(contentsOf: lesson.marks.filter { $0 > 0 })
             }
-            let lessonTypeAverages = Self.lessonTypeOrder.compactMap { type -> GradeBookSubjectSummary.LessonTypeAverage? in
-                guard let marks = marksByType[type], !marks.isEmpty else { return nil }
-                return GradeBookSubjectSummary.LessonTypeAverage(
-                    abbrev: type,
-                    average: Double(marks.reduce(0, +)) / Double(marks.count)
-                )
-            }
+            let lessonTypeAverages = Self
+                .lessonTypeOrder
+                .compactMap { type -> GradeBookSubjectSummary.LessonTypeAverage? in
+                    guard let marks = marksByType[type], !marks.isEmpty else { return nil }
+                    return GradeBookSubjectSummary.LessonTypeAverage(
+                        abbrev: type,
+                        average: Double(marks.reduce(0, +)) / Double(marks.count)
+                    )
+                }
 
             return GradeBookSubjectSummary(
                 subjectName: name,
@@ -152,7 +154,11 @@ final class GradesViewModel {
                     },
                     omissions: subjectLessons.compactMap { lesson in
                         guard lesson.omissions > 0 else { return nil }
-                        return GradeBookOmission(count: lesson.omissions, date: lesson.date, isRespectful: lesson.isRespectfulOmission)
+                        return GradeBookOmission(
+                            count: lesson.omissions,
+                            date: lesson.date,
+                            isRespectful: lesson.isRespectfulOmission
+                        )
                     }
                 )
             }
