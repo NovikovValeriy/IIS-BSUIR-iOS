@@ -13,12 +13,14 @@ import Factory
 final class AppCoordinator {
     private let authState: AuthState
     private let authService: any AuthServiceProtocol
+    private let storage: any StorageProtocol
 
     var isShowingAuth: Bool = false
 
-    init(authState: AuthState, authService: any AuthServiceProtocol) {
+    init(authState: AuthState, authService: any AuthServiceProtocol, storage: any StorageProtocol) {
         self.authState = authState
         self.authService = authService
+        self.storage = storage
     }
 
     // Silently restore session on launch — does not block the UI
@@ -40,6 +42,7 @@ final class AppCoordinator {
     func userDidLogout() {
         Task {
             await authService.logout()
+            storage.removeValue(for: .groupNumber)
             Container.shared.manager.reset(scope: .shared)
             authState.transition(to: .unauthenticated)
         }

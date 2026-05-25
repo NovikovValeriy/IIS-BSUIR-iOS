@@ -28,8 +28,7 @@ struct ProfileFlowView: View {
                         Text("profile.certificates.title")
                             .navigationTitle("profile.certificates.title")
                     case .groupInfo:
-                        Text("profile.group_info.title")
-                            .navigationTitle("profile.group_info.title")
+                        GroupInfoView()
                     case .library:
                         Text("profile.library.title")
                             .navigationTitle("profile.library.title")

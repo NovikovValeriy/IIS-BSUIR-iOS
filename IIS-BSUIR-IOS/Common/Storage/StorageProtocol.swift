@@ -18,4 +18,5 @@ enum StorageKey: String {
     case scheduleDisplayMode
     case scheduleSubgroupFilter
     case currentSemesterWeek
+    case groupNumber
 }

@@ -23,7 +23,9 @@ extension Container {
     }
 
     var appCoordinator: Factory<AppCoordinator> {
-        self { @MainActor in AppCoordinator(authState: self.authState(), authService: self.authService()) }.singleton
+        self { @MainActor in
+            AppCoordinator(authState: self.authState(), authService: self.authService(), storage: self.storage())
+        }.singleton
     }
 
     var tabCoordinator: Factory<TabCoordinator> {
