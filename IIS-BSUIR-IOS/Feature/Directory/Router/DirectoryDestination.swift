@@ -11,5 +11,6 @@ enum DirectoryDestination: Hashable {
     case ratings
     case subjects
     case departments
+    case departmentEmployees(Department)
     case studentGrades(String)
 }

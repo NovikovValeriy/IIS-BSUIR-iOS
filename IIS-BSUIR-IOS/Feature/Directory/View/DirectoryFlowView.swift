@@ -22,8 +22,9 @@ struct DirectoryFlowView: View {
                         Text("directory.subjects.title")
                             .navigationTitle("directory.subjects.title")
                     case .departments:
-                        Text("directory.departments.title")
-                            .navigationTitle("directory.departments.title")
+                        DepartmentsView()
+                    case .departmentEmployees(let department):
+                        DepartmentEmployeesView(department: department)
                     case .studentGrades(let cardNumber):
                         let adapter = StudentGradesAdapter(
                             cardNumber: cardNumber,

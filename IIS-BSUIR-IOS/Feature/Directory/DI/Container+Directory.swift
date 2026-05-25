@@ -27,10 +27,36 @@ extension Container {
         self { @MainActor in RatingsViewModel(service: self.ratingsService(), router: self.directoryRouter()) }
     }
 
+    var departmentCacheService: Factory<DepartmentCacheService> {
+        self { @MainActor in DepartmentCacheService(modelContainer: self.departmentModelContainer()) }.shared
+    }
+
+    var departmentService: Factory<any DepartmentServiceProtocol> {
+        self { @MainActor in
+            DepartmentService(apiClient: self.apiClient(), cache: self.departmentCacheService())
+        }.shared
+    }
+
+    var departmentsViewModel: Factory<DepartmentsViewModel> {
+        self { @MainActor in DepartmentsViewModel(service: self.departmentService(), router: self.directoryRouter()) }
+    }
+
     // swiftlint:disable force_try
     var ratingsModelContainer: Factory<ModelContainer> {
         self { @MainActor in
             let schema = Schema([CachedRatingEntry.self])
+            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            if let container = try? ModelContainer(for: schema, configurations: [config]) {
+                return container
+            }
+            let fallback = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+            return try! ModelContainer(for: schema, configurations: [fallback])
+        }.singleton
+    }
+
+    var departmentModelContainer: Factory<ModelContainer> {
+        self { @MainActor in
+            let schema = Schema([CachedDepartmentEntry.self])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
             if let container = try? ModelContainer(for: schema, configurations: [config]) {
                 return container
