@@ -41,6 +41,16 @@ extension Container {
         self { @MainActor in DepartmentsViewModel(service: self.departmentService(), router: self.directoryRouter()) }
     }
 
+    var subjectsService: Factory<any SubjectsServiceProtocol> {
+        self { @MainActor in
+            SubjectsService(apiClient: self.apiClient(), cache: self.ratingsCacheService())
+        }.shared
+    }
+
+    var subjectsViewModel: Factory<SubjectsViewModel> {
+        self { @MainActor in SubjectsViewModel(service: self.subjectsService()) }
+    }
+
     // swiftlint:disable force_try
     var ratingsModelContainer: Factory<ModelContainer> {
         self { @MainActor in

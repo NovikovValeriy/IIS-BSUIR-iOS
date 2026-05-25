@@ -19,8 +19,7 @@ struct DirectoryFlowView: View {
                     case .ratings:
                         RatingsView()
                     case .subjects:
-                        Text("directory.subjects.title")
-                            .navigationTitle("directory.subjects.title")
+                        SubjectsView()
                     case .departments:
                         DepartmentsView()
                     case .departmentEmployees(let department):

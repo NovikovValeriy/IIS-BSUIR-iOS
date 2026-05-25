@@ -1159,6 +1159,26 @@
         }
       }
     },
+    "subjects.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Disciplines Found"
+          }
+        }
+      }
+    },
+    "subjects.hours %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldh."
+          }
+        }
+      }
+    },
     "ratings.empty.title" : {
       "localizations" : {
         "en" : {
