@@ -11,3 +11,13 @@ struct Department: Identifiable, Codable, Hashable {
     let abbrev: String
     let urlId: String
 }
+
+struct DepartmentNode: Identifiable, Codable {
+    let number: String
+    let department: Department
+    let employeeCount: Int
+    let children: [DepartmentNode]
+    var id: Int { department.id }
+    var hasChildren: Bool { !children.isEmpty }
+    var hasEmployees: Bool { employeeCount > 0 }
+}

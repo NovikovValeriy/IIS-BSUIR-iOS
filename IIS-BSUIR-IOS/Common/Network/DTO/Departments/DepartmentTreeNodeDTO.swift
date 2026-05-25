@@ -15,4 +15,9 @@ struct DepartmentDataDTO: Decodable {
     let name: String
     let abbrev: String
     let urlId: String
+    let employees: [DepartmentTreeEmployeeDTO]?
+}
+
+struct DepartmentTreeEmployeeDTO: Decodable {
+    let fio: String
 }

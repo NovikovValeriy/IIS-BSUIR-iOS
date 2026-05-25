@@ -9,8 +9,8 @@ import Foundation
 
 @MainActor
 protocol DepartmentServiceProtocol: AnyObject {
-    func cachedDepartments() -> [Department]?
-    func fetchDepartments() async throws -> [Department]
+    func cachedDepartments() -> [DepartmentNode]?
+    func fetchDepartments() async throws -> [DepartmentNode]
     func cachedEmployees(urlId: String) -> [DepartmentEmployee]?
     func fetchEmployees(urlId: String) async throws -> [DepartmentEmployee]
 }
@@ -25,18 +25,18 @@ final class DepartmentService: DepartmentServiceProtocol {
         self.cache = cache
     }
 
-    func cachedDepartments() -> [Department]? {
-        cache.load([Department].self, forKey: "departments")
+    func cachedDepartments() -> [DepartmentNode]? {
+        cache.load([DepartmentNode].self, forKey: "departments")
     }
 
-    func fetchDepartments() async throws -> [Department] {
-        let nodes: [DepartmentTreeNodeDTO] = try await apiClient.sendRequest(
+    func fetchDepartments() async throws -> [DepartmentNode] {
+        let dtos: [DepartmentTreeNodeDTO] = try await apiClient.sendRequest(
             path: "/departments/tree",
             httpMethod: .GET
         )
-        let departments = nodes.flatMap { flatten($0) }
-        cache.save(departments, forKey: "departments")
-        return departments
+        let nodes = buildTree(dtos, prefix: "")
+        cache.save(nodes, forKey: "departments")
+        return nodes
     }
 
     func cachedEmployees(urlId: String) -> [DepartmentEmployee]? {
@@ -54,15 +54,21 @@ final class DepartmentService: DepartmentServiceProtocol {
         return employees
     }
 
-    private func flatten(_ node: DepartmentTreeNodeDTO) -> [Department] {
-        let dept = Department(
-            id: node.data.id,
-            name: node.data.name,
-            abbrev: node.data.abbrev,
-            urlId: node.data.urlId
-        )
-        let childDepts = node.children?.flatMap { flatten($0) } ?? []
-        return [dept] + childDepts
+    private func buildTree(_ dtos: [DepartmentTreeNodeDTO], prefix: String) -> [DepartmentNode] {
+        dtos.enumerated().map { index, dto in
+            let number = prefix.isEmpty ? "\(index + 1)" : "\(prefix).\(index + 1)"
+            return DepartmentNode(
+                number: number,
+                department: Department(
+                    id: dto.data.id,
+                    name: dto.data.name,
+                    abbrev: dto.data.abbrev,
+                    urlId: dto.data.urlId
+                ),
+                employeeCount: dto.data.employees?.count ?? 0,
+                children: buildTree(dto.children ?? [], prefix: number)
+            )
+        }
     }
 }
 

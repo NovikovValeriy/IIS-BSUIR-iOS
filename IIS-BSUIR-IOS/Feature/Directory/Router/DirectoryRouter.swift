@@ -19,7 +19,9 @@ final class DirectoryRouter: @MainActor RouterProtocol {
     func navigateToRatings() { path.append(DirectoryDestination.ratings) }
     func navigateToSubjects() { path.append(DirectoryDestination.subjects) }
     func navigateToDepartments() { path.append(DirectoryDestination.departments) }
-    func navigateToDepartmentEmployees(_ department: Department) { path.append(DirectoryDestination.departmentEmployees(department)) }
+    func navigateToDepartmentEmployees(_ department: Department) {
+        path.append(DirectoryDestination.departmentEmployees(department))
+    }
     func navigateToStudentGrades(_ cardNumber: String) { path.append(DirectoryDestination.studentGrades(cardNumber)) }
 
     func present(alert: AppAlert) { self.alert = alert }
