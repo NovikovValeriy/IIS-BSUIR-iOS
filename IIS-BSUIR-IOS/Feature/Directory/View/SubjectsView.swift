@@ -72,6 +72,9 @@ struct SubjectsView: View {
         .onChange(of: viewModel.selectedCourse) { _, newCourse in
             Task { await viewModel.didSelectCourse(newCourse) }
         }
+        .onChange(of: viewModel.selectedSemester) { _, newTerm in
+            Task { await viewModel.didSelectSemester(newTerm) }
+        }
     }
 
     // MARK: - Picker area
@@ -120,6 +123,23 @@ struct SubjectsView: View {
                     Text("ratings.picker.select").tag(Int?.none)
                     ForEach(viewModel.courses, id: \.self) { course in
                         Text("ratings.picker.course_value \(course)").tag(Optional(course))
+                    }
+                }
+                .labelsHidden()
+            }
+
+            SubjectPickerView(
+                placeholder: "ratings.picker.select",
+                selectedLabel: viewModel.selectedSemester.map {
+                    String(localized: "subjects.picker.semester_value \($0)")
+                },
+                isLoading: false,
+                isDisabled: viewModel.selectedCourse == nil
+            ) {
+                Picker("", selection: Bindable(viewModel).selectedSemester) {
+                    Text("ratings.picker.select").tag(Int?.none)
+                    ForEach(viewModel.semesters, id: \.self) { semester in
+                        Text("subjects.picker.semester_value \(semester)").tag(Optional(semester))
                     }
                 }
                 .labelsHidden()

@@ -1159,6 +1159,16 @@
         }
       }
     },
+    "subjects.picker.semester_value %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semester %lld"
+          }
+        }
+      }
+    },
     "subjects.empty.title" : {
       "localizations" : {
         "en" : {

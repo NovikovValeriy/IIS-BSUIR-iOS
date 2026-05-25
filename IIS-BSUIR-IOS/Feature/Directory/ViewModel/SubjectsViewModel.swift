@@ -17,9 +17,16 @@ final class SubjectsViewModel {
     private(set) var courses: [Int] = []
     private(set) var disciplines: [Discipline] = []
 
+    var semesters: [Int] {
+        guard let course = selectedCourse else { return [] }
+        let first = (course - 1) * 2 + 1
+        return [first, first + 1]
+    }
+
     var selectedFacultyId: Int?
     var selectedSpecialityId: Int?
     var selectedCourse: Int?
+    var selectedSemester: Int?
 
     private(set) var isLoadingFaculties = false
     private(set) var isLoadingSpecialities = false
@@ -48,6 +55,7 @@ final class SubjectsViewModel {
         disciplines = []
         selectedSpecialityId = nil
         selectedCourse = nil
+        selectedSemester = nil
         guard let id else { return }
         specialities = service.cachedSpecialities(facultyId: id) ?? []
         isLoadingSpecialities = true
@@ -63,6 +71,7 @@ final class SubjectsViewModel {
         courses = []
         disciplines = []
         selectedCourse = nil
+        selectedSemester = nil
         guard let id, let facultyId = selectedFacultyId else { return }
         courses = service.cachedCourses(facultyId: facultyId, specialityId: id) ?? []
         isLoadingCourses = true
@@ -76,23 +85,30 @@ final class SubjectsViewModel {
 
     func didSelectCourse(_ course: Int?) async {
         disciplines = []
+        selectedSemester = nil
         guard let course, let specialityId = selectedSpecialityId else { return }
-        await loadDisciplines(specialityId: specialityId, course: course)
+        await loadDisciplines(specialityId: specialityId, course: course, term: nil)
+    }
+
+    func didSelectSemester(_ term: Int?) async {
+        disciplines = []
+        guard let course = selectedCourse, let specialityId = selectedSpecialityId else { return }
+        await loadDisciplines(specialityId: specialityId, course: course, term: term)
     }
 
     func refresh() async {
         guard let course = selectedCourse, let specialityId = selectedSpecialityId else { return }
-        await loadDisciplines(specialityId: specialityId, course: course)
+        await loadDisciplines(specialityId: specialityId, course: course, term: selectedSemester)
     }
 
-    private func loadDisciplines(specialityId: Int, course: Int) async {
-        if let cached = service.cachedDisciplines(specialityId: specialityId, course: course) {
+    private func loadDisciplines(specialityId: Int, course: Int, term: Int?) async {
+        if let cached = service.cachedDisciplines(specialityId: specialityId, course: course, term: term) {
             disciplines = cached
         }
         isLoadingDisciplines = true
         defer { isLoadingDisciplines = false }
         do {
-            disciplines = try await service.fetchDisciplines(specialityId: specialityId, course: course)
+            disciplines = try await service.fetchDisciplines(specialityId: specialityId, course: course, term: term)
         } catch {
             print(error.localizedDescription)
         }

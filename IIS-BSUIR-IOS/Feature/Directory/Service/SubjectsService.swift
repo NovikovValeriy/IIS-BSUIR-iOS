@@ -15,8 +15,8 @@ protocol SubjectsServiceProtocol: AnyObject {
     func fetchSpecialities(facultyId: Int) async throws -> [RatingSpeciality]
     func cachedCourses(facultyId: Int, specialityId: Int) -> [Int]?
     func fetchCourses(facultyId: Int, specialityId: Int) async throws -> [Int]
-    func cachedDisciplines(specialityId: Int, course: Int) -> [Discipline]?
-    func fetchDisciplines(specialityId: Int, course: Int) async throws -> [Discipline]
+    func cachedDisciplines(specialityId: Int, course: Int, term: Int?) -> [Discipline]?
+    func fetchDisciplines(specialityId: Int, course: Int, term: Int?) async throws -> [Discipline]
 }
 
 @MainActor
@@ -70,21 +70,27 @@ final class SubjectsService: SubjectsServiceProtocol {
         return courses
     }
 
-    func cachedDisciplines(specialityId: Int, course: Int) -> [Discipline]? {
-        cache.load([Discipline].self, forKey: "disciplines:\(specialityId):\(course)")
+    func cachedDisciplines(specialityId: Int, course: Int, term: Int?) -> [Discipline]? {
+        cache.load([Discipline].self, forKey: cacheKey(specialityId: specialityId, course: course, term: term))
     }
 
-    func fetchDisciplines(specialityId: Int, course: Int) async throws -> [Discipline] {
+    func fetchDisciplines(specialityId: Int, course: Int, term: Int?) async throws -> [Discipline] {
+        var params: [String: String] = ["id": "\(specialityId)", "course": "\(course)", "isForeign": "false"]
+        if let term { params["term"] = "\(term)" }
         let dtos: [DisciplineDTO] = try await apiClient.sendRequest(
             path: "/list-disciplines",
             httpMethod: .GET,
-            queryParams: ["id": "\(specialityId)", "course": "\(course)", "isForeign": "false"]
+            queryParams: params
         )
         let disciplines = dtos
             .filter { $0.hours > 0 }
             .sorted { $0.hours > $1.hours }
             .map { Discipline(name: $0.name, hours: $0.hours) }
-        cache.save(disciplines, forKey: "disciplines:\(specialityId):\(course)")
+        cache.save(disciplines, forKey: cacheKey(specialityId: specialityId, course: course, term: term))
         return disciplines
+    }
+
+    private func cacheKey(specialityId: Int, course: Int, term: Int?) -> String {
+        "disciplines:\(specialityId):\(course):\(term ?? 0)"
     }
 }
