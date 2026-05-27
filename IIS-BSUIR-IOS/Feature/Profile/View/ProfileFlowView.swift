@@ -30,20 +30,15 @@ struct ProfileFlowView: View {
                     case .groupInfo:
                         GroupInfoView()
                     case .library:
-                        Text("profile.library.title")
-                            .navigationTitle("profile.library.title")
+                        LibraryView()
                     case .announcements:
-                        Text("profile.announcements.title")
-                            .navigationTitle("profile.announcements.title")
+                        AnnouncementsView()
                     case .dormitory:
-                        Text("profile.dormitory.title")
-                            .navigationTitle("profile.dormitory.title")
+                        DormitoryView()
                     case .penalties:
-                        Text("profile.penalties.title")
-                            .navigationTitle("profile.penalties.title")
+                        PenaltiesView()
                     case .activity:
-                        Text("profile.activity.title")
-                            .navigationTitle("profile.activity.title")
+                        ActivityView()
                     }
                 }
         }

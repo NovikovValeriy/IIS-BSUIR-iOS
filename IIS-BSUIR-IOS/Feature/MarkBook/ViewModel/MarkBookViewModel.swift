@@ -25,11 +25,14 @@ final class MarkBookViewModel {
 
     init(markBookService: any MarkBookServiceProtocol) {
         self.markBookService = markBookService
+        self.markBook = markBookService.cachedMarkBook()
     }
 
     func load() async {
         guard !isLoading else { return }
-        isLoading = true
+        if markBook == nil {
+            isLoading = true
+        }
         defer { isLoading = false }
         markBook = try? await markBookService.fetchMarkBook()
     }

@@ -9,21 +9,31 @@ import Foundation
 
 @MainActor
 protocol GradesServiceProtocol: AnyObject {
+    func cachedGradeBook() -> GradeBook?
     func fetchGradeBook() async throws -> GradeBook
 }
 
 @MainActor
 final class GradesService: GradesServiceProtocol {
     private let apiClient: any APIClient
+    private let cache: ProfileCacheService
+    private let cacheKey = "grades"
 
-    init(apiClient: any APIClient) {
+    init(apiClient: any APIClient, cache: ProfileCacheService) {
         self.apiClient = apiClient
+        self.cache = cache
+    }
+
+    func cachedGradeBook() -> GradeBook? {
+        cache.load(GradeBook.self, forKey: cacheKey)
     }
 
     func fetchGradeBook() async throws -> GradeBook {
         let dtos: [GradeBookResponseDTO] = try await apiClient.sendRequest(path: "/grade-book", httpMethod: .GET)
         guard let dto = dtos.first else { throw APIError.invalidResponse }
-        return dto.toDomain()
+        let gradeBook = dto.toDomain()
+        cache.save(gradeBook, forKey: cacheKey)
+        return gradeBook
     }
 }
 

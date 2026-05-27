@@ -40,7 +40,7 @@ final class SubjectsViewModel {
     func load() async {
         guard !isLoadingFaculties else { return }
         faculties = service.cachedFaculties() ?? []
-        isLoadingFaculties = true
+        if faculties.isEmpty { isLoadingFaculties = true }
         defer { isLoadingFaculties = false }
         do {
             faculties = try await service.fetchFaculties()
@@ -58,7 +58,7 @@ final class SubjectsViewModel {
         selectedSemester = nil
         guard let id else { return }
         specialities = service.cachedSpecialities(facultyId: id) ?? []
-        isLoadingSpecialities = true
+        if specialities.isEmpty { isLoadingSpecialities = true }
         defer { isLoadingSpecialities = false }
         do {
             specialities = try await service.fetchSpecialities(facultyId: id)
@@ -74,7 +74,7 @@ final class SubjectsViewModel {
         selectedSemester = nil
         guard let id, let facultyId = selectedFacultyId else { return }
         courses = service.cachedCourses(facultyId: facultyId, specialityId: id) ?? []
-        isLoadingCourses = true
+        if courses.isEmpty { isLoadingCourses = true }
         defer { isLoadingCourses = false }
         do {
             courses = try await service.fetchCourses(facultyId: facultyId, specialityId: id)
@@ -105,7 +105,7 @@ final class SubjectsViewModel {
         if let cached = service.cachedDisciplines(specialityId: specialityId, course: course, term: term) {
             disciplines = cached
         }
-        isLoadingDisciplines = true
+        if disciplines.isEmpty { isLoadingDisciplines = true }
         defer { isLoadingDisciplines = false }
         do {
             disciplines = try await service.fetchDisciplines(specialityId: specialityId, course: course, term: term)

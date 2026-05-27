@@ -37,7 +37,7 @@ final class DepartmentsViewModel {
         if let cached = service.cachedDepartments() {
             nodes = cached
         }
-        isLoading = true
+        if nodes.isEmpty { isLoading = true }
         defer { isLoading = false }
         do {
             nodes = try await service.fetchDepartments()

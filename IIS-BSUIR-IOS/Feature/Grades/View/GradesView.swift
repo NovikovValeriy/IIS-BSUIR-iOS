@@ -75,11 +75,11 @@ struct GradesView: View {
 
     var body: some View {
         Group {
-            if viewModel.isLoading {
+            if viewModel.gradeBook != nil {
+                loadedView
+            } else if viewModel.isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.gradeBook != nil {
-                loadedView
             } else {
                 ContentUnavailableView("grades.empty.title", systemImage: Constants.Icons.grades)
             }

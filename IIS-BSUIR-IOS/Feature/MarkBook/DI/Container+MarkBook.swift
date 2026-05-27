@@ -9,7 +9,7 @@ import Factory
 
 extension Container {
     var markBookService: Factory<any MarkBookServiceProtocol> {
-        self { @MainActor in MarkBookService(apiClient: self.apiClient()) }.shared
+        self { @MainActor in MarkBookService(apiClient: self.apiClient(), cache: self.profileCacheService()) }.shared
     }
 
     var markBookViewModel: Factory<MarkBookViewModel> {

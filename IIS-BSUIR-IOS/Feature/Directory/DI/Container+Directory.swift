@@ -55,7 +55,7 @@ extension Container {
     var ratingsModelContainer: Factory<ModelContainer> {
         self { @MainActor in
             let schema = Schema([CachedRatingEntry.self])
-            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            let config = ModelConfiguration("ratings", schema: schema, isStoredInMemoryOnly: false)
             if let container = try? ModelContainer(for: schema, configurations: [config]) {
                 return container
             }
@@ -67,7 +67,7 @@ extension Container {
     var departmentModelContainer: Factory<ModelContainer> {
         self { @MainActor in
             let schema = Schema([CachedDepartmentEntry.self])
-            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            let config = ModelConfiguration("departments", schema: schema, isStoredInMemoryOnly: false)
             if let container = try? ModelContainer(for: schema, configurations: [config]) {
                 return container
             }

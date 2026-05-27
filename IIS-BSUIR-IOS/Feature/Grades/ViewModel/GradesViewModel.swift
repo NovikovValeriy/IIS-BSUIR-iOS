@@ -79,11 +79,14 @@ final class GradesViewModel {
 
     init(gradesService: any GradesServiceProtocol) {
         self.gradesService = gradesService
+        self.gradeBook = gradesService.cachedGradeBook()
     }
 
     func load() async {
         guard !isLoading else { return }
-        isLoading = true
+        if gradeBook == nil {
+            isLoading = true
+        }
         defer { isLoading = false }
         do {
             gradeBook = try await gradesService.fetchGradeBook()

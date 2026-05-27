@@ -10,6 +10,8 @@ import Foundation
 // swiftlint:disable line_length
 @MainActor
 final class MockGradesService: GradesServiceProtocol {
+    func cachedGradeBook() -> GradeBook? { nil }
+
     func fetchGradeBook() async throws -> GradeBook {
 //        try await Task.sleep(for: .milliseconds(900))
         let data = Data(Self.mockJSON.utf8)

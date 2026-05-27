@@ -9,20 +9,30 @@ import Foundation
 
 @MainActor
 protocol MarkBookServiceProtocol: AnyObject {
+    func cachedMarkBook() -> MarkBook?
     func fetchMarkBook() async throws -> MarkBook
 }
 
 @MainActor
 final class MarkBookService: MarkBookServiceProtocol {
     private let apiClient: any APIClient
+    private let cache: ProfileCacheService
+    private let cacheKey = "markbook"
 
-    init(apiClient: any APIClient) {
+    init(apiClient: any APIClient, cache: ProfileCacheService) {
         self.apiClient = apiClient
+        self.cache = cache
+    }
+
+    func cachedMarkBook() -> MarkBook? {
+        cache.load(MarkBook.self, forKey: cacheKey)
     }
 
     func fetchMarkBook() async throws -> MarkBook {
         let dto: MarkBookResponseDTO = try await apiClient.sendRequest(path: "/markbook", httpMethod: .GET)
-        return dto.toDomain()
+        let markBook = dto.toDomain()
+        cache.save(markBook, forKey: cacheKey)
+        return markBook
     }
 }
 

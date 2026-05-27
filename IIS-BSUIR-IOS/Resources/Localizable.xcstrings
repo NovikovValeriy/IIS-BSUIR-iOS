@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "—" : {
+
+    },
     "…" : {
 
     },
@@ -12,6 +15,16 @@
     },
     "#%lld" : {
 
+    },
+    "%@ – %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ – %2$@"
+          }
+        }
+      }
     },
     "%@, %@" : {
       "localizations" : {
@@ -25,6 +38,36 @@
     },
     "%lld" : {
 
+    },
+    "activity.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Activity"
+          }
+        }
+      }
+    },
+    "activity.omissions %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld h"
+          }
+        }
+      }
+    },
+    "announcements.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Announcements"
+          }
+        }
+      }
     },
     "auth.confirm_contact.coming_soon" : {
       "localizations" : {
@@ -224,6 +267,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Directory"
+          }
+        }
+      }
+    },
+    "dormitory.application_number %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Application #%lld"
+          }
+        }
+      }
+    },
+    "dormitory.applied %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applied: %@"
+          }
+        }
+      }
+    },
+    "dormitory.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Dormitory Data"
+          }
+        }
+      }
+    },
+    "dormitory.queue_position %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queue position: %lld"
+          }
+        }
+      }
+    },
+    "dormitory.section.applications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applications"
+          }
+        }
+      }
+    },
+    "dormitory.section.privileges" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privileges"
+          }
+        }
+      }
+    },
+    "dormitory.settled %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settled: %@"
           }
         }
       }
@@ -603,6 +716,26 @@
         }
       }
     },
+    "library.coming_soon" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library Coming Soon"
+          }
+        }
+      }
+    },
+    "library.coming_soon.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This feature is not yet available"
+          }
+        }
+      }
+    },
     "markbook.average %@" : {
       "localizations" : {
         "en" : {
@@ -784,6 +917,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "penalties.directive %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Directive No. %@"
+          }
+        }
+      }
+    },
+    "penalties.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Records"
+          }
+        }
+      }
+    },
+    "penalties.section.incentives" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incentives"
+          }
+        }
+      }
+    },
+    "penalties.section.penalties" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Penalties"
           }
         }
       }
@@ -1155,36 +1328,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
-          }
-        }
-      }
-    },
-    "subjects.picker.semester_value %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semester %lld"
-          }
-        }
-      }
-    },
-    "subjects.empty.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Disciplines Found"
-          }
-        }
-      }
-    },
-    "subjects.hours %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lldh."
           }
         }
       }
@@ -1797,6 +1940,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select Schedule"
+          }
+        }
+      }
+    },
+    "subjects.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Disciplines Found"
+          }
+        }
+      }
+    },
+    "subjects.hours %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldh."
+          }
+        }
+      }
+    },
+    "subjects.picker.semester_value %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semester %lld"
           }
         }
       }

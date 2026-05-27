@@ -17,6 +17,7 @@ protocol RatingsServiceProtocol: AnyObject {
     func fetchCourses(facultyId: Int, specialityId: Int) async throws -> [Int]
     func cachedRatings(specialityId: Int, course: Int) -> [StudentRating]?
     func fetchRatings(specialityId: Int, course: Int) async throws -> [StudentRating]
+    func cachedStudentGradeBook(cardNumber: String) -> GradeBook?
     func fetchStudentGradeBook(cardNumber: String) async throws -> GradeBook
 }
 
@@ -88,13 +89,19 @@ final class RatingsService: RatingsServiceProtocol {
         return ratings
     }
 
+    func cachedStudentGradeBook(cardNumber: String) -> GradeBook? {
+        cache.load(GradeBook.self, forKey: "student_gradebook:\(cardNumber)")
+    }
+
     func fetchStudentGradeBook(cardNumber: String) async throws -> GradeBook {
         let dto: GradeBookStudentDTO = try await apiClient.sendRequest(
             path: "/rating/studentRating",
             httpMethod: .GET,
             queryParams: ["studentCardNumber": cardNumber]
         )
-        return dto.toGradeBook()
+        let gradeBook = dto.toGradeBook()
+        cache.save(gradeBook, forKey: "student_gradebook:\(cardNumber)")
+        return gradeBook
     }
 }
 
@@ -108,6 +115,10 @@ final class StudentGradesAdapter: GradesServiceProtocol {
     init(cardNumber: String, service: any RatingsServiceProtocol) {
         self.cardNumber = cardNumber
         self.service = service
+    }
+
+    func cachedGradeBook() -> GradeBook? {
+        service.cachedStudentGradeBook(cardNumber: cardNumber)
     }
 
     func fetchGradeBook() async throws -> GradeBook {

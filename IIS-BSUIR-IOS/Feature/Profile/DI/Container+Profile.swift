@@ -27,7 +27,7 @@ extension Container {
     var profileModelContainer: Factory<ModelContainer> {
         self { @MainActor in
             let schema = Schema([CachedProfileEntry.self])
-            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            let config = ModelConfiguration("profile", schema: schema, isStoredInMemoryOnly: false)
             if let container = try? ModelContainer(for: schema, configurations: [config]) {
                 return container
             }

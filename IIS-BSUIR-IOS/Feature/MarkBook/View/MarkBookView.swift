@@ -35,12 +35,12 @@ struct MarkBookView: View {
 
     var body: some View {
         Group {
-            if viewModel.isLoading {
-                ProgressView()
-            } else if viewModel.markBook == nil {
-                ContentUnavailableView("markbook.empty.title", systemImage: "graduationcap")
-            } else {
+            if let _ = viewModel.markBook {
                 loadedView
+            } else if viewModel.isLoading {
+                ProgressView()
+            } else {
+                ContentUnavailableView("markbook.empty.title", systemImage: "graduationcap")
             }
         }
         .navigationTitle("markbook.title")

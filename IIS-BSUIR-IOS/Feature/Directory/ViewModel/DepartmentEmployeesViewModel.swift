@@ -26,7 +26,7 @@ final class DepartmentEmployeesViewModel {
         if let cached = service.cachedEmployees(urlId: department.urlId) {
             employees = cached
         }
-        isLoading = true
+        if employees.isEmpty { isLoading = true }
         defer { isLoading = false }
         do {
             employees = try await service.fetchEmployees(urlId: department.urlId)
