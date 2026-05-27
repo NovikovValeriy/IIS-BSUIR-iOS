@@ -17,6 +17,7 @@ final class DocumentsViewModel {
     private(set) var isLoadingCertificates = false
     private(set) var isLoadingMarkSheets = false
     var selectedTab: Int = 0
+    var isShowingOrderSheet = false
 
     init(service: any DocumentsServiceProtocol) {
         self.service = service
@@ -56,6 +57,14 @@ final class DocumentsViewModel {
             certificates = try await service.fetchCertificates()
         } catch {
             print("[DocumentsViewModel] certificates error: \(error)")
+        }
+    }
+
+    func refreshAfterOrder() async {
+        do {
+            certificates = try await service.fetchCertificates()
+        } catch {
+            print("[DocumentsViewModel] refresh after order error: \(error)")
         }
     }
 

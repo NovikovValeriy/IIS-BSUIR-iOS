@@ -13,6 +13,8 @@ protocol DocumentsServiceProtocol: AnyObject {
     func fetchCertificates() async throws -> [Certificate]
     func cachedMarkSheets() -> [MarkSheet]?
     func fetchMarkSheets() async throws -> [MarkSheet]
+    func fetchCertificatePlaces() async throws -> [CertificatePlaceCategory]
+    func orderCertificate(type: String, place: String, count: Int) async throws
 }
 
 @MainActor
@@ -53,6 +55,34 @@ final class DocumentsService: DocumentsServiceProtocol {
         let markSheets = dtos.map { $0.toDomain() }
         cache.save(markSheets, forKey: markSheetsCacheKey)
         return markSheets
+    }
+
+    func fetchCertificatePlaces() async throws -> [CertificatePlaceCategory] {
+        let dtos: [CertificatePlaceCategoryDTO] = try await apiClient.sendRequest(
+            path: "/certificate/places",
+            httpMethod: .GET
+        )
+        return dtos.map { category in
+            CertificatePlaceCategory(
+                type: category.type,
+                places: category.places.map { CertificatePlace(id: $0.id, name: $0.name) }
+            )
+        }
+    }
+
+    func orderCertificate(type: String, place: String, count: Int) async throws {
+        let body = OrderCertificateRequestDTO(
+            certificateCount: count,
+            certificateRequestDto: CertificateRequestDetailsDTO(
+                certificateType: type,
+                provisionPlace: place
+            )
+        )
+        try await apiClient.sendRequest(
+            path: "/certificate/register",
+            httpMethod: .POST,
+            body: .jsonBody(body)
+        )
     }
 }
 

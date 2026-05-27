@@ -49,6 +49,22 @@ struct DocumentsView: View {
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("profile.certificates.title")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if viewModel.selectedTab == 0 {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        viewModel.isShowingOrderSheet = true
+                    } label: {
+                        Label("documents.certificate.order.title", systemImage: "plus")
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: Bindable(viewModel).isShowingOrderSheet) {
+            OrderCertificateView {
+                await viewModel.refreshAfterOrder()
+            }
+        }
         .task { await viewModel.load() }
     }
 

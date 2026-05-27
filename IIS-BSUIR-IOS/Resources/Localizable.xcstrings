@@ -301,6 +301,66 @@
         }
       }
     },
+    "documents.certificate.order.count" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantity"
+          }
+        }
+      }
+    },
+    "documents.certificate.order.count.value %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pcs"
+          }
+        }
+      }
+    },
+    "documents.certificate.order.place" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delivery Place"
+          }
+        }
+      }
+    },
+    "documents.certificate.order.submit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Order"
+          }
+        }
+      }
+    },
+    "documents.certificate.order.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Certificate"
+          }
+        }
+      }
+    },
+    "documents.certificate.order.type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificate Type"
+          }
+        }
+      }
+    },
     "documents.certificates.empty" : {
       "localizations" : {
         "en" : {
