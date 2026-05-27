@@ -25,10 +25,8 @@ private enum Constants {
         static let logout = "rectangle.portrait.and.arrow.right"
         static let markBook = "graduationcap"
         static let grades = "list.number"
-        static let omissions = "clock.badge.xmark"
         static let certificates = "doc.text"
         static let groupInfo = "person.3.fill"
-        static let library = "books.vertical.fill"
         static let announcements = "bell.fill"
         static let dormitory = "house.fill"
         static let penalties = "flag.fill"
@@ -89,9 +87,6 @@ struct ProfileView: View {
                 Button { viewModel.didTapGrades() } label: {
                     Label("grades.title", systemImage: Constants.Icons.grades)
                 }
-                Button { viewModel.didTapOmissions() } label: {
-                    Label("profile.omissions", systemImage: Constants.Icons.omissions)
-                }
                 Button { viewModel.didTapCertificates() } label: {
                     Label("profile.certificates", systemImage: Constants.Icons.certificates)
                 }
@@ -100,9 +95,6 @@ struct ProfileView: View {
             Section("profile.campus_section") {
                 Button { viewModel.didTapGroupInfo() } label: {
                     Label("profile.group_info", systemImage: Constants.Icons.groupInfo)
-                }
-                Button { viewModel.didTapLibrary() } label: {
-                    Label("profile.library", systemImage: Constants.Icons.library)
                 }
                 Button { viewModel.didTapAnnouncements() } label: {
                     Label("profile.announcements", systemImage: Constants.Icons.announcements)

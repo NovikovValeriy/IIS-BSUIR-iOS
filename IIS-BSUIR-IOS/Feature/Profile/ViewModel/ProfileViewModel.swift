@@ -41,10 +41,8 @@ final class ProfileViewModel {
 
     func didTapMarkBook() { router.navigateToMarkBook() }
     func didTapGrades() { router.navigateToGrades() }
-    func didTapOmissions() { router.navigateToOmissions() }
     func didTapCertificates() { router.navigateToCertificates() }
     func didTapGroupInfo() { router.navigateToGroupInfo() }
-    func didTapLibrary() { router.navigateToLibrary() }
     func didTapAnnouncements() { router.navigateToAnnouncements() }
     func didTapDormitory() { router.navigateToDormitory() }
     func didTapPenalties() { router.navigateToPenalties() }

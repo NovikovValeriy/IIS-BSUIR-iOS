@@ -21,15 +21,10 @@ struct ProfileFlowView: View {
                         MarkBookView()
                     case .grades:
                         GradesView(viewModel: Container.shared.gradesViewModel())
-                    case .omissions:
-                        Text("profile.omissions.title")
-                            .navigationTitle("profile.omissions.title")
                     case .certificates:
                         DocumentsView()
                     case .groupInfo:
                         GroupInfoView()
-                    case .library:
-                        LibraryView()
                     case .announcements:
                         AnnouncementsView()
                     case .dormitory:

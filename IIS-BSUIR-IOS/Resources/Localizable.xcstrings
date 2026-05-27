@@ -291,16 +291,6 @@
         }
       }
     },
-    "documents.certificate.ordered %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordered: %@"
-          }
-        }
-      }
-    },
     "documents.certificate.order.count" : {
       "localizations" : {
         "en" : {
@@ -357,6 +347,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Certificate Type"
+          }
+        }
+      }
+    },
+    "documents.certificate.ordered %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordered: %@"
           }
         }
       }
@@ -968,6 +968,7 @@
       }
     },
     "library.coming_soon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -978,6 +979,7 @@
       }
     },
     "library.coming_soon.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1442,6 +1444,7 @@
       }
     },
     "profile.library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1452,6 +1455,7 @@
       }
     },
     "profile.library.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1524,6 +1528,7 @@
       }
     },
     "profile.omissions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1534,6 +1539,7 @@
       }
     },
     "profile.omissions.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

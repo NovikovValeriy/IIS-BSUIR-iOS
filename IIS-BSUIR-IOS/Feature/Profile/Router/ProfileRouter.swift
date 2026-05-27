@@ -19,10 +19,8 @@ final class ProfileRouter: @MainActor RouterProtocol {
 
     func navigateToMarkBook() { path.append(ProfileDestination.markBook) }
     func navigateToGrades() { path.append(ProfileDestination.grades) }
-    func navigateToOmissions() { path.append(ProfileDestination.omissions) }
     func navigateToCertificates() { path.append(ProfileDestination.certificates) }
     func navigateToGroupInfo() { path.append(ProfileDestination.groupInfo) }
-    func navigateToLibrary() { path.append(ProfileDestination.library) }
     func navigateToAnnouncements() { path.append(ProfileDestination.announcements) }
     func navigateToDormitory() { path.append(ProfileDestination.dormitory) }
     func navigateToPenalties() { path.append(ProfileDestination.penalties) }

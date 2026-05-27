@@ -10,10 +10,8 @@ import Foundation
 enum ProfileDestination: Hashable {
     case markBook
     case grades
-    case omissions
     case certificates
     case groupInfo
-    case library
     case announcements
     case dormitory
     case penalties

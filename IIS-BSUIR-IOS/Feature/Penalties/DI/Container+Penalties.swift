@@ -9,9 +9,8 @@ import Factory
 
 extension Container {
     var penaltiesService: Factory<any PenaltiesServiceProtocol> {
-        self { @MainActor in
-            PenaltiesService(apiClient: self.apiClient(), cache: self.profileCacheService())
-        }.shared
+        // Swap MockPenaltiesService → PenaltiesService(...) when ready for real requests
+        self { @MainActor in MockPenaltiesService() }.shared
     }
 
     var penaltiesViewModel: Factory<PenaltiesViewModel> {
