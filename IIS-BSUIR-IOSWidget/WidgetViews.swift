@@ -8,6 +8,26 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - Constants
+
+private enum Constants {
+    enum Layout {
+        static let stripeWidth: CGFloat = 6
+        static let outerSpacing: CGFloat = 10
+        static let contentSpacing: CGFloat = 3
+        static let timeColumnWidth: CGFloat = 44
+        static let timeColumnSpacing: CGFloat = 3
+        static let cardPadding: CGFloat = 10
+        static let cardCornerRadius: CGFloat = 12
+        static let shadowRadius: CGFloat = 4
+        static let shadowOffsetY: CGFloat = 1
+    }
+    enum Colors {
+        static let cardBackground = Color(.secondarySystemGroupedBackground)
+        static let shadowColor = Color.black.opacity(0.05)
+    }
+}
+
 // MARK: - Lesson type color
 
 private func lessonTypeColor(_ type: String?) -> Color {
@@ -21,43 +41,67 @@ private func lessonTypeColor(_ type: String?) -> Color {
     }
 }
 
-// MARK: - Shared subviews
+// MARK: - Lesson card
 
-private struct LessonRowView: View {
+private struct LessonCardView: View {
     let lesson: WidgetLesson
-    let compact: Bool
 
     var body: some View {
-        HStack(spacing: 6) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(lessonTypeColor(lesson.lessonType))
-                .frame(width: 3)
-                .frame(maxHeight: .infinity)
+        HStack(alignment: .center, spacing: 0) {
+            lessonTypeColor(lesson.lessonType)
+                .frame(width: Constants.Layout.stripeWidth)
 
-            VStack(alignment: .leading, spacing: 1) {
-                Text(lesson.subject)
-                    .font(compact ? .caption2 : .caption)
-                    .fontWeight(.medium)
-                    .lineLimit(compact ? 1 : 2)
+            HStack(alignment: .center, spacing: Constants.Layout.outerSpacing) {
+                timeColumn
+                contentColumn
+            }
+            .padding(Constants.Layout.cardPadding)
+        }
+        .frame(maxWidth: .infinity)
+        .fixedSize(horizontal: false, vertical: true)
+        .background(Constants.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
+    }
 
-                HStack(spacing: 4) {
-                    Text(lesson.startTime)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                    if let room = lesson.room {
-                        Text("·")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                        Text(room)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    }
-                }
+    private var timeColumn: some View {
+        VStack(alignment: .center, spacing: Constants.Layout.timeColumnSpacing) {
+            Text(lesson.startTime)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.primary)
+            Text(lesson.endTime)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+        .frame(width: Constants.Layout.timeColumnWidth, alignment: .center)
+    }
+
+    private var contentColumn: some View {
+        VStack(alignment: .leading, spacing: Constants.Layout.contentSpacing) {
+            Text(lesson.subject)
+                .font(.caption)
+                .fontWeight(.medium)
+                .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            let meta = [lesson.room, lesson.teacherName].compactMap { $0 }.joined(separator: " · ")
+            if !meta.isEmpty {
+                Text(meta)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
             }
         }
     }
 }
+
+// MARK: - Empty / no-schedule states
 
 private struct EmptyStateView: View {
     var body: some View {
@@ -104,42 +148,36 @@ struct WidgetSmallView: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
 
-                    Spacer(minLength: 4)
+                    Spacer(minLength: 6)
 
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: Constants.Layout.contentSpacing) {
                         Text(lesson.subject)
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .lineLimit(2)
 
-                        if let type = lesson.lessonType {
-                            Text(type)
-                                .font(.caption2)
-                                .padding(.horizontal, 5)
-                                .padding(.vertical, 1)
-                                .background(lessonTypeColor(lesson.lessonType).opacity(0.15))
-                                .clipShape(Capsule())
-                        }
-                    }
-
-                    Spacer(minLength: 4)
-
-                    HStack(spacing: 4) {
-                        Image(systemName: "clock")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                        Text(lesson.startTime)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
                         if let room = lesson.room {
-                            Text("·")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
                             Text(room)
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
-                                .lineLimit(1)
                         }
+
+                        if let teacher = lesson.teacherName {
+                            Text(teacher)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    Spacer(minLength: 6)
+
+                    HStack(spacing: 4) {
+                        RoundedRectangle(cornerRadius: 1)
+                            .fill(lessonTypeColor(lesson.lessonType))
+                            .frame(width: 3, height: 12)
+                        Text("\(lesson.startTime) – \(lesson.endTime)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
                     }
                 }
                 .padding(12)
@@ -175,23 +213,19 @@ struct WidgetMediumView: View {
 
                 if entry.upcomingLessons.isEmpty {
                     Spacer()
-                    EmptyStateView()
-                        .frame(maxWidth: .infinity)
+                    EmptyStateView().frame(maxWidth: .infinity)
                     Spacer()
                 } else {
-                    let visible = Array(entry.upcomingLessons.prefix(2))
-                    ForEach(visible) { lesson in
+                    ForEach(entry.upcomingLessons.prefix(2)) { lesson in
                         Link(destination: lesson.deepLinkURL ?? URL(string: "iisbsuir://")!) {
-                            LessonRowView(lesson: lesson, compact: false)
-                                .padding(8)
-                                .background(Color(.systemBackground).opacity(0.6))
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                            LessonCardView(lesson: lesson)
                         }
                     }
                     if entry.upcomingLessons.count > 2 {
-                        Text("+ \(entry.upcomingLessons.count - 2)")
+                        Text(String(localized: "+ \(entry.upcomingLessons.count - 2)"))
                             .font(.caption2)
                             .foregroundStyle(.secondary)
+                            .padding(.leading, 4)
                     }
                     Spacer(minLength: 0)
                 }
@@ -225,16 +259,12 @@ struct WidgetLargeView: View {
 
                 if entry.upcomingLessons.isEmpty {
                     Spacer()
-                    EmptyStateView()
-                        .frame(maxWidth: .infinity)
+                    EmptyStateView().frame(maxWidth: .infinity)
                     Spacer()
                 } else {
                     ForEach(entry.upcomingLessons) { lesson in
                         Link(destination: lesson.deepLinkURL ?? URL(string: "iisbsuir://")!) {
-                            LessonRowView(lesson: lesson, compact: false)
-                                .padding(10)
-                                .background(Color(.systemBackground).opacity(0.6))
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            LessonCardView(lesson: lesson)
                         }
                     }
                     Spacer(minLength: 0)

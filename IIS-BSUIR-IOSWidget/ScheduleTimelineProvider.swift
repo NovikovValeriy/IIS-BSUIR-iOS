@@ -64,7 +64,11 @@ struct ScheduleTimelineProvider: TimelineProvider {
 
         // Final entry after last lesson
         if let lastLesson = lessons.last {
-            let endDate = Calendar.current.date(byAdding: .minute, value: 95, to: lastLesson.startDate) ?? lastLesson.startDate
+            let endDate = Calendar.current.date(
+                byAdding: .minute,
+                value: 95,
+                to: lastLesson.startDate
+            ) ?? lastLesson.startDate
             entries.append(ScheduleEntry(date: endDate, subjectName: snapshot.subjectName, upcomingLessons: []))
         }
 

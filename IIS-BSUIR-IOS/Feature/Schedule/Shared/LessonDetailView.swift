@@ -58,8 +58,8 @@ struct LessonDetailView: View {
             if let weeks = lesson.weekNumber, !weeks.isEmpty {
                 weeksSection(weeks)
             }
-            if let vm = notificationsViewModel {
-                notificationSection(vm)
+            if let viewModel = notificationsViewModel {
+                notificationSection(viewModel)
             }
         }
         .navigationTitle(lesson.subjectFullName ?? lesson.subject ?? String(localized: "lesson.detail.default_title"))
@@ -218,23 +218,23 @@ struct LessonDetailView: View {
     }
 
     @ViewBuilder
-    private func notificationSection(_ vm: LessonNotificationViewModel) -> some View {
+    private func notificationSection(_ viewModel: LessonNotificationViewModel) -> some View {
         Section("lesson.detail.notification") {
             Toggle(
                 String(localized: "lesson.detail.notification.enabled"),
                 isOn: Binding(
-                    get: { vm.isEnabled },
-                    set: { _ in Task { await vm.toggle() } }
+                    get: { viewModel.isEnabled },
+                    set: { _ in Task { await viewModel.toggle() } }
                 )
             )
-            .disabled(vm.isLoading)
+            .disabled(viewModel.isLoading)
 
-            if vm.isEnabled {
+            if viewModel.isEnabled {
                 Picker("lesson.detail.notification.mode", selection: Binding(
-                    get: { vm.selectedMode },
+                    get: { viewModel.selectedMode },
                     set: { newMode in
-                        vm.selectedMode = newMode
-                        Task { await vm.reschedule() }
+                        viewModel.selectedMode = newMode
+                        Task { await viewModel.reschedule() }
                     }
                 )) {
                     ForEach(NotificationMode.allCases) { mode in
@@ -243,10 +243,10 @@ struct LessonDetailView: View {
                 }
 
                 Picker("lesson.detail.notification.before", selection: Binding(
-                    get: { vm.minutesBefore },
+                    get: { viewModel.minutesBefore },
                     set: { newMinutes in
-                        vm.minutesBefore = newMinutes
-                        Task { await vm.reschedule() }
+                        viewModel.minutesBefore = newMinutes
+                        Task { await viewModel.reschedule() }
                     }
                 )) {
                     ForEach(Constants.minutesBeforeOptions, id: \.self) { minutes in

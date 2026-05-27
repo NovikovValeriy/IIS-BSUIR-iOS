@@ -118,8 +118,11 @@ struct DocumentsView: View {
         Group {
             if let items = viewModel.certificates {
                 if items.isEmpty {
-                    ContentUnavailableView("documents.certificates.empty", systemImage: Constants.Icons.emptyCertificates)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ContentUnavailableView(
+                        "documents.certificates.empty",
+                        systemImage: Constants.Icons.emptyCertificates
+                    )
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 0) {
@@ -221,7 +224,12 @@ private struct CertificateCardView: View {
         .padding(Constants.Layout.cardPadding)
         .background(Constants.Colors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
-        .shadow(color: Constants.Colors.shadowColor, radius: Constants.Layout.shadowRadius, x: 0, y: Constants.Layout.shadowOffsetY)
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
     }
 
     private var statusChip: some View {
@@ -301,7 +309,10 @@ private struct MarkSheetCardView: View {
             HStack(spacing: 8) {
                 if markSheet.hours > 0 {
                     badge(
-                        String(format: String(localized: "documents.marksheet.hours %@"), formatNumber(markSheet.hours)),
+                        String(
+                            format: String(localized: "documents.marksheet.hours %@"),
+                            formatNumber(markSheet.hours)
+                        ),
                         color: .secondary
                     )
                 }
@@ -330,7 +341,12 @@ private struct MarkSheetCardView: View {
         .padding(Constants.Layout.cardPadding)
         .background(Constants.Colors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
-        .shadow(color: Constants.Colors.shadowColor, radius: Constants.Layout.shadowRadius, x: 0, y: Constants.Layout.shadowOffsetY)
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
     }
 
     private var statusChip: some View {
@@ -344,7 +360,10 @@ private struct MarkSheetCardView: View {
     }
 
     private var reasonBadge: some View {
-        let key: String.LocalizationValue = markSheet.isRespectful ? "documents.marksheet.excused" : "documents.marksheet.unexcused"
+        let key: String.LocalizationValue =
+        markSheet.isRespectful
+        ? "documents.marksheet.excused"
+        : "documents.marksheet.unexcused"
         let color: Color = markSheet.isRespectful ? .green : .red
         return badge(String(localized: key), color: color)
     }
@@ -360,8 +379,11 @@ private struct MarkSheetCardView: View {
 
     private func markSheetStatusColor(_ status: String) -> Color {
         let lower = status.lowercased()
-        if lower.contains("напечат") || lower.contains("готов") { return Constants.Colors.statusPrinted }
-        if lower.contains("отклон") || lower.contains("отмен") || lower.contains("закрыт") { return Constants.Colors.statusRejected }
+        if lower.contains("напечат")
+            || lower.contains("готов") { return Constants.Colors.statusPrinted }
+        if lower.contains("отклон")
+            || lower.contains("отмен")
+            || lower.contains("закрыт") { return Constants.Colors.statusRejected }
         return Constants.Colors.statusProcessing
     }
 

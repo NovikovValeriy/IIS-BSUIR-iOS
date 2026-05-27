@@ -60,7 +60,9 @@ struct DepartmentsView: View {
                     departmentCard(for: item)
                         .padding(EdgeInsets(
                             top: Constants.Layout.rowInsets.top,
-                            leading: Constants.Layout.rowInsets.leading + CGFloat(item.depth) * Constants.Layout.indentStep,
+                            leading: Constants.Layout.rowInsets.leading
+                            + CGFloat(item.depth)
+                            * Constants.Layout.indentStep,
                             bottom: Constants.Layout.rowInsets.bottom,
                             trailing: Constants.Layout.rowInsets.trailing
                         ))
@@ -73,6 +75,7 @@ struct DepartmentsView: View {
         .refreshable { await viewModel.refresh() }
     }
 
+    // swiftlint:disable function_body_length
     private func departmentCard(for item: FlatDepartmentItem) -> some View {
         HStack(spacing: Constants.Layout.cardPadding) {
             if item.node.hasChildren {
@@ -139,3 +142,4 @@ struct DepartmentsView: View {
         }
     }
 }
+// swiftlint:enable function_body_length

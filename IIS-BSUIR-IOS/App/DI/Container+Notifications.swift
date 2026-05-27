@@ -9,6 +9,6 @@ import Factory
 
 extension Container {
     var notificationService: Factory<any NotificationServiceProtocol> {
-        self { NotificationService() }.shared
+        self { @MainActor in NotificationService() }.shared
     }
 }

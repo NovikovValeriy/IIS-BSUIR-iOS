@@ -8,6 +8,7 @@
 import Factory
 import SwiftUI
 
+// swiftlint:disable file_length
 private enum Constants {
     enum Layout {
         static let pickerVerticalPadding: CGFloat = 8
@@ -493,3 +494,4 @@ private struct MarkBadge: View {
         }
     }
 }
+// swiftlint:enable file_length

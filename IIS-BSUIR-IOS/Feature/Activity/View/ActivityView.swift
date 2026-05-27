@@ -116,7 +116,12 @@ private struct ActivityEntryCardView: View {
         .padding(Constants.Layout.cardPadding)
         .background(Constants.Colors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
-        .shadow(color: Constants.Colors.shadowColor, radius: Constants.Layout.shadowRadius, x: 0, y: Constants.Layout.shadowOffsetY)
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
     }
 
     private func marksRow(_ marks: [Int]) -> some View {
@@ -143,7 +148,11 @@ private struct ActivityEntryCardView: View {
     }
 
     private func omissionsRow(_ hours: Int, respectful: Bool) -> some View {
-        let bg = respectful ? Constants.Colors.respectfulOmissionBackground : Constants.Colors.omissionBackground
+        let background =
+        respectful
+        ? Constants.Colors.respectfulOmissionBackground
+        : Constants.Colors.omissionBackground
+
         return Label(
             String(format: String(localized: "activity.omissions %lld"), hours),
             systemImage: Constants.Icons.omission
@@ -152,6 +161,6 @@ private struct ActivityEntryCardView: View {
         .foregroundStyle(respectful ? Color.orange : Color.red)
         .padding(.horizontal, 8)
         .padding(.vertical, 3)
-        .background(bg, in: Capsule())
+        .background(background, in: Capsule())
     }
 }

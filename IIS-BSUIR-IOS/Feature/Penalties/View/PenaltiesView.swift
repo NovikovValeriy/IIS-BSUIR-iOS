@@ -135,7 +135,12 @@ private struct PenaltyIncentiveCardView: View {
         .padding(Constants.Layout.cardPadding)
         .background(Constants.Colors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cardCornerRadius))
-        .shadow(color: Constants.Colors.shadowColor, radius: Constants.Layout.shadowRadius, x: 0, y: Constants.Layout.shadowOffsetY)
+        .shadow(
+            color: Constants.Colors.shadowColor,
+            radius: Constants.Layout.shadowRadius,
+            x: 0,
+            y: Constants.Layout.shadowOffsetY
+        )
     }
 
     private func statusBadge(_ status: String) -> some View {

@@ -35,7 +35,7 @@ struct MarkBookView: View {
 
     var body: some View {
         Group {
-            if let _ = viewModel.markBook {
+            if viewModel.markBook != nil {
                 loadedView
             } else if viewModel.isLoading {
                 ProgressView()

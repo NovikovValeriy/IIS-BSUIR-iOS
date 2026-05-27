@@ -274,7 +274,12 @@ private struct DisciplineRowView: View {
                 .foregroundStyle(Color.accentColor)
                 .padding(.horizontal, Constants.Layout.hoursBadgeHPadding)
                 .padding(.vertical, Constants.Layout.hoursBadgeVPadding)
-                .background(Constants.Colors.hoursBadgeBackground, in: RoundedRectangle(cornerRadius: Constants.Layout.hoursBadgeCornerRadius))
+                .background(
+                    Constants.Colors.hoursBadgeBackground,
+                    in: RoundedRectangle(
+                        cornerRadius: Constants.Layout.hoursBadgeCornerRadius
+                    )
+                )
         }
         .padding(Constants.Layout.cardPadding)
         .background(Constants.Colors.cardBackground)

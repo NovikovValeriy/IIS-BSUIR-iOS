@@ -9,6 +9,7 @@ import Foundation
 import Network
 
 // swiftlint:disable type_body_length
+// swiftlint:disable file_length
 @Observable
 @MainActor
 class ScheduleViewModel {
@@ -367,6 +368,7 @@ class ScheduleViewModel {
 
     // MARK: - Timeline generation
 
+    // swiftlint:disable cyclomatic_complexity
     private func buildTimeline(
         from schedule: Schedule,
         until endDate: Date
@@ -438,6 +440,7 @@ class ScheduleViewModel {
 
         return days
     }
+    // swiftlint:enable cyclomatic_complexity
 
     private func buildExamsTimeline(from schedule: Schedule) -> [TimelineDay] {
         guard !schedule.exams.isEmpty else { return [] }
@@ -501,3 +504,4 @@ class ScheduleViewModel {
     }
 }
 // swiftlint:enable type_body_length
+// swiftlint:enable file_length

@@ -23,6 +23,7 @@ struct ScheduleEntry: TimelineEntry {
                 startTime: "09:00",
                 endTime: "10:35",
                 room: "309-1",
+                teacherName: "Иванов И.И.",
                 weekday: "Понедельник",
                 startDate: .now
             ),
@@ -33,6 +34,7 @@ struct ScheduleEntry: TimelineEntry {
                 startTime: "11:00",
                 endTime: "12:35",
                 room: "204-2",
+                teacherName: "Петров П.П.",
                 weekday: "Понедельник",
                 startDate: Calendar.current.date(byAdding: .hour, value: 2, to: .now) ?? .now
             )
