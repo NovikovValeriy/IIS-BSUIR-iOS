@@ -50,10 +50,10 @@ class ScheduleViewModel {
 
     var examsDays: [TimelineDay] = []
 
-    private var schedule: Schedule?
+    private(set) var schedule: Schedule?
     /// The current semester week number as returned by the API (e.g. 7).
     /// Used to anchor the 4-week cycle without relying on startDate arithmetic.
-    private var currentSemesterWeek: Int?
+    private(set) var currentSemesterWeek: Int?
     private var timelineLoadedUntil: Date = {
         Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
     }()
@@ -205,6 +205,12 @@ class ScheduleViewModel {
         return parts.joined(separator: ", ")
     }
 
+    // MARK: - Override hooks
+
+    /// Called after a schedule is applied (from network or cache) and when currentSemesterWeek changes.
+    /// Override in subclasses to react to schedule updates without accessing private state.
+    func scheduleDidUpdate(_ schedule: Schedule, for subject: ScheduleSubject) {}
+
     // MARK: - Internal (available to subclasses)
 
     /// Resets stale schedule state and kicks off loading a new subject.
@@ -302,6 +308,9 @@ class ScheduleViewModel {
         case .weekly:
             break
         }
+        if let selectedSubject {
+            scheduleDidUpdate(loaded, for: selectedSubject)
+        }
     }
 
     private func loadCurrentWeek() async {
@@ -309,6 +318,9 @@ class ScheduleViewModel {
             currentSemesterWeek = cached
             if displayMode == .timeline, let schedule {
                 timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
+            }
+            if let schedule, let selectedSubject {
+                scheduleDidUpdate(schedule, for: selectedSubject)
             }
         }
         do {
@@ -318,6 +330,9 @@ class ScheduleViewModel {
                 storage?.setValue(fresh, for: .currentSemesterWeek)
                 if displayMode == .timeline, let schedule {
                     timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
+                }
+                if let schedule, let selectedSubject {
+                    scheduleDidUpdate(schedule, for: selectedSubject)
                 }
             }
         } catch {

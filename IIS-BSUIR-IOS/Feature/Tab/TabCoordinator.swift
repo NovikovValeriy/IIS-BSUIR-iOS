@@ -26,4 +26,6 @@ extension Notification.Name {
     static func popToRoot(for tab: TabItem) -> Notification.Name {
         Notification.Name("popToRoot_\(tab.rawValue)")
     }
+
+    static let navigateToLesson = Notification.Name("navigateToLesson")
 }

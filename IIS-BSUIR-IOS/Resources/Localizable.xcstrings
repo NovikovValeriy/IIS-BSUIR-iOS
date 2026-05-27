@@ -10,6 +10,9 @@
     "…" : {
 
     },
+    "·" : {
+
+    },
     "(%@)" : {
 
     },
@@ -37,6 +40,12 @@
       }
     },
     "%lld" : {
+
+    },
+    "+ %lld" : {
+
+    },
+    "A an example control that runs a timer." : {
 
     },
     "activity.empty.title" : {
@@ -140,6 +149,9 @@
         }
       }
     },
+    "Bottom %@" : {
+
+    },
     "common.cancel" : {
       "localizations" : {
         "en" : {
@@ -179,6 +191,9 @@
           }
         }
       }
+    },
+    "Configuration" : {
+
     },
     "department.employees.empty.title" : {
       "localizations" : {
@@ -592,6 +607,12 @@
         }
       }
     },
+    "Favorite Emoji" : {
+
+    },
+    "Favorite Emoji:" : {
+
+    },
     "grades.control_point.outside" : {
       "localizations" : {
         "en" : {
@@ -744,6 +765,15 @@
           }
         }
       }
+    },
+    "Hello %@" : {
+
+    },
+    "L" : {
+
+    },
+    "Leading" : {
+
     },
     "lesson.detail.announcement" : {
       "localizations" : {
@@ -1220,26 +1250,6 @@
         }
       }
     },
-    "notifications.section.once" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One-Time"
-          }
-        }
-      }
-    },
-    "notifications.section.weekly" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weekly"
-          }
-        }
-      }
-    },
     "notifications.permission_denied" : {
       "localizations" : {
         "en" : {
@@ -1256,6 +1266,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications Disabled"
+          }
+        }
+      }
+    },
+    "notifications.section.once" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-Time"
+          }
+        }
+      }
+    },
+    "notifications.section.weekly" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekly"
           }
         }
       }
@@ -1280,6 +1310,12 @@
           }
         }
       }
+    },
+    "Off" : {
+
+    },
+    "On" : {
+
     },
     "penalties.directive %@" : {
       "localizations" : {
@@ -2208,6 +2244,12 @@
         }
       }
     },
+    "Start a timer" : {
+
+    },
+    "Start Timer" : {
+
+    },
     "subject_picker.loading_groups" : {
       "localizations" : {
         "en" : {
@@ -2318,6 +2360,9 @@
         }
       }
     },
+    "T %@" : {
+
+    },
     "tab.directory" : {
       "localizations" : {
         "en" : {
@@ -2364,6 +2409,77 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "This is an example widget." : {
+
+    },
+    "Time:" : {
+
+    },
+    "Timer" : {
+
+    },
+    "Timer is running" : {
+
+    },
+    "Timer Name" : {
+
+    },
+    "Timer Name Configuration" : {
+
+    },
+    "Trailing" : {
+
+    },
+    "widget.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows your pinned schedule for today."
+          }
+        }
+      }
+    },
+    "widget.display_name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schedule"
+          }
+        }
+      }
+    },
+    "widget.no_lessons" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No lessons today"
+          }
+        }
+      }
+    },
+    "widget.no_schedule" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open app to load schedule"
+          }
+        }
+      }
+    },
+    "widget.today" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
           }
         }
       }

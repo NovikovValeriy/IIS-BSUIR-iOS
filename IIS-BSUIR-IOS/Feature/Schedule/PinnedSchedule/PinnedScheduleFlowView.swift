@@ -40,5 +40,12 @@ struct PinnedScheduleFlowView: View {
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .pinnedSchedule))) { _ in
             router.popToRoot()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .navigateToLesson)) { notification in
+            guard let subject = notification.userInfo?["subject"] as? String,
+                  let startTime = notification.userInfo?["startTime"] as? String,
+                  let weekday = notification.userInfo?["weekday"] as? String
+            else { return }
+            viewModel.navigateToLesson(subject: subject, startTime: startTime, weekday: weekday)
+        }
     }
 }

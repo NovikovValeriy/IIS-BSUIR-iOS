@@ -58,8 +58,26 @@ final class AppCoordinator {
             tabCoordinator.select(.profile)
         case "settings":
             tabCoordinator.select(.settings)
+        case "lesson":
+            handleLessonDeepLink(queryItems: components.queryItems ?? [], tabCoordinator: tabCoordinator)
         default:
             break
         }
+    }
+
+    private func handleLessonDeepLink(queryItems: [URLQueryItem], tabCoordinator: TabCoordinator) {
+        func value(for name: String) -> String? {
+            queryItems.first(where: { $0.name == name })?.value
+        }
+        guard let subject = value(for: "subject"),
+              let startTime = value(for: "startTime"),
+              let weekday = value(for: "weekday")
+        else { return }
+        tabCoordinator.selectedTab = .pinnedSchedule
+        NotificationCenter.default.post(
+            name: .navigateToLesson,
+            object: nil,
+            userInfo: ["subject": subject, "startTime": startTime, "weekday": weekday]
+        )
     }
 }
