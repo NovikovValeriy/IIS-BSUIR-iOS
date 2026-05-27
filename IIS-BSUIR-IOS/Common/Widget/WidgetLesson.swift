@@ -14,6 +14,7 @@ struct WidgetLesson: Codable, Identifiable, Hashable {
     let startTime: String
     let endTime: String
     let room: String?
+    let teacherName: String?
     let weekday: String
     let startDate: Date
 

@@ -126,6 +126,7 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
                 startTime: lesson.startTime,
                 endTime: lesson.endTime,
                 room: lesson.auditories.first,
+                teacherName: lesson.teachers.first?.shortName,
                 weekday: weekday,
                 startDate: startDate
             )
