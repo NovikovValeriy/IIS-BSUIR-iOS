@@ -23,7 +23,6 @@ final class AppCoordinator {
         self.storage = storage
     }
 
-    // Silently restore session on launch — does not block the UI
     func validateSession() async {
         if let user = await authService.validateStoredSession() {
             authState.transition(to: .authenticated(user: user))

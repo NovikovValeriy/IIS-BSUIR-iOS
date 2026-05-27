@@ -10,7 +10,6 @@ enum SubgroupFilter: String, CaseIterable, Codable {
     case first
     case second
 
-    /// The `numSubgroup` value that this filter targets, or nil for "all".
     var targetSubgroup: Int? {
         switch self {
         case .all: return nil

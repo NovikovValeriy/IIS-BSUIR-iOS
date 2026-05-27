@@ -8,7 +8,6 @@
 struct MarkBookResponseDTO: Decodable {
     let averageMark: Double
     let number: String
-    // Keys are semester numbers as strings: "1", "2", etc.
     let markPages: [String: MarkBookPageDTO]
 }
 

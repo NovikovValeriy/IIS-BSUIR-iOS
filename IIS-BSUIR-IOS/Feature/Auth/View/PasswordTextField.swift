@@ -39,9 +39,6 @@ struct PasswordTextField: UIViewRepresentable {
         if uiView.isSecureTextEntry != isSecure {
             let saved = uiView.text ?? ""
             uiView.isSecureTextEntry = isSecure
-            // Use insertText instead of direct assignment so iOS treats the
-            // content as user-typed, preventing the "clear on next keystroke"
-            // behavior that secure fields apply to programmatically set text.
             uiView.text = ""
             uiView.insertText(saved)
         } else if uiView.text != text {

@@ -25,7 +25,6 @@ enum NotificationError: LocalizedError {
 final class NotificationService: NotificationServiceProtocol {
     private let center = UNUserNotificationCenter.current()
 
-    // Russian weekday name → Gregorian Calendar weekday (1 = Sunday … 7 = Saturday)
     private let russianWeekdayIndex: [String: Int] = [
         "Воскресенье": 1,
         "Понедельник": 2,
@@ -140,7 +139,6 @@ final class NotificationService: NotificationServiceProtocol {
         guard timeParts.count == 2 else { throw NotificationError.invalidTime }
 
         var totalMinutes = timeParts[0] * 60 + timeParts[1] - minutesBefore
-        // Wrap past midnight if minutesBefore pushes time before 00:00
         if totalMinutes < 0 { totalMinutes += 24 * 60 }
         let triggerHour = totalMinutes / 60
         let triggerMinute = totalMinutes % 60

@@ -8,10 +8,7 @@
 enum ScheduleSubject: Hashable, Codable {
     case group(GroupModel)
     case teacher(Teacher)
-    // Future cases:
-    // case auditory(String)
 
-    /// Short name shown in the navigation title and pickers.
     var displayName: String {
         switch self {
         case .group(let group): return group.name
@@ -52,7 +49,6 @@ enum ScheduleSubject: Hashable, Codable {
         }
     }
 
-    /// Secondary descriptor shown below the name in pickers.
     var subjectDescription: String? {
         switch self {
         case .group(let group): return group.specialityAbbrev

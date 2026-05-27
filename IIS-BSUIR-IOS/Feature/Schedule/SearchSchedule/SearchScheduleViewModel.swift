@@ -53,7 +53,6 @@ final class SearchScheduleViewModel: ScheduleViewModel {
         router.present(sheet: .groupPicker)
     }
 
-    /// Called when the teacher tab in the picker becomes visible for the first time.
     func ensureTeachersLoaded() {
         guard teachers.isEmpty, !isLoadingTeachers else { return }
         isLoadingTeachers = true
@@ -92,9 +91,7 @@ final class SearchScheduleViewModel: ScheduleViewModel {
     private func loadTeachers() async {
         do {
             teachers = try await scheduleService.fetchTeachers()
-        } catch {
-            // Non-fatal: teacher tab will show an empty state
-        }
+        } catch { }
         isLoadingTeachers = false
     }
 }

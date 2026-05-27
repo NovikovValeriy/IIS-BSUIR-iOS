@@ -46,8 +46,6 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
     }
 
     // MARK: - Pinned subject sync
-
-    /// Called by `PinnedScheduleFlowView` when the pinned service subject changes.
     func pinnedSubjectDidChange(to subject: ScheduleSubject?) {
         guard subject != selectedSubject else { return }
         if let subject {
@@ -88,15 +86,13 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         let calendar = Calendar.current
         let today = Date()
 
-        // Calendar.weekday: 1=Sunday, 2=Monday ... 7=Saturday → weekdayOrder index: Mon=0...Sat=5
         let weekdayComponent = calendar.component(.weekday, from: today)
-        let weekdayIndex = weekdayComponent - 2  // Mon=0, Sun=-1
+        let weekdayIndex = weekdayComponent - 2
         guard weekdayIndex >= 0, weekdayIndex < russianWeekdays.count else {
             return WidgetScheduleSnapshot(subjectName: subject.displayName, lessonsToday: [], generatedAt: today)
         }
         let weekday = russianWeekdays[weekdayIndex]
 
-        // currentSemesterWeek is for today — compute today's cycle position directly
         let cycleWeek = ((currentSemesterWeek - 1) % 4) + 1
         let todayStart = calendar.startOfDay(for: today)
 

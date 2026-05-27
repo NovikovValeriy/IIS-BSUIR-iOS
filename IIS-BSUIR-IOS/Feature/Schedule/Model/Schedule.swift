@@ -6,10 +6,9 @@
 //
 
 struct Schedule: Codable, Equatable {
-    // Keys are Russian weekday names: "Понедельник", "Вторник", etc.
     let weeklyLessons: [String: [Lesson]]
     let exams: [Lesson]
-    // "dd.MM.yyyy" dates bounding the semester and exam periods
+    // "dd.MM.yyyy"
     let semesterEndDate: String?
     let examsStartDate: String?
     let examsEndDate: String?

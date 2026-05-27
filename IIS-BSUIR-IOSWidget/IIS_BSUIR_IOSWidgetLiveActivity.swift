@@ -11,18 +11,15 @@ import SwiftUI
 // swiftlint:disable type_name
 struct IIS_BSUIR_IOSWidgetAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        // Dynamic stateful properties about your activity go here!
         var emoji: String
     }
 
-    // Fixed non-changing properties about your activity go here!
     var name: String
 }
 
 struct IIS_BSUIR_IOSWidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: IIS_BSUIR_IOSWidgetAttributes.self) { context in
-            // Lock screen/banner UI goes here
             VStack {
                 Text("Hello \(context.state.emoji)")
             }
@@ -31,8 +28,6 @@ struct IIS_BSUIR_IOSWidgetLiveActivity: Widget {
 
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded UI goes here.  Compose the expanded UI through
-                // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
                     Text("Leading")
                 }
@@ -41,7 +36,6 @@ struct IIS_BSUIR_IOSWidgetLiveActivity: Widget {
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     Text("Bottom \(context.state.emoji)")
-                    // more content
                 }
             } compactLeading: {
                 Text("L")

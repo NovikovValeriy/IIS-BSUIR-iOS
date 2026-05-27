@@ -67,11 +67,9 @@ private extension DormitoryApplicationDTO {
         let display = DateFormatter()
         display.dateStyle = .medium
         display.timeStyle = .none
-        // "yyyy-MM-dd'T'HH:mm:ss.SSS"
         let iso = ISO8601DateFormatter()
         iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         if let date = iso.date(from: value) { return display.string(from: date) }
-        // fallback: strip time component
         return String(value.prefix(10))
     }
 }

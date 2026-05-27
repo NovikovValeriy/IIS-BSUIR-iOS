@@ -10,7 +10,6 @@ import Foundation
 struct GradeBook: Codable {
     let studentName: String
     let subGroup: Int
-    // Sorted by date ascending
     let lessons: [GradeBookLesson]
 }
 

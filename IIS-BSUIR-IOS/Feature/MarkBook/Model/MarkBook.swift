@@ -8,7 +8,6 @@
 struct MarkBook: Codable {
     let number: String
     let averageMark: Double
-    // Sorted by semester number ascending
     let semesters: [MarkBookSemester]
 }
 

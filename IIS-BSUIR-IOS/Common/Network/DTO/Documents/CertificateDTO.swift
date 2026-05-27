@@ -14,6 +14,5 @@ struct CertificateDTO: Decodable {
     let number: Int
     let provisionPlace: String
     let rejectionReason: String?
-    // 1 = Printed, 2 = Processing, 3 = Rejected
     let status: Int
 }

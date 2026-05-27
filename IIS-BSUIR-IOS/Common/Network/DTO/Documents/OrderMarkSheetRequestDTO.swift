@@ -8,7 +8,6 @@
 struct OrderMarkSheetRequestDTO: Encodable {
     let price: Double
     let markSheetType: MarkSheetTypeDTO
-    // 1 = excused, 2 = unexcused
     let reason: Int
     let hours: String
     let subject: MarkSheetSubjectRefDTO

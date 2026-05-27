@@ -48,11 +48,9 @@ struct ScheduleTimelineProvider: TimelineProvider {
         let now = Date()
         var entries: [ScheduleEntry] = []
 
-        // Initial entry for now
         let initialUpcoming = upcomingLessons(from: lessons)
         entries.append(ScheduleEntry(date: now, subjectName: snapshot.subjectName, upcomingLessons: initialUpcoming))
 
-        // One entry per future lesson start time
         for (index, lesson) in lessons.enumerated() where lesson.startDate > now {
             let upcoming = Array(lessons[index...])
             entries.append(ScheduleEntry(
@@ -62,7 +60,6 @@ struct ScheduleTimelineProvider: TimelineProvider {
             ))
         }
 
-        // Final entry after last lesson
         if let lastLesson = lessons.last {
             let endDate = Calendar.current.date(
                 byAdding: .minute,
@@ -75,7 +72,6 @@ struct ScheduleTimelineProvider: TimelineProvider {
         return entries
     }
 
-    /// Returns lessons from the first one whose start is within the last 95 minutes (typical lesson length).
     private func upcomingLessons(from lessons: [WidgetLesson]) -> [WidgetLesson] {
         let now = Date()
         let cutoff = Calendar.current.date(byAdding: .minute, value: -95, to: now) ?? now

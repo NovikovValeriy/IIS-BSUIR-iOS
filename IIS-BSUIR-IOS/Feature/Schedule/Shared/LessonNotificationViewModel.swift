@@ -16,7 +16,6 @@ final class LessonNotificationViewModel {
 
     private(set) var isEnabled = false
     private(set) var isLoading = false
-    // Set to true when the OS permission dialog was denied
     private(set) var permissionDenied = false
 
     var selectedMode: NotificationMode = .weekly
@@ -36,8 +35,6 @@ final class LessonNotificationViewModel {
         permissionDenied = false
     }
 
-    /// Replaces the active notification with current mode/minutesBefore settings.
-    /// No-op if no notification is currently scheduled.
     func reschedule() async {
         guard isEnabled else { return }
         isLoading = true
@@ -49,9 +46,7 @@ final class LessonNotificationViewModel {
                 mode: selectedMode,
                 minutesBefore: minutesBefore
             )
-        } catch {
-            // Leave state unchanged on failure
-        }
+        } catch { }
     }
 
     func load() async {
@@ -81,9 +76,7 @@ final class LessonNotificationViewModel {
                     minutesBefore: minutesBefore
                 )
                 isEnabled = true
-            } catch {
-                // Scheduling failed — leave isEnabled = false, no crash
-            }
+            } catch { }
         }
     }
 }

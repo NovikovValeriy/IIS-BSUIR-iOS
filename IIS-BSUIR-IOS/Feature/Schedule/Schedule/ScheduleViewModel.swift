@@ -18,7 +18,6 @@ class ScheduleViewModel {
     private let storage: (any StorageProtocol)?
     private let cacheService: (any ScheduleCacheServiceProtocol)?
 
-    // Ordered Russian weekday names matching the API
     let weekdayOrder = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
 
     var selectedSubject: ScheduleSubject?
@@ -52,8 +51,6 @@ class ScheduleViewModel {
     var examsDays: [TimelineDay] = []
 
     private(set) var schedule: Schedule?
-    /// The current semester week number as returned by the API (e.g. 7).
-    /// Used to anchor the 4-week cycle without relying on startDate arithmetic.
     private(set) var currentSemesterWeek: Int?
     private var timelineLoadedUntil: Date = {
         Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date()
@@ -102,7 +99,6 @@ class ScheduleViewModel {
         selectedSubject?.displayName ?? String(localized: "schedule.title")
     }
 
-    /// When viewing a teacher's schedule, rows should show the group instead of the teacher.
     var showGroupsInRow: Bool {
         if case .teacher = selectedSubject { return true }
         return false
@@ -122,7 +118,6 @@ class ScheduleViewModel {
         self.scheduleService = scheduleService
         self.storage = storage
         self.cacheService = cacheService
-        // Restore persisted preferences — assignments in init do not trigger didSet.
         self.displayMode = storage?.value(for: .scheduleDisplayMode) ?? .timeline
         self.subgroupFilter = storage?.value(for: .scheduleSubgroupFilter) ?? .all
     }
@@ -156,19 +151,16 @@ class ScheduleViewModel {
         await loadSchedule(for: subject)
     }
 
-    /// Called when switching to timeline mode if no days are loaded yet.
     func ensureTimelineGenerated() {
         guard let schedule, timelineDays.isEmpty else { return }
         timelineDays = buildTimeline(from: schedule, until: timelineLoadedUntil)
     }
 
-    /// Called when switching to exams mode if no days are loaded yet.
     func ensureExamsGenerated() {
         guard let schedule, examsDays.isEmpty else { return }
         examsDays = buildExamsTimeline(from: schedule)
     }
 
-    /// Extends the visible timeline window by 14 days and regenerates.
     func loadMoreTimelineDays() {
         guard let schedule else { return }
         timelineLoadedUntil = Calendar.current.date(
@@ -208,14 +200,10 @@ class ScheduleViewModel {
 
     // MARK: - Override hooks
 
-    /// Called after a schedule is applied (from network or cache) and when currentSemesterWeek changes.
-    /// Override in subclasses to react to schedule updates without accessing private state.
     func scheduleDidUpdate(_ schedule: Schedule, for subject: ScheduleSubject) {}
 
     // MARK: - Internal (available to subclasses)
 
-    /// Resets stale schedule state and kicks off loading a new subject.
-    /// Pass `resetFilter: true` when the user actively selects a new subject.
     func beginLoadingSubject(_ subject: ScheduleSubject, resetFilter: Bool = false) {
         loadScheduleTask?.cancel()
         selectedSubject = subject
@@ -230,7 +218,6 @@ class ScheduleViewModel {
         loadScheduleTask = Task { await loadSchedule(for: subject) }
     }
 
-    /// Clears all schedule state without loading a new subject.
     func unloadSubject() {
         loadScheduleTask?.cancel()
         loadScheduleTask = nil
@@ -336,9 +323,7 @@ class ScheduleViewModel {
                     scheduleDidUpdate(schedule, for: selectedSubject)
                 }
             }
-        } catch {
-            // Non-fatal — currentSemesterWeek may already be set from UserDefaults above
-        }
+        } catch { }
     }
 
     // MARK: - Subgroup filtering
@@ -402,19 +387,16 @@ class ScheduleViewModel {
         while current <= iterEnd {
             var dayLessons: [Lesson] = []
 
-            // Recurring lessons from the weekly schedule
             if let weekdayName = russianWeekday(for: current),
                let recurringLessons = schedule.weeklyLessons[weekdayName] {
 
                 let cycleWeek = cycleWeek(for: current)
 
                 for lesson in recurringLessons {
-                    // Filter by 4-week cycle number
                     if let weeks = lesson.weekNumber {
                         guard let cycleWeek, weeks.contains(cycleWeek) else { continue }
                     }
 
-                    // Filter by lesson-level date range (e.g. lesson only valid for part of semester)
                     if let startStr = lesson.startLessonDate,
                        let startD = lessonDateFormatter.date(from: startStr) {
                         guard current >= calendar.startOfDay(for: startD) else { continue }
@@ -478,19 +460,13 @@ class ScheduleViewModel {
         return days
     }
 
-    /// Maps a date to the Russian weekday name used as a key in the API response.
-    /// Returns nil for Sunday (not in the schedule).
     private func russianWeekday(for date: Date) -> String? {
-        // Calendar.weekday: 1 = Sunday, 2 = Monday, ..., 7 = Saturday
         let weekday = Calendar.current.component(.weekday, from: date)
-        let index = weekday - 2  // Monday = 0, ..., Saturday = 5, Sunday = -1
+        let index = weekday - 2
         guard index >= 0, index < weekdayOrder.count else { return nil }
         return weekdayOrder[index]
     }
 
-    /// Returns the 1-based position in the 4-week rotating cycle for a given date.
-    /// Anchored using the API-provided `currentSemesterWeek` for today.
-    /// Returns nil if the current week hasn't been fetched yet.
     private func cycleWeek(for date: Date) -> Int? {
         guard let currentSemesterWeek else { return nil }
         let calendar = Calendar.current
@@ -498,7 +474,6 @@ class ScheduleViewModel {
         let targetWeekStart = calendar.dateInterval(of: .weekOfYear, for: date)?.start ?? date
         let weekDiff = calendar.dateComponents([.weekOfYear], from: todayWeekStart, to: targetWeekStart).weekOfYear ?? 0
         let semesterWeekForDate = currentSemesterWeek + weekDiff
-        // Guard against negative values (dates before semester start edge case)
         guard semesterWeekForDate > 0 else { return nil }
         return ((semesterWeekForDate - 1) % 4) + 1
     }

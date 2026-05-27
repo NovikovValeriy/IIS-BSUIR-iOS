@@ -20,7 +20,6 @@ struct MarkSheetDTO: Decodable {
     let number: String?
     let paymentFormMap: String?
     let price: Double?
-    // true = excused, false = unexcused
     let reason: Bool
     let rejectionReason: String?
     let requestValidationDoc: Bool?

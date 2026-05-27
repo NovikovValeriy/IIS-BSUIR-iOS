@@ -9,7 +9,7 @@ import Factory
 
 extension Container {
     var gradesService: Factory<any GradesServiceProtocol> {
-        // TODO: swap to GradesService(apiClient: self.apiClient(), cache: self.profileCacheService()) once a real account with grades is available
+        // self { @MainActor in GradesService(apiClient: self.apiClient(), cache: self.profileCacheService()) }.shared
         self { @MainActor in MockGradesService() }.shared
     }
 

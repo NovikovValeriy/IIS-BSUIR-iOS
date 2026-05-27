@@ -12,7 +12,7 @@ private enum Constants {
         static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
         static let sentinelHeight: CGFloat = 1
     }
-    // Indexed by Calendar.weekday (1 = Sunday … 7 = Saturday)
+
     static let russianWeekdays = [
         "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"
     ]

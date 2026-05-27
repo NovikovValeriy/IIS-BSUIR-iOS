@@ -23,10 +23,6 @@ private enum Constants {
     }
 }
 
-/// Core schedule content view shared by both schedule screens.
-/// Renders the lesson list, loading/error states, and the display-mode and
-/// subgroup-filter toolbar buttons. Screen-specific empty states and toolbar
-/// items are supplied by the calling view.
 struct ScheduleView<EmptyState: View>: View {
     @Bindable var viewModel: ScheduleViewModel
     @ViewBuilder let emptyState: () -> EmptyState

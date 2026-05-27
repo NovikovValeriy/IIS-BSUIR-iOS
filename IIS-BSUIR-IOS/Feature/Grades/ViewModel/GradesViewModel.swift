@@ -12,10 +12,8 @@ import Foundation
 final class GradesViewModel {
     private(set) var gradeBook: GradeBook?
     private(set) var isLoading: Bool = false
-    // 0 = summary tab, 1..n = control point tabs
     var selectedTabIndex: Int = 0
 
-    // Control points sorted by date ascending, Вне КТ last
     var controlPoints: [GradeBookControlPoint] {
         guard let gradeBook else { return [] }
         return Self.buildControlPoints(from: gradeBook.lessons)

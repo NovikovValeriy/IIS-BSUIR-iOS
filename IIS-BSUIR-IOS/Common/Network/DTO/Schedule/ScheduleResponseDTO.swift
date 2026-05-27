@@ -14,7 +14,6 @@ struct ScheduleResponseDTO: Decodable {
     let endExamsDate: String?
     let employeeDto: ScheduleEmployeeDTO?
     let studentGroupDto: ScheduleStudentGroupDTO?
-    // Keys are Russian weekday names: "Понедельник", "Вторник", etc.
     let schedules: [String: [LessonDTO]]?
     let previousSchedules: [String: [LessonDTO]]?
     let nextSchedules: [String: [LessonDTO]]?

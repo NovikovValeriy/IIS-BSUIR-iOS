@@ -29,7 +29,6 @@ struct LessonPeriodDTO: Decodable {
 struct OmissionStudentDTO: Decodable {
     let fio: String
     let id: Int
-    // null if the student was not marked absent
     let omission: StudentOmissionDTO?
 }
 

@@ -17,7 +17,7 @@ struct Lesson: Hashable, Codable {
     let teachers: [Teacher]
     let groups: [LessonGroup]
     let note: String?
-    // "dd.MM.yyyy" — present only for one-time lessons (exams)
+    // "dd.MM.yyyy"
     let dateLesson: String?
     let startLessonDate: String?
     let endLessonDate: String?

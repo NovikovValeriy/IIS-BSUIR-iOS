@@ -15,10 +15,9 @@ struct LessonDTO: Decodable {
     let studentGroups: [LessonStudentGroupDTO]
     let subject: String?
     let subjectFullName: String?
-    // null in exam objects
     let weekNumber: [Int]?
     let employees: [ScheduleEmployeeDTO]?
-    // "dd.MM.yyyy" — used for exams
+    // "dd.MM.yyyy"
     let dateLesson: String?
     let startLessonDate: String?
     let endLessonDate: String?
