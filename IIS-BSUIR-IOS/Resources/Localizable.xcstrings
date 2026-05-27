@@ -271,6 +271,197 @@
         }
       }
     },
+    "documents.certificate.issued %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Issued: %@"
+          }
+        }
+      }
+    },
+    "documents.certificate.number %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificate #%lld"
+          }
+        }
+      }
+    },
+    "documents.certificate.ordered %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordered: %@"
+          }
+        }
+      }
+    },
+    "documents.certificates.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No certificates"
+          }
+        }
+      }
+    },
+    "documents.marksheet.absent %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Absent: %@"
+          }
+        }
+      }
+    },
+    "documents.marksheet.excused" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excused"
+          }
+        }
+      }
+    },
+    "documents.marksheet.expires %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid until: %@"
+          }
+        }
+      }
+    },
+    "documents.marksheet.hours %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ h"
+          }
+        }
+      }
+    },
+    "documents.marksheet.number %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sheet #%@"
+          }
+        }
+      }
+    },
+    "documents.marksheet.price %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ BYN"
+          }
+        }
+      }
+    },
+    "documents.marksheet.retakes %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld retakes"
+          }
+        }
+      }
+    },
+    "documents.marksheet.teacher %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teacher: %@"
+          }
+        }
+      }
+    },
+    "documents.marksheet.unexcused" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unexcused"
+          }
+        }
+      }
+    },
+    "documents.marksheets.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No marksheets"
+          }
+        }
+      }
+    },
+    "documents.status.printed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Printed"
+          }
+        }
+      }
+    },
+    "documents.status.processing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing"
+          }
+        }
+      }
+    },
+    "documents.status.rejected" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rejected"
+          }
+        }
+      }
+    },
+    "documents.tab.certificates" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificates"
+          }
+        }
+      }
+    },
+    "documents.tab.marksheets" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marksheets"
+          }
+        }
+      }
+    },
     "dormitory.application_number %lld" : {
       "localizations" : {
         "en" : {

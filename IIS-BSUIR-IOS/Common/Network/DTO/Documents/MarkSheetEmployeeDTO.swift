@@ -6,7 +6,7 @@
 //
 
 struct MarkSheetEmployeeDTO: Codable {
-    let academicDepartment: String
+    let academicDepartment: String?
     let fio: String
     let firstName: String
     let id: Int
