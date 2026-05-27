@@ -67,8 +67,6 @@ final class AuthService: AuthServiceProtocol {
     }
 }
 
-// MARK: - Mapping
-
 private extension AccountProfileDTO {
     func toDomain(username: String) -> User {
         let nameParts = [lastName, firstName, middleName].compactMap { $0 }

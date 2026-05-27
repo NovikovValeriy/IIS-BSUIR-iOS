@@ -114,8 +114,6 @@ struct ScheduleView<EmptyState: View>: View {
         }
     }
 
-    // MARK: - Subviews
-
     private func errorView(message: String) -> some View {
         ContentUnavailableView {
             Label("common.error.title", systemImage: Constants.Icons.error)

@@ -73,8 +73,6 @@ struct AnnouncementsView: View {
     }
 }
 
-// MARK: - Card
-
 private struct AnnouncementCardView: View {
     let announcement: Announcement
 

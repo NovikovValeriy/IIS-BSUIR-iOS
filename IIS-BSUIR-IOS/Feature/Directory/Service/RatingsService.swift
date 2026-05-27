@@ -105,8 +105,6 @@ final class RatingsService: RatingsServiceProtocol {
     }
 }
 
-// MARK: - Adapter for GradesView
-
 @MainActor
 final class StudentGradesAdapter: GradesServiceProtocol {
     private let cardNumber: String
@@ -125,8 +123,6 @@ final class StudentGradesAdapter: GradesServiceProtocol {
         try await service.fetchStudentGradeBook(cardNumber: cardNumber)
     }
 }
-
-// MARK: - GradeBookStudentDTO mapping
 
 extension GradeBookStudentDTO {
     func toGradeBook() -> GradeBook {

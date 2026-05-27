@@ -77,8 +77,6 @@ struct RatingsView: View {
         }
     }
 
-    // MARK: - Picker area
-
     private var pickerArea: some View {
         VStack(spacing: Constants.Layout.pickerSpacing) {
             RatingPickerView(
@@ -131,8 +129,6 @@ struct RatingsView: View {
         .padding(Constants.Layout.pickerAreaPadding)
     }
 
-    // MARK: - Student list
-
     private var studentList: some View {
         List {
             if !viewModel.students.isEmpty {
@@ -160,8 +156,6 @@ struct RatingsView: View {
         }
     }
 }
-
-// MARK: - Custom Picker
 
 private struct RatingPickerView<Content: View>: View {
     let placeholder: LocalizedStringKey
@@ -235,8 +229,6 @@ private struct RatingPickerView<Content: View>: View {
         .disabled(isLoading || isDisabled)
     }
 }
-
-// MARK: - Student Row
 
 private struct StudentRatingRowView: View {
     let rank: Int

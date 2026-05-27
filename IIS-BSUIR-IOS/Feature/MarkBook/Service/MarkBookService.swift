@@ -36,8 +36,6 @@ final class MarkBookService: MarkBookServiceProtocol {
     }
 }
 
-// MARK: - Mapping
-
 private extension MarkBookResponseDTO {
     func toDomain() -> MarkBook {
         let semesters = markPages

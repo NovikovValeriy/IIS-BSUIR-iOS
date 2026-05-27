@@ -84,8 +84,6 @@ struct ScheduleSubjectPickerView: View {
         }
     }
 
-    // MARK: - Tab content
-
     @ViewBuilder
     private var groupsContent: some View {
         if isLoadingGroups {

@@ -94,8 +94,6 @@ final class GradesViewModel {
         selectedTabIndex = 0
     }
 
-    // MARK: - Grouping
-
     private static let lessonTypeOrder = ["ЛК", "ПЗ", "ЛР"]
 
     private static func buildControlPoints(from lessons: [GradeBookLesson]) -> [GradeBookControlPoint] {

@@ -76,8 +76,6 @@ struct DepartmentEmployeesView: View {
     }
 }
 
-// MARK: - Employee Card
-
 private struct EmployeeCardView: View {
     let employee: DepartmentEmployee
 

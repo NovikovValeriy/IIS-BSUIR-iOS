@@ -145,8 +145,6 @@ struct GradesView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Summary tab
-
     private var subjectSummaryList: some View {
         List {
             Section {
@@ -177,8 +175,6 @@ struct GradesView: View {
         .scrollIndicators(.hidden)
     }
 
-    // MARK: - Control point tab
-
     private func controlPointList(for point: GradeBookControlPoint) -> some View {
         let items = groupedSubjects(point).filter { hasContent($0.groups) }
         return List {
@@ -206,8 +202,6 @@ struct GradesView: View {
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
     }
-
-    // MARK: - Helpers
 
     private func headerInfoText(avg: Double?, omissionHours: Int) -> String? {
         var parts: [String] = []
@@ -253,8 +247,6 @@ struct GradesView: View {
         return order.map { (name: $0, groups: dict[$0]!) }
     }
 }
-
-// MARK: - Subject Summary Card
 
 private struct SubjectSummaryCardView: View {
     let summary: GradeBookSubjectSummary
@@ -315,8 +307,6 @@ private struct SubjectSummaryCardView: View {
         )
     }
 }
-
-// MARK: - Subject Card (control point tab)
 
 private struct SubjectCardView: View {
     let subjectName: String

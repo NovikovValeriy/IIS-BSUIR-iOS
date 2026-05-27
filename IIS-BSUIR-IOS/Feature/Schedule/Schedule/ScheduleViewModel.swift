@@ -26,13 +26,9 @@ class ScheduleViewModel {
     var isOfflineFallback = false
     var errorMessage: String?
 
-    // MARK: - Display mode
-
     var displayMode: ScheduleDisplayMode = .timeline {
         didSet { storage?.setValue(displayMode, for: .scheduleDisplayMode) }
     }
-
-    // MARK: - Subgroup filter
 
     var subgroupFilter: SubgroupFilter = .all {
         didSet {
@@ -41,12 +37,8 @@ class ScheduleViewModel {
         }
     }
 
-    // MARK: - Timeline
-
     var timelineDays: [TimelineDay] = []
     private(set) var timelineExhausted = false
-
-    // MARK: - Exams
 
     var examsDays: [TimelineDay] = []
 
@@ -61,8 +53,6 @@ class ScheduleViewModel {
 
     @ObservationIgnored
     private var pathMonitor: NWPathMonitor?
-
-    // MARK: - Date formatters
 
     @ObservationIgnored
     private lazy var weekdayFormatter: DateFormatter = {
@@ -93,8 +83,6 @@ class ScheduleViewModel {
         return formatter
     }()
 
-    // MARK: - Computed
-
     var navigationTitle: String {
         selectedSubject?.displayName ?? String(localized: "schedule.title")
     }
@@ -105,8 +93,6 @@ class ScheduleViewModel {
     }
 
     var canChangeSubject: Bool { false }
-
-    // MARK: - Init
 
     init(
         router: ScheduleRouter,
@@ -126,14 +112,10 @@ class ScheduleViewModel {
         pathMonitor?.cancel()
     }
 
-    // MARK: - Lifecycle
-
     func onAppear() {
         Task { await loadCurrentWeek() }
         startNetworkMonitor()
     }
-
-    // MARK: - Actions
 
     func didTapLesson(_ lesson: Lesson, weekday: String? = nil) {
         router.push(.lessonDetail(lesson, weekday: weekday))
@@ -198,11 +180,7 @@ class ScheduleViewModel {
         return parts.joined(separator: ", ")
     }
 
-    // MARK: - Override hooks
-
     func scheduleDidUpdate(_ schedule: Schedule, for subject: ScheduleSubject) {}
-
-    // MARK: - Internal (available to subclasses)
 
     func beginLoadingSubject(_ subject: ScheduleSubject, resetFilter: Bool = false) {
         loadScheduleTask?.cancel()
@@ -229,8 +207,6 @@ class ScheduleViewModel {
         isOfflineFallback = false
         stopNetworkMonitor()
     }
-
-    // MARK: - Private
 
     private func startNetworkMonitor() {
         guard pathMonitor == nil else { return }
@@ -326,8 +302,6 @@ class ScheduleViewModel {
         } catch { }
     }
 
-    // MARK: - Subgroup filtering
-
     private func shouldInclude(lesson: Lesson) -> Bool {
         guard let target = subgroupFilter.targetSubgroup else { return true }
         return lesson.numSubgroup == 0 || lesson.numSubgroup == target
@@ -350,8 +324,6 @@ class ScheduleViewModel {
             break
         }
     }
-
-    // MARK: - Timeline generation
 
     // swiftlint:disable cyclomatic_complexity
     private func buildTimeline(

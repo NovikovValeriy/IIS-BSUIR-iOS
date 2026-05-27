@@ -80,8 +80,6 @@ struct LessonDetailView: View {
         }
     }
 
-    // MARK: - Sections
-
     private var subjectSection: some View {
         Section {
             if !lesson.announcement {

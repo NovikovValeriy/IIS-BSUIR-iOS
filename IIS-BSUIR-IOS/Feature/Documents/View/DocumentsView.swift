@@ -68,8 +68,6 @@ struct DocumentsView: View {
         .task { await viewModel.load() }
     }
 
-    // MARK: - Tab picker
-
     private var tabPicker: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Constants.Layout.pickerSpacing) {
@@ -101,8 +99,6 @@ struct DocumentsView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Tab content
-
     private var tabContent: some View {
         TabView(selection: Bindable(viewModel).selectedTab) {
             certificatesTab.tag(0)
@@ -111,8 +107,6 @@ struct DocumentsView: View {
         .tabViewStyle(.page(indexDisplayMode: .never))
         .animation(.easeInOut(duration: Constants.Layout.animationDuration), value: viewModel.selectedTab)
     }
-
-    // MARK: - Certificates tab
 
     private var certificatesTab: some View {
         Group {
@@ -144,8 +138,6 @@ struct DocumentsView: View {
         }
     }
 
-    // MARK: - Marksheets tab
-
     private var markSheetsTab: some View {
         Group {
             if let items = viewModel.markSheets {
@@ -173,8 +165,6 @@ struct DocumentsView: View {
         }
     }
 }
-
-// MARK: - Certificate Card
 
 private struct CertificateCardView: View {
     let certificate: Certificate
@@ -251,8 +241,6 @@ private struct CertificateCardView: View {
         }
     }
 }
-
-// MARK: - MarkSheet Card
 
 private struct MarkSheetCardView: View {
     let markSheet: MarkSheet

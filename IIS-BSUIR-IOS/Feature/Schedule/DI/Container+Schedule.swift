@@ -21,8 +21,6 @@ extension Container {
         self { @MainActor in ScheduleCacheService(modelContainer: self.scheduleModelContainer()) }.shared
     }
 
-    // MARK: - Search schedule (second tab)
-
     var scheduleRouter: Factory<ScheduleRouter> {
         self { @MainActor in ScheduleRouter() }.shared
     }
@@ -37,8 +35,6 @@ extension Container {
             )
         }
     }
-
-    // MARK: - Pinned schedule (first tab)
 
     var pinnedScheduleRouter: Factory<ScheduleRouter> {
         self { @MainActor in ScheduleRouter() }.shared

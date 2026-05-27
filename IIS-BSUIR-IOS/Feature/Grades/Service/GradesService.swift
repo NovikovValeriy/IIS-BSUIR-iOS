@@ -37,8 +37,6 @@ final class GradesService: GradesServiceProtocol {
     }
 }
 
-// MARK: - Mapping
-
 extension GradeBookResponseDTO {
     func toDomain() -> GradeBook {
         let dateFormatter = DateFormatter()

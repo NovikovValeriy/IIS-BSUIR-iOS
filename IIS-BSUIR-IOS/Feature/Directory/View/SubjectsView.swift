@@ -77,8 +77,6 @@ struct SubjectsView: View {
         }
     }
 
-    // MARK: - Picker area
-
     private var pickerArea: some View {
         VStack(spacing: Constants.Layout.pickerSpacing) {
             SubjectPickerView(
@@ -148,8 +146,6 @@ struct SubjectsView: View {
         .padding(Constants.Layout.pickerAreaPadding)
     }
 
-    // MARK: - Discipline list
-
     private var disciplineList: some View {
         List {
             if !viewModel.disciplines.isEmpty {
@@ -174,8 +170,6 @@ struct SubjectsView: View {
         }
     }
 }
-
-// MARK: - Custom Picker
 
 private struct SubjectPickerView<Content: View>: View {
     let placeholder: LocalizedStringKey
@@ -249,8 +243,6 @@ private struct SubjectPickerView<Content: View>: View {
         .disabled(isLoading || isDisabled)
     }
 }
-
-// MARK: - Discipline Row
 
 private struct DisciplineRowView: View {
     let rank: Int

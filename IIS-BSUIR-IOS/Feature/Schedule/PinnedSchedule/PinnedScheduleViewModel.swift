@@ -33,8 +33,6 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         super.init(router: router, scheduleService: scheduleService, storage: storage, cacheService: cacheService)
     }
 
-    // MARK: - Lifecycle
-
     override func onAppear() {
         super.onAppear()
         guard let subject = pinnedScheduleService.subject, selectedSubject == nil else { return }
@@ -45,7 +43,6 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         selectedSubject?.displayName ?? String(localized: "schedule.pinned.title")
     }
 
-    // MARK: - Pinned subject sync
     func pinnedSubjectDidChange(to subject: ScheduleSubject?) {
         guard subject != selectedSubject else { return }
         if let subject {
@@ -56,16 +53,12 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         router.popToRoot()
     }
 
-    // MARK: - Widget snapshot
-
     override func scheduleDidUpdate(_ schedule: Schedule, for subject: ScheduleSubject) {
         guard let week = currentSemesterWeek else { return }
         let snapshot = buildWidgetSnapshot(schedule: schedule, subject: subject, currentSemesterWeek: week)
         WidgetDataStore.save(snapshot)
         WidgetCenter.shared.reloadAllTimelines()
     }
-
-    // MARK: - Deep link navigation
 
     func navigateToLesson(subject: String, startTime: String, weekday: String) {
         guard let schedule else { return }
@@ -75,8 +68,6 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
         }) else { return }
         router.push(.lessonDetail(lesson, weekday: weekday))
     }
-
-    // MARK: - Private
 
     private func buildWidgetSnapshot(
         schedule: Schedule,

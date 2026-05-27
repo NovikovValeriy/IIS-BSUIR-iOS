@@ -129,8 +129,6 @@ struct GroupInfoView: View {
     }
 }
 
-// MARK: - Student Row
-
 private struct StudentGroupRowView: View {
     let rank: Int
     let student: GroupStudent

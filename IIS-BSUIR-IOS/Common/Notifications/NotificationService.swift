@@ -127,8 +127,6 @@ final class NotificationService: NotificationServiceProtocol {
         return "lesson_\(subject)_\(weekday)_\(lesson.startTime)_\(lesson.numSubgroup)"
     }
 
-    // MARK: - Private
-
     private func buildTrigger(
         startTime: String,
         weekday: String,

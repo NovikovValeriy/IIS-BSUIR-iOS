@@ -32,7 +32,6 @@ extension Container {
         self { @MainActor in TabCoordinator() }.shared
     }
 
-    // MARK: - Real networking (unused while mocking)
     var keychain: Factory<KeychainService> {
         self { @MainActor in KeychainService() }.shared
     }

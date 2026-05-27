@@ -79,8 +79,6 @@ struct ActivityView: View {
     }
 }
 
-// MARK: - Entry Card
-
 private struct ActivityEntryCardView: View {
     let entry: ActivityEntry
 

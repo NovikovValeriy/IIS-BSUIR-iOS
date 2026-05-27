@@ -95,8 +95,6 @@ struct DormitoryView: View {
     }
 }
 
-// MARK: - Application Card
-
 private struct DormitoryApplicationCardView: View {
     let application: DormitoryApplication
 
@@ -175,8 +173,6 @@ private struct DormitoryApplicationCardView: View {
         return .orange
     }
 }
-
-// MARK: - Privilege Card
 
 private struct DormitoryPrivilegeCardView: View {
     let privilege: DormitoryPrivilege

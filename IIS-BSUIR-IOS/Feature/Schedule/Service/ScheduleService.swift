@@ -63,8 +63,6 @@ final class ScheduleService: ScheduleServiceProtocol {
     }
 }
 
-// MARK: - Mapping
-
 private extension StudentGroupDTO {
     func toDomain() -> GroupModel {
         GroupModel(

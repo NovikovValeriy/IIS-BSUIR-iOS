@@ -9,7 +9,9 @@ import Factory
 
 extension Container {
     var documentsService: Factory<any DocumentsServiceProtocol> {
-        // self { @MainActor in DocumentsService(apiClient: self.apiClient(), cache: self.profileCacheService()) }.shared
+//        self { @MainActor in
+//            DocumentsService(apiClient: self.apiClient(), cache: self.profileCacheService())
+//        }.shared
         self { @MainActor in MockDocumentsService() }.shared
     }
 

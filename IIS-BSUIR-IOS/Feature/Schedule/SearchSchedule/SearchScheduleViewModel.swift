@@ -34,8 +34,6 @@ final class SearchScheduleViewModel: ScheduleViewModel {
         super.init(router: router, scheduleService: scheduleService, cacheService: cacheService)
     }
 
-    // MARK: - Lifecycle
-
     override func onAppear() {
         super.onAppear()
         guard groups.isEmpty, !isLoadingGroups else { return }
@@ -46,8 +44,6 @@ final class SearchScheduleViewModel: ScheduleViewModel {
     override var navigationTitle: String {
         selectedSubject?.displayName ?? String(localized: "schedule.search.title")
     }
-
-    // MARK: - Actions
 
     func didTapSelectGroup() {
         router.present(sheet: .groupPicker)
@@ -76,8 +72,6 @@ final class SearchScheduleViewModel: ScheduleViewModel {
             pinnedScheduleService.save(subject)
         }
     }
-
-    // MARK: - Private
 
     private func loadGroups() async {
         do {

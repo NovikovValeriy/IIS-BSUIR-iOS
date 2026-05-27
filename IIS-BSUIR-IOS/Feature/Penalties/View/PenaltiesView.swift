@@ -93,8 +93,6 @@ struct PenaltiesView: View {
     }
 }
 
-// MARK: - Card
-
 private struct PenaltyIncentiveCardView: View {
     let record: PenaltyIncentiveRecord
 

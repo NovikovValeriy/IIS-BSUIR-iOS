@@ -16,8 +16,6 @@ enum ScheduleSubject: Hashable, Codable {
         }
     }
 
-    // MARK: - Codable
-
     private enum CodingKeys: String, CodingKey { case type, group, teacher }
 
     init(from decoder: any Decoder) throws {

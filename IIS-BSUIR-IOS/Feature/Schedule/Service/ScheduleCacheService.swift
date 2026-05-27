@@ -42,8 +42,6 @@ final class ScheduleCacheService: ScheduleCacheServiceProtocol {
         try? modelContext.save()
     }
 
-    // MARK: - Private
-
     private func cacheKey(for subject: ScheduleSubject) -> String {
         switch subject {
         case .group(let group): return "group:\(group.name)"
