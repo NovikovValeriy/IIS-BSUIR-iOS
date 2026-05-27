@@ -7,25 +7,104 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53F3375A2FC714E700CB00DB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F337592FC714E600CB00DB /* WidgetKit.framework */; };
+		53F3375C2FC714E700CB00DB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F3375B2FC714E700CB00DB /* SwiftUI.framework */; };
+		53F3376D2FC714E800CB00DB /* IIS-BSUIR-IOSWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 53F337572FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53FD0D5F2F86F41400F099C9 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D5E2F86F41400F099C9 /* Factory */; };
 		53FD0D612F86F41400F099C9 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D602F86F41400F099C9 /* FactoryKit */; };
 		53FD0D642F86F42B00F099C9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD0D632F86F42B00F099C9 /* Kingfisher */; };
 		53FD13A02F8D903900F099C9 /* Wormholy in Frameworks */ = {isa = PBXBuildFile; productRef = 53FD139F2F8D903900F099C9 /* Wormholy */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		53F3376B2FC714E800CB00DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53FD0B592F83E47200F099C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 53F337562FC714E600CB00DB;
+			remoteInfo = "IIS-BSUIR-IOSWidgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		53F337722FC714E800CB00DB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				53F3376D2FC714E800CB00DB /* IIS-BSUIR-IOSWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		53F337572FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "IIS-BSUIR-IOSWidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53F337592FC714E600CB00DB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		53F3375B2FC714E700CB00DB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		53F3377C2FC7154800CB00DB /* IIS-BSUIR-IOSWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "IIS-BSUIR-IOSWidgetExtension.entitlements"; sourceTree = "<group>"; };
 		53FD0B612F83E47200F099C9 /* IIS-BSUIR-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IIS-BSUIR-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		53F3376E2FC714E800CB00DB /* Exceptions for "IIS-BSUIR-IOSWidget" folder in "IIS-BSUIR-IOSWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 53F337562FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension */;
+		};
+		53F3377E2FC7159800CB00DB /* Exceptions for "IIS-BSUIR-IOS" folder in "IIS-BSUIR-IOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 53FD0B602F83E47200F099C9 /* IIS-BSUIR-IOS */;
+		};
+		53F337842FC7161A00CB00DB /* Exceptions for "IIS-BSUIR-IOS" folder in "IIS-BSUIR-IOSWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Common/Widget/WidgetDataStore.swift,
+				Common/Widget/WidgetLesson.swift,
+				Common/Widget/WidgetScheduleSnapshot.swift,
+				Resources/Localizable.xcstrings,
+			);
+			target = 53F337562FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		53F3375D2FC714E700CB00DB /* IIS-BSUIR-IOSWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				53F3376E2FC714E800CB00DB /* Exceptions for "IIS-BSUIR-IOSWidget" folder in "IIS-BSUIR-IOSWidgetExtension" target */,
+			);
+			path = "IIS-BSUIR-IOSWidget";
+			sourceTree = "<group>";
+		};
 		53FD0B632F83E47200F099C9 /* IIS-BSUIR-IOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				53F3377E2FC7159800CB00DB /* Exceptions for "IIS-BSUIR-IOS" folder in "IIS-BSUIR-IOS" target */,
+				53F337842FC7161A00CB00DB /* Exceptions for "IIS-BSUIR-IOS" folder in "IIS-BSUIR-IOSWidgetExtension" target */,
+			);
 			path = "IIS-BSUIR-IOS";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		53F337542FC714E600CB00DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53F3375C2FC714E700CB00DB /* SwiftUI.framework in Frameworks */,
+				53F3375A2FC714E700CB00DB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		53FD0B5E2F83E47200F099C9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -40,10 +119,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		53F337582FC714E600CB00DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				53F337592FC714E600CB00DB /* WidgetKit.framework */,
+				53F3375B2FC714E700CB00DB /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		53FD0B582F83E47200F099C9 = {
 			isa = PBXGroup;
 			children = (
+				53F3377C2FC7154800CB00DB /* IIS-BSUIR-IOSWidgetExtension.entitlements */,
 				53FD0B632F83E47200F099C9 /* IIS-BSUIR-IOS */,
+				53F3375D2FC714E700CB00DB /* IIS-BSUIR-IOSWidget */,
+				53F337582FC714E600CB00DB /* Frameworks */,
 				53FD0B622F83E47200F099C9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				53FD0B612F83E47200F099C9 /* IIS-BSUIR-IOS.app */,
+				53F337572FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,6 +151,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		53F337562FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 53F3376F2FC714E800CB00DB /* Build configuration list for PBXNativeTarget "IIS-BSUIR-IOSWidgetExtension" */;
+			buildPhases = (
+				53F337532FC714E600CB00DB /* Sources */,
+				53F337542FC714E600CB00DB /* Frameworks */,
+				53F337552FC714E600CB00DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				53F3375D2FC714E700CB00DB /* IIS-BSUIR-IOSWidget */,
+			);
+			name = "IIS-BSUIR-IOSWidgetExtension";
+			packageProductDependencies = (
+			);
+			productName = "IIS-BSUIR-IOSWidgetExtension";
+			productReference = 53F337572FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		53FD0B602F83E47200F099C9 /* IIS-BSUIR-IOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 53FD0B6C2F83E47400F099C9 /* Build configuration list for PBXNativeTarget "IIS-BSUIR-IOS" */;
@@ -67,10 +181,12 @@
 				53FD0B5E2F83E47200F099C9 /* Frameworks */,
 				53FD0B5F2F83E47200F099C9 /* Resources */,
 				53FD0D652F86F44B00F099C9 /* SwiftLint */,
+				53F337722FC714E800CB00DB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				53F3376C2FC714E800CB00DB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				53FD0B632F83E47200F099C9 /* IIS-BSUIR-IOS */,
@@ -96,6 +212,9 @@
 				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					53F337562FC714E600CB00DB = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					53FD0B602F83E47200F099C9 = {
 						CreatedOnToolsVersion = 26.3;
 					};
@@ -121,11 +240,19 @@
 			projectRoot = "";
 			targets = (
 				53FD0B602F83E47200F099C9 /* IIS-BSUIR-IOS */,
+				53F337562FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		53F337552FC714E600CB00DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		53FD0B5F2F83E47200F099C9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -158,6 +285,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		53F337532FC714E600CB00DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		53FD0B5D2F83E47200F099C9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -167,7 +301,77 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		53F3376C2FC714E800CB00DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 53F337562FC714E600CB00DB /* IIS-BSUIR-IOSWidgetExtension */;
+			targetProxy = 53F3376B2FC714E800CB00DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		53F337702FC714E800CB00DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "IIS-BSUIR-IOSWidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z373K5B9WV;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IIS-BSUIR-IOSWidget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "IIS-BSUIR-IOSWidget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.valerynovikau.iis-bsuir.IIS-BSUIR-IOSWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		53F337712FC714E800CB00DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "IIS-BSUIR-IOSWidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z373K5B9WV;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IIS-BSUIR-IOSWidget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "IIS-BSUIR-IOSWidget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.valerynovikau.iis-bsuir.IIS-BSUIR-IOSWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		53FD0B6A2F83E47400F099C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -294,12 +498,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "IIS-BSUIR-IOS/IIS-BSUIR-IOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z373K5B9WV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IIS-BSUIR-IOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "ИИС БГУИР";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -334,12 +540,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "IIS-BSUIR-IOS/IIS-BSUIR-IOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z373K5B9WV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "IIS-BSUIR-IOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "ИИС БГУИР";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -372,6 +580,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		53F3376F2FC714E800CB00DB /* Build configuration list for PBXNativeTarget "IIS-BSUIR-IOSWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53F337702FC714E800CB00DB /* Debug */,
+				53F337712FC714E800CB00DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		53FD0B5C2F83E47200F099C9 /* Build configuration list for PBXProject "IIS-BSUIR-IOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
