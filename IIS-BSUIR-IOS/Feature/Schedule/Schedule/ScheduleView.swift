@@ -140,7 +140,7 @@ struct ScheduleView<EmptyState: View>: View {
                     Section(weekday) {
                         ForEach(dayLessons, id: \.self) { lesson in
                             Button {
-                                viewModel.didTapLesson(lesson)
+                                viewModel.didTapLesson(lesson, weekday: weekday)
                             } label: {
                                 LessonRowView(lesson: lesson, showGroups: viewModel.showGroupsInRow)
                             }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Factory
 
 private enum Constants {
     enum Layout {
@@ -15,11 +16,28 @@ private enum Constants {
     enum Icons {
         static let chevron = "chevron.right"
     }
+    static let minutesBeforeOptions = [5, 10, 15, 30, 60]
 }
 
 struct LessonDetailView: View {
     let lesson: Lesson
+    let weekday: String?
     let router: ScheduleRouter
+
+    @State private var notificationsViewModel: LessonNotificationViewModel?
+
+    init(lesson: Lesson, weekday: String?, router: ScheduleRouter) {
+        self.lesson = lesson
+        self.weekday = weekday
+        self.router = router
+        if let weekday, lesson.dateLesson == nil, !lesson.announcement {
+            _notificationsViewModel = State(initialValue: LessonNotificationViewModel(
+                lesson: lesson,
+                weekday: weekday,
+                notificationService: Container.shared.notificationService()
+            ))
+        }
+    }
 
     var body: some View {
         List {
@@ -40,9 +58,26 @@ struct LessonDetailView: View {
             if let weeks = lesson.weekNumber, !weeks.isEmpty {
                 weeksSection(weeks)
             }
+            if let vm = notificationsViewModel {
+                notificationSection(vm)
+            }
         }
         .navigationTitle(lesson.subjectFullName ?? lesson.subject ?? String(localized: "lesson.detail.default_title"))
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await notificationsViewModel?.load()
+        }
+        .alert(
+            "notifications.permission_denied.title",
+            isPresented: Binding(
+                get: { notificationsViewModel?.permissionDenied == true },
+                set: { if !$0 { notificationsViewModel?.dismissPermissionDenied() } }
+            )
+        ) {
+            Button("common.ok", role: .cancel) {}
+        } message: {
+            Text("notifications.permission_denied")
+        }
     }
 
     // MARK: - Sections
@@ -179,6 +214,46 @@ struct LessonDetailView: View {
         Section("lesson.detail.note") {
             Text(note)
                 .foregroundStyle(.secondary)
+        }
+    }
+
+    @ViewBuilder
+    private func notificationSection(_ vm: LessonNotificationViewModel) -> some View {
+        Section("lesson.detail.notification") {
+            Toggle(
+                String(localized: "lesson.detail.notification.enabled"),
+                isOn: Binding(
+                    get: { vm.isEnabled },
+                    set: { _ in Task { await vm.toggle() } }
+                )
+            )
+            .disabled(vm.isLoading)
+
+            if vm.isEnabled {
+                Picker("lesson.detail.notification.mode", selection: Binding(
+                    get: { vm.selectedMode },
+                    set: { newMode in
+                        vm.selectedMode = newMode
+                        Task { await vm.reschedule() }
+                    }
+                )) {
+                    ForEach(NotificationMode.allCases) { mode in
+                        Text(String(localized: mode.localizedKey)).tag(mode)
+                    }
+                }
+
+                Picker("lesson.detail.notification.before", selection: Binding(
+                    get: { vm.minutesBefore },
+                    set: { newMinutes in
+                        vm.minutesBefore = newMinutes
+                        Task { await vm.reschedule() }
+                    }
+                )) {
+                    ForEach(Constants.minutesBeforeOptions, id: \.self) { minutes in
+                        Text(String(localized: "lesson.detail.notification.minutes \(minutes)")).tag(minutes)
+                    }
+                }
+            }
         }
     }
 }

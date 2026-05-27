@@ -20,8 +20,7 @@ struct SettingsFlowView: View {
                         Text("settings.appearance.title")
                             .navigationTitle("settings.appearance.title")
                     case .notifications:
-                        Text("settings.notifications_settings.description")
-                            .navigationTitle("settings.notifications.title")
+                        ScheduledNotificationsView()
                     case .about:
                         Text("settings.about.description")
                             .navigationTitle("settings.about.title")

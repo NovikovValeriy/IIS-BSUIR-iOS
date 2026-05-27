@@ -12,6 +12,10 @@ private enum Constants {
         static let rowInsets = EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16)
         static let sentinelHeight: CGFloat = 1
     }
+    // Indexed by Calendar.weekday (1 = Sunday … 7 = Saturday)
+    static let russianWeekdays = [
+        "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"
+    ]
 }
 
 struct TimelineScheduleView<EmptyState: View>: View {
@@ -31,7 +35,9 @@ struct TimelineScheduleView<EmptyState: View>: View {
                     Section(viewModel.sectionTitle(for: day)) {
                         ForEach(day.lessons, id: \.self) { lesson in
                             Button {
-                                viewModel.didTapLesson(lesson)
+                                let weekdayIndex = Calendar.current.component(.weekday, from: day.date) - 1
+                                let weekday = Constants.russianWeekdays[weekdayIndex]
+                                viewModel.didTapLesson(lesson, weekday: weekday)
                             } label: {
                                 LessonRowView(lesson: lesson, showWeeks: false, showGroups: viewModel.showGroupsInRow)
                             }

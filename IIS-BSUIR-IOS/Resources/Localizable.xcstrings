@@ -835,6 +835,76 @@
         }
       }
     },
+    "lesson.detail.notification" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification"
+          }
+        }
+      }
+    },
+    "lesson.detail.notification.before" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before"
+          }
+        }
+      }
+    },
+    "lesson.detail.notification.enabled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notify me"
+          }
+        }
+      }
+    },
+    "lesson.detail.notification.minutes %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        }
+      }
+    },
+    "lesson.detail.notification.mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode"
+          }
+        }
+      }
+    },
+    "lesson.detail.notification.mode.once" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once"
+          }
+        }
+      }
+    },
+    "lesson.detail.notification.mode.weekly" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekly"
+          }
+        }
+      }
+    },
     "lesson.detail.period" : {
       "localizations" : {
         "en" : {
@@ -1119,57 +1189,94 @@
         }
       }
     },
-    "notifications.coming_soon" : {
-      "extractionState" : "stale",
+    "notifications.empty.description" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications screen coming soon."
+            "value" : "Enable notifications on a lesson detail screen."
           }
         }
       }
     },
-    "notifications.filter.coming_soon" : {
-      "extractionState" : "stale",
+    "notifications.empty.title" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Filter — coming soon"
+            "value" : "No Scheduled Notifications"
           }
         }
       }
     },
-    "notifications.notification_detail %@" : {
+    "notifications.once" : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notification: %@"
+            "value" : "Once"
           }
         }
       }
     },
-    "notifications.notification.title" : {
-      "extractionState" : "stale",
+    "notifications.section.once" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notification"
+            "value" : "One-Time"
+          }
+        }
+      }
+    },
+    "notifications.section.weekly" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekly"
+          }
+        }
+      }
+    },
+    "notifications.permission_denied" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow notifications in Settings to receive lesson reminders."
+          }
+        }
+      }
+    },
+    "notifications.permission_denied.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications Disabled"
           }
         }
       }
     },
     "notifications.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "notifications.weekly" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekly"
           }
         }
       }
@@ -2082,26 +2189,6 @@
       }
     },
     "settings.notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifications"
-          }
-        }
-      }
-    },
-    "settings.notifications_settings.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification settings"
-          }
-        }
-      }
-    },
-    "settings.notifications.title" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {

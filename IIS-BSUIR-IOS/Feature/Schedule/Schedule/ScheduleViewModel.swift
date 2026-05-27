@@ -139,8 +139,8 @@ class ScheduleViewModel {
 
     // MARK: - Actions
 
-    func didTapLesson(_ lesson: Lesson) {
-        router.push(.lessonDetail(lesson))
+    func didTapLesson(_ lesson: Lesson, weekday: String? = nil) {
+        router.push(.lessonDetail(lesson, weekday: weekday))
     }
 
     func didTapRetry() {

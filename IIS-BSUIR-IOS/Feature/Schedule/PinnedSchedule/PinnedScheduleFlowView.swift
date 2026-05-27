@@ -18,8 +18,8 @@ struct PinnedScheduleFlowView: View {
             PinnedScheduleView(viewModel: viewModel)
                 .navigationDestination(for: ScheduleDestination.self) { destination in
                     switch destination {
-                    case .lessonDetail(let lesson):
-                        LessonDetailView(lesson: lesson, router: router)
+                    case .lessonDetail(let lesson, let weekday):
+                        LessonDetailView(lesson: lesson, weekday: weekday, router: router)
                     case .employeeSchedule(let teacher):
                         LinkedScheduleView(subject: .teacher(teacher), router: router)
                     case .groupSchedule(let groupName):

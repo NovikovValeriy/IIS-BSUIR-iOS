@@ -11,4 +11,8 @@ extension Container {
     var settingsRouter: Factory<SettingsRouter> {
         self { @MainActor in SettingsRouter() }.shared
     }
+
+    var scheduledNotificationsViewModel: Factory<ScheduledNotificationsViewModel> {
+        self { @MainActor in ScheduledNotificationsViewModel(notificationService: self.notificationService()) }
+    }
 }
