@@ -54,13 +54,15 @@ struct DormitoryView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("profile.dormitory.title")
+        .navigationTitle("profile.dormitory.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView("dormitory.empty.title", systemImage: Constants.Icons.empty)
+        ContentUnavailableView {
+                    Label("dormitory.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGroupedBackground))
     }
@@ -68,7 +70,7 @@ struct DormitoryView: View {
     private func list(_ data: DormitoryData) -> some View {
         List {
             if !data.applications.isEmpty {
-                Section("dormitory.section.applications") {
+                Section("dormitory.section.applications".localized()) {
                     ForEach(data.applications) { app in
                         DormitoryApplicationCardView(application: app)
                             .listRowBackground(Color.clear)
@@ -78,7 +80,7 @@ struct DormitoryView: View {
                 }
             }
             if !data.privileges.isEmpty {
-                Section("dormitory.section.privileges") {
+                Section("dormitory.section.privileges".localized()) {
                     ForEach(data.privileges) { priv in
                         DormitoryPrivilegeCardView(privilege: priv)
                             .listRowBackground(Color.clear)
@@ -101,7 +103,7 @@ private struct DormitoryApplicationCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Layout.cardSpacing) {
             HStack {
-                Text(String(format: String(localized: "dormitory.application_number %lld"), application.number))
+                Text(String(format: "dormitory.application_number %lld".localized(), application.number))
                     .font(.headline)
                 Spacer()
                 statusBadge(application.status)
@@ -109,7 +111,7 @@ private struct DormitoryApplicationCardView: View {
 
             if let queue = application.numberInQueue {
                 Label(
-                    String(format: String(localized: "dormitory.queue_position %lld"), queue),
+                    String(format: "dormitory.queue_position %lld".localized(), queue),
                     systemImage: Constants.Icons.queue
                 )
                 .font(.subheadline)
@@ -122,7 +124,7 @@ private struct DormitoryApplicationCardView: View {
 
             if let date = application.applicationDate {
                 Label(
-                    String(format: String(localized: "dormitory.applied %@"), date),
+                    String(format: "dormitory.applied %@".localized(), date),
                     systemImage: Constants.Icons.calendar
                 )
                 .font(.caption)
@@ -131,7 +133,7 @@ private struct DormitoryApplicationCardView: View {
 
             if let settled = application.settledDate {
                 Label(
-                    String(format: String(localized: "dormitory.settled %@"), settled),
+                    String(format: "dormitory.settled %@".localized(), settled),
                     systemImage: Constants.Icons.calendar
                 )
                 .font(.caption)

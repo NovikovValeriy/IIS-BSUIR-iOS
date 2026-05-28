@@ -19,4 +19,11 @@ enum NotificationMode: String, CaseIterable, Identifiable {
         case .weekly: "lesson.detail.notification.mode.weekly"
         }
     }
+
+    var localizedTitle: String {
+        switch self {
+        case .once: "lesson.detail.notification.mode.once".localized()
+        case .weekly: "lesson.detail.notification.mode.weekly".localized()
+        }
+    }
 }

@@ -19,4 +19,8 @@ extension Container {
     var appThemeService: Factory<AppThemeService> {
         self { @MainActor in AppThemeService(storage: self.storage()) }.singleton
     }
+
+    var appLanguageService: Factory<AppLanguageService> {
+        self { @MainActor in AppLanguageService(storage: self.storage()) }.singleton
+    }
 }

@@ -13,8 +13,8 @@ struct AppearanceView: View {
 
     var body: some View {
         Form {
-            Section("settings.appearance.theme") {
-                Picker("settings.appearance.theme", selection: schemeBinding) {
+            Section("settings.appearance.theme".localized()) {
+                Picker("settings.appearance.theme".localized(), selection: schemeBinding) {
                     ForEach(AppColorScheme.allCases, id: \.self) { scheme in
                         Text(scheme.title).tag(scheme)
                     }
@@ -23,7 +23,7 @@ struct AppearanceView: View {
                 .labelsHidden()
             }
         }
-        .navigationTitle("settings.appearance.title")
+        .navigationTitle("settings.appearance.title".localized())
         .navigationBarTitleDisplayMode(.inline)
     }
 }

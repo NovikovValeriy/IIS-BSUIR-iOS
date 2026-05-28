@@ -51,16 +51,16 @@ struct ProfileView: View {
 
     private var unauthenticatedView: some View {
         ContentUnavailableView {
-            Label("profile.not_authenticated.title", systemImage: Constants.Icons.unauthenticated)
+            Label("profile.not_authenticated.title".localized(), systemImage: Constants.Icons.unauthenticated)
         } description: {
-            Text("profile.not_authenticated.description")
+            Text("profile.not_authenticated.description".localized())
         } actions: {
-            Button("profile.sign_in") {
+            Button("profile.sign_in".localized()) {
                 viewModel.didTapSignIn()
             }
             .buttonStyle(.borderedProminent)
         }
-        .navigationTitle("profile.title")
+        .navigationTitle("profile.title".localized())
     }
 
     private var authenticatedView: some View {
@@ -80,37 +80,37 @@ struct ProfileView: View {
                 }
             }
 
-            Section("profile.academic_section") {
+            Section("profile.academic_section".localized()) {
                 Button { viewModel.didTapMarkBook() } label: {
-                    Label("markbook.title", systemImage: Constants.Icons.markBook)
+                    Label("markbook.title".localized(), systemImage: Constants.Icons.markBook)
                 }
                 Button { viewModel.didTapGrades() } label: {
-                    Label("grades.title", systemImage: Constants.Icons.grades)
+                    Label("grades.title".localized(), systemImage: Constants.Icons.grades)
                 }
                 Button { viewModel.didTapCertificates() } label: {
-                    Label("profile.certificates", systemImage: Constants.Icons.certificates)
+                    Label("profile.certificates".localized(), systemImage: Constants.Icons.certificates)
                 }
             }
 
-            Section("profile.campus_section") {
+            Section("profile.campus_section".localized()) {
                 Button { viewModel.didTapGroupInfo() } label: {
-                    Label("profile.group_info", systemImage: Constants.Icons.groupInfo)
+                    Label("profile.group_info".localized(), systemImage: Constants.Icons.groupInfo)
                 }
                 Button { viewModel.didTapAnnouncements() } label: {
-                    Label("profile.announcements", systemImage: Constants.Icons.announcements)
+                    Label("profile.announcements".localized(), systemImage: Constants.Icons.announcements)
                 }
                 Button { viewModel.didTapDormitory() } label: {
-                    Label("profile.dormitory", systemImage: Constants.Icons.dormitory)
+                    Label("profile.dormitory".localized(), systemImage: Constants.Icons.dormitory)
                 }
                 Button { viewModel.didTapPenalties() } label: {
-                    Label("profile.penalties", systemImage: Constants.Icons.penalties)
+                    Label("profile.penalties".localized(), systemImage: Constants.Icons.penalties)
                 }
                 Button { viewModel.didTapActivity() } label: {
-                    Label("profile.activity", systemImage: Constants.Icons.activity)
+                    Label("profile.activity".localized(), systemImage: Constants.Icons.activity)
                 }
             }
         }
-        .navigationTitle("profile.title")
+        .navigationTitle("profile.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -155,7 +155,7 @@ struct ProfileView: View {
         let formatter = NumberFormatter()
         formatter.numberStyle = .ordinal
         let ordinal = formatter.string(from: NSNumber(value: course)) ?? "\(course)"
-        return String(format: String(localized: "profile.info.course %@"), ordinal)
+        return String(format: "profile.info.course %@".localized(), ordinal)
     }
 
     private func starRating(_ rating: Int) -> some View {

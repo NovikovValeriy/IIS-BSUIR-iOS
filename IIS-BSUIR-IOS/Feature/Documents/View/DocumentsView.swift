@@ -47,7 +47,7 @@ struct DocumentsView: View {
             tabContent
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("profile.certificates.title")
+        .navigationTitle("profile.certificates.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if viewModel.selectedTab == 0 {
@@ -55,7 +55,7 @@ struct DocumentsView: View {
                     Button {
                         viewModel.isShowingOrderSheet = true
                     } label: {
-                        Label("documents.certificate.order.title", systemImage: "plus")
+                        Label("documents.certificate.order.title".localized(), systemImage: "plus")
                     }
                 }
             }
@@ -71,22 +71,22 @@ struct DocumentsView: View {
     private var tabPicker: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Constants.Layout.pickerSpacing) {
-                tabPill(label: "documents.tab.certificates", tag: 0)
-                tabPill(label: "documents.tab.marksheets", tag: 1)
+                tabPill(label: "documents.tab.certificates".localized(), tag: 0)
+                tabPill(label: "documents.tab.marksheets".localized(), tag: 1)
             }
             .padding(.horizontal, Constants.Layout.pickerHPadding)
             .padding(.vertical, Constants.Layout.pickerVPadding)
         }
     }
 
-    private func tabPill(label: LocalizedStringKey, tag: Int) -> some View {
+    private func tabPill(label: String, tag: Int) -> some View {
         let isSelected = viewModel.selectedTab == tag
         return Button {
             withAnimation(.easeInOut(duration: Constants.Layout.animationDuration)) {
                 viewModel.selectedTab = tag
             }
         } label: {
-            Text(label)
+            Text(verbatim: label)
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(isSelected ? .white : .primary)
                 .padding(.horizontal, Constants.Layout.pillHPadding)
@@ -112,10 +112,9 @@ struct DocumentsView: View {
         Group {
             if let items = viewModel.certificates {
                 if items.isEmpty {
-                    ContentUnavailableView(
-                        "documents.certificates.empty",
-                        systemImage: Constants.Icons.emptyCertificates
-                    )
+                    ContentUnavailableView {
+                        Label("documents.certificates.empty".localized(), systemImage: Constants.Icons.emptyCertificates)
+                    }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     ScrollView {
@@ -132,7 +131,9 @@ struct DocumentsView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ContentUnavailableView("documents.certificates.empty", systemImage: Constants.Icons.emptyCertificates)
+                ContentUnavailableView {
+                    Label("documents.certificates.empty".localized(), systemImage: Constants.Icons.emptyCertificates)
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
@@ -142,7 +143,9 @@ struct DocumentsView: View {
         Group {
             if let items = viewModel.markSheets {
                 if items.isEmpty {
-                    ContentUnavailableView("documents.marksheets.empty", systemImage: Constants.Icons.emptyMarkSheets)
+                    ContentUnavailableView {
+                    Label("documents.marksheets.empty".localized(), systemImage: Constants.Icons.emptyMarkSheets)
+                }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     ScrollView {
@@ -159,7 +162,9 @@ struct DocumentsView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ContentUnavailableView("documents.marksheets.empty", systemImage: Constants.Icons.emptyMarkSheets)
+                ContentUnavailableView {
+                    Label("documents.marksheets.empty".localized(), systemImage: Constants.Icons.emptyMarkSheets)
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
@@ -172,7 +177,7 @@ private struct CertificateCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Layout.cardSpacing) {
             HStack {
-                Text(String(format: String(localized: "documents.certificate.number %lld"), certificate.number))
+                Text(String(format: "documents.certificate.number %lld".localized(), certificate.number))
                     .font(.body.weight(.semibold))
                 Spacer()
                 statusChip
@@ -188,7 +193,7 @@ private struct CertificateCardView: View {
 
             HStack(spacing: 12) {
                 Label(
-                    String(format: String(localized: "documents.certificate.ordered %@"), certificate.orderDate),
+                    String(format: "documents.certificate.ordered %@".localized(), certificate.orderDate),
                     systemImage: "calendar"
                 )
                 .font(.caption)
@@ -196,7 +201,7 @@ private struct CertificateCardView: View {
 
                 if let issueDate = certificate.issueDate {
                     Label(
-                        String(format: String(localized: "documents.certificate.issued %@"), issueDate),
+                        String(format: "documents.certificate.issued %@".localized(), issueDate),
                         systemImage: "checkmark.circle"
                     )
                     .font(.caption)
@@ -224,7 +229,7 @@ private struct CertificateCardView: View {
 
     private var statusChip: some View {
         let (label, color) = statusInfo(certificate.status)
-        return Text(label)
+        return Text(verbatim: label)
             .font(.caption.weight(.semibold))
             .foregroundStyle(color)
             .padding(.horizontal, Constants.Layout.chipHPadding)
@@ -232,12 +237,12 @@ private struct CertificateCardView: View {
             .background(color.opacity(0.15), in: Capsule())
     }
 
-    private func statusInfo(_ status: CertificateStatus) -> (LocalizedStringKey, Color) {
+    private func statusInfo(_ status: CertificateStatus) -> (String, Color) {
         switch status {
-        case .printed:    return ("documents.status.printed", Constants.Colors.statusPrinted)
-        case .processing: return ("documents.status.processing", Constants.Colors.statusProcessing)
-        case .rejected:   return ("documents.status.rejected", Constants.Colors.statusRejected)
-        case .unknown:    return ("documents.status.processing", Constants.Colors.statusProcessing)
+        case .printed:    return ("documents.status.printed".localized(), Constants.Colors.statusPrinted)
+        case .processing: return ("documents.status.processing".localized(), Constants.Colors.statusProcessing)
+        case .rejected:   return ("documents.status.rejected".localized(), Constants.Colors.statusRejected)
+        case .unknown:    return ("documents.status.processing".localized(), Constants.Colors.statusProcessing)
         }
     }
 }
@@ -250,7 +255,7 @@ private struct MarkSheetCardView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     if let number = markSheet.number {
-                        Text(String(format: String(localized: "documents.marksheet.number %@"), number))
+                        Text(String(format: "documents.marksheet.number %@".localized(), number))
                             .font(.body.weight(.semibold))
                     }
                     if let typeName = markSheet.typeName {
@@ -278,7 +283,7 @@ private struct MarkSheetCardView: View {
             HStack(spacing: 12) {
                 if let absentDate = markSheet.absentDate {
                     Label(
-                        String(format: String(localized: "documents.marksheet.absent %@"), absentDate),
+                        String(format: "documents.marksheet.absent %@".localized(), absentDate),
                         systemImage: "calendar.badge.exclamationmark"
                     )
                     .font(.caption)
@@ -286,7 +291,7 @@ private struct MarkSheetCardView: View {
                 }
                 if let expireDate = markSheet.expireDate {
                     Label(
-                        String(format: String(localized: "documents.marksheet.expires %@"), expireDate),
+                        String(format: "documents.marksheet.expires %@".localized(), expireDate),
                         systemImage: "clock"
                     )
                     .font(.caption)
@@ -298,7 +303,7 @@ private struct MarkSheetCardView: View {
                 if markSheet.hours > 0 {
                     badge(
                         String(
-                            format: String(localized: "documents.marksheet.hours %@"),
+                            format: "documents.marksheet.hours %@".localized(),
                             formatNumber(markSheet.hours)
                         ),
                         color: .secondary
@@ -306,13 +311,13 @@ private struct MarkSheetCardView: View {
                 }
                 if markSheet.retakeCount > 0 {
                     badge(
-                        String(format: String(localized: "documents.marksheet.retakes %lld"), markSheet.retakeCount),
+                        String(format: "documents.marksheet.retakes %lld".localized(), markSheet.retakeCount),
                         color: .orange
                     )
                 }
                 if markSheet.price > 0 {
                     badge(
-                        String(format: String(localized: "documents.marksheet.price %@"), formatPrice(markSheet.price)),
+                        String(format: "documents.marksheet.price %@".localized(), formatPrice(markSheet.price)),
                         color: .secondary
                     )
                 }
@@ -348,12 +353,11 @@ private struct MarkSheetCardView: View {
     }
 
     private var reasonBadge: some View {
-        let key: String.LocalizationValue =
-        markSheet.isRespectful
-        ? "documents.marksheet.excused"
-        : "documents.marksheet.unexcused"
+        let text = markSheet.isRespectful
+            ? "documents.marksheet.excused".localized()
+            : "documents.marksheet.unexcused".localized()
         let color: Color = markSheet.isRespectful ? .green : .red
-        return badge(String(localized: key), color: color)
+        return badge(text, color: color)
     }
 
     private func badge(_ text: String, color: Color) -> some View {

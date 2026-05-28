@@ -17,14 +17,14 @@ struct AuthFlowView: View {
             LoginView()
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("common.cancel") { dismiss() }
+                        Button("common.cancel".localized()) { dismiss() }
                     }
                 }
         }
         .sheet(item: $router.presentedSheet) { sheet in
             switch sheet {
             case .confirmContact:
-                Text("auth.confirm_contact.coming_soon")
+                Text("auth.confirm_contact.coming_soon".localized())
                     .presentationDetents([.medium])
             }
         }
@@ -32,7 +32,7 @@ struct AuthFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("common.ok"))
+                dismissButton: .default(Text("common.ok".localized()))
             )
         }
     }

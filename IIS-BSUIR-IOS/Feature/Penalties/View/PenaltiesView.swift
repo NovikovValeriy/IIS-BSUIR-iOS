@@ -52,13 +52,15 @@ struct PenaltiesView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("profile.penalties.title")
+        .navigationTitle("profile.penalties.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView("penalties.empty.title", systemImage: Constants.Icons.empty)
+        ContentUnavailableView {
+                    Label("penalties.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGroupedBackground))
     }
@@ -66,7 +68,7 @@ struct PenaltiesView: View {
     private var list: some View {
         List {
             if !viewModel.penalties.isEmpty {
-                Section("penalties.section.penalties") {
+                Section("penalties.section.penalties".localized()) {
                     ForEach(viewModel.penalties) { record in
                         PenaltyIncentiveCardView(record: record)
                             .listRowBackground(Color.clear)
@@ -76,7 +78,7 @@ struct PenaltiesView: View {
                 }
             }
             if !viewModel.incentives.isEmpty {
-                Section("penalties.section.incentives") {
+                Section("penalties.section.incentives".localized()) {
                     ForEach(viewModel.incentives) { record in
                         PenaltyIncentiveCardView(record: record)
                             .listRowBackground(Color.clear)
@@ -107,7 +109,7 @@ private struct PenaltyIncentiveCardView: View {
             }
 
             Label(
-                String(format: String(localized: "penalties.directive %@"), record.directiveNumber),
+                String(format: "penalties.directive %@".localized(), record.directiveNumber),
                 systemImage: Constants.Icons.number
             )
             .font(.caption)

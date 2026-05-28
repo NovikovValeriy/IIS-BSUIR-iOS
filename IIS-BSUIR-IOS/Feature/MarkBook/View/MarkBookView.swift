@@ -40,10 +40,12 @@ struct MarkBookView: View {
             } else if viewModel.isLoading {
                 ProgressView()
             } else {
-                ContentUnavailableView("markbook.empty.title", systemImage: "graduationcap")
+                ContentUnavailableView {
+                    Label("markbook.empty.title".localized(), systemImage: "graduationcap")
+                }
             }
         }
-        .navigationTitle("markbook.title")
+        .navigationTitle("markbook.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
@@ -72,7 +74,7 @@ struct MarkBookView: View {
             if let markBook = viewModel.markBook {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("markbook.number.label")
+                        Text("markbook.number.label".localized())
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Text(markBook.number)
@@ -80,7 +82,7 @@ struct MarkBookView: View {
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 2) {
-                        Text("markbook.total.average.label")
+                        Text("markbook.total.average.label".localized())
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Text(markBook.averageMark.formattedAverage)
@@ -104,7 +106,7 @@ struct MarkBookView: View {
                             viewModel.selectedSemesterIndex = index
                         }
                     } label: {
-                        Text(String(format: String(localized: "markbook.semester.short \(semester.semester)")))
+                        Text(String(format: "markbook.semester.short %lld".localized(), semester.semester))
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(isSelected ? .white : .primary)
                             .padding(.horizontal, Constants.Layout.pillHorizontalPadding)
@@ -134,9 +136,9 @@ struct MarkBookView: View {
             } header: {
                 let avgString = semester.averageMark.formattedAverage
                 HStack {
-                    Text(String(format: String(localized: "markbook.semester \(semester.semester)")))
+                    Text(String(format: "markbook.semester %lld".localized(), semester.semester))
                     Spacer()
-                    Text(String(format: String(localized: "markbook.average \(avgString)")))
+                    Text(String(format: "markbook.average %@".localized(), avgString))
                 }
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.primary)

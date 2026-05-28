@@ -24,7 +24,7 @@ struct OfflineBannerView: View {
         HStack(spacing: Constants.Layout.iconSpacing) {
             Image(systemName: Constants.Icons.offline)
                 .font(.footnote)
-            Text("schedule.offline.banner")
+            Text("schedule.offline.banner".localized())
                 .font(.footnote)
         }
         .padding(.horizontal, Constants.Layout.horizontalPadding)

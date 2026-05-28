@@ -40,7 +40,7 @@ final class PinnedScheduleViewModel: ScheduleViewModel {
     }
 
     override var navigationTitle: String {
-        selectedSubject?.displayName ?? String(localized: "schedule.pinned.title")
+        selectedSubject?.displayName ?? "schedule.pinned.title".localized()
     }
 
     func pinnedSubjectDidChange(to subject: ScheduleSubject?) {

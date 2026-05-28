@@ -24,9 +24,9 @@ struct PinnedScheduleView: View {
 
     private var noPinnedSubjectView: some View {
         ContentUnavailableView {
-            Label("schedule.pinned.empty.title", systemImage: Constants.Icons.noPinned)
+            Label("schedule.pinned.empty.title".localized(), systemImage: Constants.Icons.noPinned)
         } description: {
-            Text("schedule.pinned.empty.description")
+            Text("schedule.pinned.empty.description".localized())
         }
     }
 }

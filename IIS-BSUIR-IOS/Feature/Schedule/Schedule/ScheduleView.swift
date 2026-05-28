@@ -30,18 +30,18 @@ struct ScheduleView<EmptyState: View>: View {
     var body: some View {
         ZStack {
             if viewModel.isLoadingSchedule {
-                ProgressView("schedule.loading")
+                ProgressView("schedule.loading".localized())
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.selectedSubject == nil {
                 emptyState()
             } else if let error = viewModel.errorMessage {
                 errorView(message: error)
             } else if viewModel.displayMode == .weekly && viewModel.lessons.isEmpty {
-                ContentUnavailableView(
-                    "schedule.no_classes.title",
-                    systemImage: Constants.Icons.noClasses,
-                    description: Text("schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")")
-                )
+                ContentUnavailableView {
+                    Label("schedule.no_classes.title".localized(), systemImage: Constants.Icons.noClasses)
+                } description: {
+                    Text(String(format: "schedule.no_classes.description %@".localized(), viewModel.selectedSubject?.displayName ?? ""))
+                }
             } else if viewModel.displayMode == .weekly {
                 weeklyScheduleList
             } else if viewModel.displayMode == .exams {
@@ -53,13 +53,11 @@ struct ScheduleView<EmptyState: View>: View {
                     onLoadMore: nil,
                     onRefresh: { await viewModel.didPullToRefresh() },
                     emptyState: {
-                        ContentUnavailableView(
-                            "schedule.no_exams.title",
-                            systemImage: Constants.Icons.modeExams,
-                            description: Text(
-                                "schedule.no_exams.description \(viewModel.selectedSubject?.displayName ?? "")"
-                            )
-                        )
+                        ContentUnavailableView {
+                            Label("schedule.no_exams.title".localized(), systemImage: Constants.Icons.modeExams)
+                        } description: {
+                            Text(String(format: "schedule.no_exams.description %@".localized(), viewModel.selectedSubject?.displayName ?? ""))
+                        }
                     }
                 )
             } else {
@@ -72,13 +70,11 @@ struct ScheduleView<EmptyState: View>: View {
                     },
                     onRefresh: { await viewModel.didPullToRefresh() },
                     emptyState: {
-                        ContentUnavailableView(
-                            "schedule.no_classes.title",
-                            systemImage: Constants.Icons.noClasses,
-                            description: Text(
-                                "schedule.no_classes.description \(viewModel.selectedSubject?.displayName ?? "")"
-                            )
-                        )
+                        ContentUnavailableView {
+                            Label("schedule.no_classes.title".localized(), systemImage: Constants.Icons.noClasses)
+                        } description: {
+                            Text(String(format: "schedule.no_classes.description %@".localized(), viewModel.selectedSubject?.displayName ?? ""))
+                        }
                     }
                 )
             }
@@ -116,11 +112,11 @@ struct ScheduleView<EmptyState: View>: View {
 
     private func errorView(message: String) -> some View {
         ContentUnavailableView {
-            Label("common.error.title", systemImage: Constants.Icons.error)
+            Label("common.error.title".localized(), systemImage: Constants.Icons.error)
         } description: {
             Text(message)
         } actions: {
-            Button("schedule.retry") {
+            Button("schedule.retry".localized()) {
                 viewModel.didTapRetry()
             }
             .buttonStyle(.borderedProminent)
@@ -157,12 +153,12 @@ struct ScheduleView<EmptyState: View>: View {
 
     private var subgroupFilterPicker: some View {
         Menu {
-            Picker("schedule.subgroup.label", selection: $viewModel.subgroupFilter) {
-                Label("schedule.subgroup.all", systemImage: Constants.Icons.subgroupAll)
+            Picker("schedule.subgroup.label".localized(), selection: $viewModel.subgroupFilter) {
+                Label("schedule.subgroup.all".localized(), systemImage: Constants.Icons.subgroupAll)
                     .tag(SubgroupFilter.all)
-                Label("schedule.subgroup.first", systemImage: Constants.Icons.subgroupFirst)
+                Label("schedule.subgroup.first".localized(), systemImage: Constants.Icons.subgroupFirst)
                     .tag(SubgroupFilter.first)
-                Label("schedule.subgroup.second", systemImage: Constants.Icons.subgroupSecond)
+                Label("schedule.subgroup.second".localized(), systemImage: Constants.Icons.subgroupSecond)
                     .tag(SubgroupFilter.second)
             }
         } label: {
@@ -180,12 +176,12 @@ struct ScheduleView<EmptyState: View>: View {
 
     private var displayModePicker: some View {
         Menu {
-            Picker("schedule.mode.label", selection: $viewModel.displayMode) {
-                Label("schedule.mode.timeline", systemImage: Constants.Icons.modeTimeline)
+            Picker("schedule.mode.label".localized(), selection: $viewModel.displayMode) {
+                Label("schedule.mode.timeline".localized(), systemImage: Constants.Icons.modeTimeline)
                     .tag(ScheduleDisplayMode.timeline)
-                Label("schedule.mode.weekly", systemImage: Constants.Icons.modeWeekly)
+                Label("schedule.mode.weekly".localized(), systemImage: Constants.Icons.modeWeekly)
                     .tag(ScheduleDisplayMode.weekly)
-                Label("schedule.mode.exams", systemImage: Constants.Icons.modeExams)
+                Label("schedule.mode.exams".localized(), systemImage: Constants.Icons.modeExams)
                     .tag(ScheduleDisplayMode.exams)
             }
         } label: {

@@ -63,7 +63,7 @@ struct RatingsView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("ratings.title")
+        .navigationTitle("ratings.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
         .onChange(of: viewModel.selectedFacultyId) { _, newId in
@@ -80,13 +80,13 @@ struct RatingsView: View {
     private var pickerArea: some View {
         VStack(spacing: Constants.Layout.pickerSpacing) {
             RatingPickerView(
-                placeholder: "ratings.picker.select",
+                placeholder: "ratings.picker.select".localized(),
                 selectedLabel: viewModel.faculties.first(where: { $0.id == viewModel.selectedFacultyId })?.name,
                 isLoading: viewModel.isLoadingFaculties,
                 isDisabled: false
             ) {
                 Picker("", selection: Bindable(viewModel).selectedFacultyId) {
-                    Text("ratings.picker.select").tag(Int?.none)
+                    Text("ratings.picker.select".localized()).tag(Int?.none)
                     ForEach(viewModel.faculties) { faculty in
                         Text(faculty.name).tag(Optional(faculty.id))
                     }
@@ -95,13 +95,13 @@ struct RatingsView: View {
             }
 
             RatingPickerView(
-                placeholder: "ratings.picker.select",
+                placeholder: "ratings.picker.select".localized(),
                 selectedLabel: viewModel.specialities.first(where: { $0.id == viewModel.selectedSpecialityId })?.name,
                 isLoading: viewModel.isLoadingSpecialities,
                 isDisabled: viewModel.selectedFacultyId == nil
             ) {
                 Picker("", selection: Bindable(viewModel).selectedSpecialityId) {
-                    Text("ratings.picker.select").tag(Int?.none)
+                    Text("ratings.picker.select".localized()).tag(Int?.none)
                     ForEach(viewModel.specialities) { spec in
                         Text(spec.name).tag(Optional(spec.id))
                     }
@@ -110,17 +110,17 @@ struct RatingsView: View {
             }
 
             RatingPickerView(
-                placeholder: "ratings.picker.select",
+                placeholder: "ratings.picker.select".localized(),
                 selectedLabel: viewModel.selectedCourse.map {
-                    String(localized: "ratings.picker.course_value \($0)")
+                    String(format: "ratings.picker.course_value %lld".localized(), $0)
                 },
                 isLoading: viewModel.isLoadingCourses,
                 isDisabled: viewModel.selectedSpecialityId == nil
             ) {
                 Picker("", selection: Bindable(viewModel).selectedCourse) {
-                    Text("ratings.picker.select").tag(Int?.none)
+                    Text("ratings.picker.select".localized()).tag(Int?.none)
                     ForEach(viewModel.courses, id: \.self) { course in
-                        Text("ratings.picker.course_value \(course)").tag(Optional(course))
+                        Text(String(format: "ratings.picker.course_value %lld".localized(), course)).tag(Optional(course))
                     }
                 }
                 .labelsHidden()
@@ -142,7 +142,9 @@ struct RatingsView: View {
                     .listRowInsets(Constants.Layout.rowInsets)
                 }
             } else if !viewModel.isLoadingStudents {
-                ContentUnavailableView("ratings.empty.title", systemImage: Constants.Icons.empty)
+                ContentUnavailableView {
+                    Label("ratings.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             }
@@ -158,14 +160,14 @@ struct RatingsView: View {
 }
 
 private struct RatingPickerView<Content: View>: View {
-    let placeholder: LocalizedStringKey
+    let placeholder: String
     let selectedLabel: String?
     let isLoading: Bool
     let isDisabled: Bool
     @ViewBuilder let content: Content
 
     init(
-        placeholder: LocalizedStringKey,
+        placeholder: String,
         selectedLabel: String?,
         isLoading: Bool,
         isDisabled: Bool,
@@ -198,7 +200,7 @@ private struct RatingPickerView<Content: View>: View {
                     if let label = selectedLabel {
                         Text(label)
                     } else {
-                        Text(placeholder)
+                        Text(verbatim: placeholder)
                     }
                 }
                 .font(.body)

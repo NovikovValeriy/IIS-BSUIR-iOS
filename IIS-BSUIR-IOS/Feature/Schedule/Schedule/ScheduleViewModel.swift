@@ -84,7 +84,7 @@ class ScheduleViewModel {
     }()
 
     var navigationTitle: String {
-        selectedSubject?.displayName ?? String(localized: "schedule.title")
+        selectedSubject?.displayName ?? "schedule.title".localized()
     }
 
     var showGroupsInRow: Bool {
@@ -161,9 +161,9 @@ class ScheduleViewModel {
         var parts: [String] = []
 
         if dayStart == today {
-            parts.append(String(localized: "schedule.timeline.today"))
+            parts.append("schedule.timeline.today".localized())
         } else if dayStart == calendar.date(byAdding: .day, value: 1, to: today) {
-            parts.append(String(localized: "schedule.timeline.tomorrow"))
+            parts.append("schedule.timeline.tomorrow".localized())
         }
 
         parts.append(weekdayFormatter.string(from: day.date))
@@ -174,7 +174,7 @@ class ScheduleViewModel {
             : dayMonthYearFormatter.string(from: day.date))
 
         if let week = day.cycleWeek {
-            parts.append(String(localized: "schedule.timeline.week \(week)"))
+            parts.append(String(format: "schedule.timeline.week %lld".localized(), week))
         }
 
         return parts.joined(separator: ", ")
@@ -255,7 +255,7 @@ class ScheduleViewModel {
             if schedule != nil {
                 isOfflineFallback = true
             } else {
-                errorMessage = String(localized: "schedule.error.load_schedule \(subject.displayName)")
+                errorMessage = String(format: "schedule.error.load_schedule %@".localized(), subject.displayName)
                 lessons = [:]
             }
         }

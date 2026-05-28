@@ -43,7 +43,7 @@ struct ScheduleFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("common.ok"))
+                dismissButton: .default(Text("common.ok".localized()))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .schedule))) { _ in

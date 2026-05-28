@@ -39,7 +39,7 @@ struct LoginView: View {
         VStack(spacing: Constants.Layout.outerSpacing) {
             Spacer()
 
-            Text("auth.title")
+            Text("auth.title".localized())
                 .font(.largeTitle.bold())
 
             VStack(spacing: Constants.Layout.fieldSpacing) {
@@ -69,7 +69,7 @@ struct LoginView: View {
                     if viewModel.isLoading {
                         ProgressView()
                     } else {
-                        Text("auth.sign_in.button")
+                        Text("auth.sign_in.button".localized())
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -98,14 +98,14 @@ struct LoginView: View {
             keyboardVisible = false
         }
         .ignoresSafeArea(.keyboard)
-        .navigationTitle("auth.sign_in.title")
+        .navigationTitle("auth.sign_in.title".localized())
         .navigationBarTitleDisplayMode(.inline)
     }
 
     private var passwordField: some View {
         ZStack(alignment: .trailing) {
             PasswordTextField(
-                placeholder: String(localized: "auth.password.placeholder"),
+                placeholder: "auth.password.placeholder".localized(),
                 text: $viewModel.password,
                 isSecure: !isPasswordVisible,
                 onSubmit: {

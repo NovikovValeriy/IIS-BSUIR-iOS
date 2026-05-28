@@ -40,7 +40,9 @@ struct DepartmentsView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else if viewModel.nodes.isEmpty {
-                ContentUnavailableView("departments.empty.title", systemImage: Constants.Icons.empty)
+                ContentUnavailableView {
+                    Label("departments.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else {
@@ -48,7 +50,7 @@ struct DepartmentsView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("directory.departments.title")
+        .navigationTitle("directory.departments.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }

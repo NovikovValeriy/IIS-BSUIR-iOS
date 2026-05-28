@@ -13,11 +13,11 @@ enum AppColorScheme: String, CaseIterable, Codable {
         }
     }
 
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
-        case .system: return "settings.appearance.theme.system"
-        case .light: return "settings.appearance.theme.light"
-        case .dark: return "settings.appearance.theme.dark"
+        case .system: return "settings.appearance.theme.system".localized()
+        case .light: return "settings.appearance.theme.light".localized()
+        case .dark: return "settings.appearance.theme.dark".localized()
         }
     }
 }

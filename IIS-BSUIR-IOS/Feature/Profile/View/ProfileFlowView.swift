@@ -43,16 +43,16 @@ struct ProfileFlowView: View {
                 set: { if !$0 { router.confirmationDialog = nil } }
             )
         ) {
-            Button("profile.logout_confirmation.button", role: .destructive) {
+            Button("profile.logout_confirmation.button".localized(), role: .destructive) {
                 viewModel.confirmLogout()
             }
-            Button("common.cancel", role: .cancel) {}
+            Button("common.cancel".localized(), role: .cancel) {}
         }
         .alert(item: $router.alert) { alert in
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("common.ok"))
+                dismissButton: .default(Text("common.ok".localized()))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .profile))) { _ in

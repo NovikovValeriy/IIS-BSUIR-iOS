@@ -44,11 +44,11 @@ struct SearchScheduleView: View {
 
     private var noSubjectView: some View {
         ContentUnavailableView {
-            Label("schedule.no_subject.title", systemImage: Constants.Icons.search)
+            Label("schedule.no_subject.title".localized(), systemImage: Constants.Icons.search)
         } description: {
-            Text("schedule.no_subject.description")
+            Text("schedule.no_subject.description".localized())
         } actions: {
-            Button("schedule.select_subject.action") {
+            Button("schedule.select_subject.action".localized()) {
                 viewModel.didTapSelectGroup()
             }
             .buttonStyle(.borderedProminent)

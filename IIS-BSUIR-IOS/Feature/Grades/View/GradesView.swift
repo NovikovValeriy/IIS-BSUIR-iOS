@@ -46,14 +46,16 @@ private enum Constants {
         static let omission = "exclamationmark.circle.fill"
     }
     enum Strings {
-        static let omissionsRowLabel: LocalizedStringKey = "grades.omissions.row_label"
-        static let summaryTab: LocalizedStringKey = "grades.summary.tab"
+        static var omissionsRowLabel: String { "grades.omissions.row_label".localized() }
+        static var summaryTab: String { "grades.summary.tab".localized() }
     }
-    static let lessonTypes: [(abbrev: String, key: LocalizedStringKey)] = [
-        ("ЛК", "grades.lesson_type.lk"),
-        ("ПЗ", "grades.lesson_type.pz"),
-        ("ЛР", "grades.lesson_type.lr")
-    ]
+    static var lessonTypes: [(abbrev: String, key: String)] {
+        [
+            ("ЛК", "grades.lesson_type.lk".localized()),
+            ("ПЗ", "grades.lesson_type.pz".localized()),
+            ("ЛР", "grades.lesson_type.lr".localized())
+        ]
+    }
 }
 
 private extension Double {
@@ -69,7 +71,7 @@ struct GradesView: View {
     @State private var viewModel: GradesViewModel
     private let title: String
 
-    init(viewModel: GradesViewModel, title: String = String(localized: "grades.title")) {
+    init(viewModel: GradesViewModel, title: String = "grades.title".localized()) {
         _viewModel = State(initialValue: viewModel)
         self.title = title
     }
@@ -82,7 +84,9 @@ struct GradesView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ContentUnavailableView("grades.empty.title", systemImage: Constants.Icons.grades)
+                ContentUnavailableView {
+                    Label("grades.empty.title".localized(), systemImage: Constants.Icons.grades)
+                }
             }
         }
         .navigationTitle(title)
@@ -117,7 +121,7 @@ struct GradesView: View {
                     pickerPill(label: shortLabel(for: viewModel.controlPoints[index]), tag: index)
                 }
                 if !viewModel.subjectSummaries.isEmpty {
-                    pickerPill(label: String(localized: "grades.summary.tab"), tag: viewModel.controlPoints.count)
+                    pickerPill(label: "grades.summary.tab".localized(), tag: viewModel.controlPoints.count)
                 }
             }
             .padding(.horizontal, Constants.Layout.pickerHorizontalPadding)
@@ -205,14 +209,14 @@ struct GradesView: View {
 
     private func headerInfoText(avg: Double?, omissionHours: Int) -> String? {
         var parts: [String] = []
-        if let avg { parts.append(String(localized: "grades.header.avg \(avg.formattedAverage)")) }
-        if omissionHours > 0 { parts.append(String(localized: "grades.header.oms \(omissionHours)")) }
+        if let avg { parts.append(String(format: "grades.header.avg %@".localized(), avg.formattedAverage)) }
+        if omissionHours > 0 { parts.append(String(format: "grades.header.oms %lld".localized(), omissionHours)) }
         return parts.isEmpty ? nil : parts.joined(separator: ", ")
     }
 
     private func shortLabel(for point: GradeBookControlPoint) -> String {
         guard point.date != .distantFuture else {
-            return String(localized: "grades.control_point.outside.short")
+            return "grades.control_point.outside.short".localized()
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM"
@@ -221,7 +225,7 @@ struct GradesView: View {
 
     private func fullLabel(for point: GradeBookControlPoint) -> String {
         guard point.date != .distantFuture else {
-            return String(localized: "grades.control_point.outside")
+            return "grades.control_point.outside".localized()
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
@@ -288,7 +292,7 @@ private struct SubjectSummaryCardView: View {
                                 .foregroundStyle(.secondary)
                                 .frame(width: Constants.Layout.typeColumnWidth, alignment: .leading)
                             Spacer()
-                            Text(String(localized: "grades.omissions.hours \(summary.totalOmissionHours)"))
+                            Text(String(format: "grades.omissions.hours %lld".localized(), summary.totalOmissionHours))
                                 .font(.subheadline.weight(.medium))
                                 .foregroundStyle(.red)
                         }
@@ -348,12 +352,12 @@ private struct SubjectCardView: View {
 }
 
 private struct LessonTypeRow: View {
-    let typeKey: LocalizedStringKey
+    let typeKey: String
     let marks: [GradeBookMark]
 
     var body: some View {
         HStack(alignment: .top, spacing: Constants.Layout.lessonTypeRowSpacing) {
-            Text(typeKey)
+            Text(verbatim: typeKey)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(width: Constants.Layout.typeColumnWidth, alignment: .leading)

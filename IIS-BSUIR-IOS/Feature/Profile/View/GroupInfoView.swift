@@ -47,15 +47,17 @@ struct GroupInfoView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else {
-                ContentUnavailableView("group_info.empty.title", systemImage: Constants.Icons.empty)
+                ContentUnavailableView {
+                    Label("group_info.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationTitle(viewModel.groupNumber.map {
-            String(localized: "group_info.group_number \($0)")
-        } ?? String(localized: "profile.group_info.title"))
+            String(format: "group_info.group_number %@".localized(), $0)
+        } ?? "profile.group_info.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
@@ -82,7 +84,7 @@ struct GroupInfoView: View {
 
     private func curatorSection(_ curator: GroupCurator) -> some View {
         VStack(alignment: .leading, spacing: Constants.Layout.contactSpacing) {
-            Text("group_info.curator.title")
+            Text("group_info.curator.title".localized())
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -102,7 +104,7 @@ struct GroupInfoView: View {
                     Button {
                         UIPasteboard.general.string = curator.phone
                     } label: {
-                        Label("common.copy", systemImage: Constants.Icons.copy)
+                        Label("common.copy".localized(), systemImage: Constants.Icons.copy)
                     }
                 }
             }
@@ -120,7 +122,7 @@ struct GroupInfoView: View {
                     Button {
                         UIPasteboard.general.string = curator.email
                     } label: {
-                        Label("common.copy", systemImage: Constants.Icons.copy)
+                        Label("common.copy".localized(), systemImage: Constants.Icons.copy)
                     }
                 }
             }

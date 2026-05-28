@@ -20,4 +20,5 @@ enum StorageKey: String {
     case currentSemesterWeek
     case groupNumber
     case appColorScheme
+    case appLanguage
 }

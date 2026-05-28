@@ -14,13 +14,11 @@ struct SettingsView: View {
     var body: some View {
         List {
             Section {
-                Button("settings.appearance") { router.push(.appearance) }
-                Button("settings.notifications") { router.push(.notifications) }
-            }
-            Section {
-                Button("settings.about") { router.push(.about) }
+                Button("settings.appearance".localized()) { router.push(.appearance) }
+                Button("settings.language".localized()) { router.push(.language) }
+                Button("settings.notifications".localized()) { router.push(.notifications) }
             }
         }
-        .navigationTitle("settings.title")
+        .navigationTitle("settings.title".localized())
     }
 }

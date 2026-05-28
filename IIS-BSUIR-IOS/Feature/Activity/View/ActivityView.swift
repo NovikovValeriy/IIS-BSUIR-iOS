@@ -55,13 +55,15 @@ struct ActivityView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("profile.activity.title")
+        .navigationTitle("profile.activity.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView("activity.empty.title", systemImage: Constants.Icons.empty)
+        ContentUnavailableView {
+                    Label("activity.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGroupedBackground))
     }
@@ -152,7 +154,7 @@ private struct ActivityEntryCardView: View {
         : Constants.Colors.omissionBackground
 
         return Label(
-            String(format: String(localized: "activity.omissions %lld"), hours),
+            String(format: "activity.omissions %lld".localized(), hours),
             systemImage: Constants.Icons.omission
         )
         .font(.caption.weight(.medium))

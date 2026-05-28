@@ -42,7 +42,7 @@ final class SearchScheduleViewModel: ScheduleViewModel {
     }
 
     override var navigationTitle: String {
-        selectedSubject?.displayName ?? String(localized: "schedule.search.title")
+        selectedSubject?.displayName ?? "schedule.search.title".localized()
     }
 
     func didTapSelectGroup() {
@@ -77,7 +77,7 @@ final class SearchScheduleViewModel: ScheduleViewModel {
         do {
             groups = try await scheduleService.fetchGroups()
         } catch {
-            errorMessage = String(localized: "schedule.error.load_groups")
+            errorMessage = "schedule.error.load_groups".localized()
         }
         isLoadingGroups = false
     }

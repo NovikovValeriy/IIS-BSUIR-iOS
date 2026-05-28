@@ -66,7 +66,7 @@ struct LessonRowView: View {
                     HStack(alignment: .center, spacing: Constants.Layout.subjectTitleSpacing) {
                         Text(
                             lesson.announcement
-                            ? String(localized: "lesson.row.announcement")
+                            ? "lesson.row.announcement".localized()
                             : (lesson.subject ?? "—")
                         )
                         .font(.headline)

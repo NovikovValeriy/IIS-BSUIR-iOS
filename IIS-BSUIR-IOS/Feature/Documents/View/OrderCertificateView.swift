@@ -23,17 +23,17 @@ struct OrderCertificateView: View {
     var body: some View {
         NavigationStack {
             form
-                .navigationTitle("documents.certificate.order.title")
+                .navigationTitle("documents.certificate.order.title".localized())
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button("common.cancel") { dismiss() }
+                        Button("common.cancel".localized()) { dismiss() }
                     }
                     ToolbarItem(placement: .confirmationAction) {
                         if viewModel.isSubmitting {
                             ProgressView()
                         } else {
-                            Button("documents.certificate.order.submit") {
+                            Button("documents.certificate.order.submit".localized()) {
                                 Task { await viewModel.submit() }
                             }
                             .disabled(!viewModel.canSubmit)
@@ -71,8 +71,8 @@ struct OrderCertificateView: View {
     }
 
     private var typeSection: some View {
-        Section("documents.certificate.order.type") {
-            Picker("documents.certificate.order.type", selection: Binding(
+        Section("documents.certificate.order.type".localized()) {
+            Picker("documents.certificate.order.type".localized(), selection: Binding(
                 get: { viewModel.selectedType ?? "" },
                 set: { viewModel.didSelectType($0) }
             )) {
@@ -86,8 +86,8 @@ struct OrderCertificateView: View {
     }
 
     private var placeSection: some View {
-        Section("documents.certificate.order.place") {
-            Picker("documents.certificate.order.place", selection: Binding(
+        Section("documents.certificate.order.place".localized()) {
+            Picker("documents.certificate.order.place".localized(), selection: Binding(
                 get: { viewModel.selectedPlace ?? "" },
                 set: { viewModel.selectedPlace = $0 }
             )) {
@@ -102,9 +102,9 @@ struct OrderCertificateView: View {
     }
 
     private var countSection: some View {
-        Section("documents.certificate.order.count") {
+        Section("documents.certificate.order.count".localized()) {
             Stepper(
-                String(format: String(localized: "documents.certificate.order.count.value %lld"), viewModel.count),
+                String(format: "documents.certificate.order.count.value %lld".localized(), viewModel.count),
                 value: Bindable(viewModel).count,
                 in: Constants.Layout.stepperRange
             )

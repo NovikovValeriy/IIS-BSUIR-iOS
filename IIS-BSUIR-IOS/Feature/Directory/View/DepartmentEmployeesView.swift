@@ -50,7 +50,9 @@ struct DepartmentEmployeesView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else if viewModel.employees.isEmpty {
-                ContentUnavailableView("department.employees.empty.title", systemImage: Constants.Icons.empty)
+                ContentUnavailableView {
+                    Label("department.employees.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(.systemGroupedBackground))
             } else {
@@ -153,7 +155,7 @@ private struct EmployeeCardView: View {
             Button {
                 UIPasteboard.general.string = phone
             } label: {
-                Label("common.copy", systemImage: "doc.on.doc")
+                Label("common.copy".localized(), systemImage: "doc.on.doc")
             }
         }
     }

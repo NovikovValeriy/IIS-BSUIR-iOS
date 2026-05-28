@@ -18,11 +18,10 @@ struct SettingsFlowView: View {
                     switch destination {
                     case .appearance:
                         AppearanceView()
+                    case .language:
+                        LanguageView()
                     case .notifications:
                         ScheduledNotificationsView()
-                    case .about:
-                        Text("settings.about.description")
-                            .navigationTitle("settings.about.title")
                     }
                 }
         }
@@ -30,7 +29,7 @@ struct SettingsFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("common.ok"))
+                dismissButton: .default(Text("common.ok".localized()))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .settings))) { _ in

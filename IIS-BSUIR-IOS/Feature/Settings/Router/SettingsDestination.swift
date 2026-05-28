@@ -9,6 +9,6 @@ import Foundation
 
 enum SettingsDestination: Hashable {
     case appearance
+    case language
     case notifications
-    case about
 }

@@ -42,13 +42,13 @@ struct ScheduledNotificationsView: View {
                 ContentUnavailableView(
                     "notifications.empty.title",
                     systemImage: Constants.Icons.empty,
-                    description: Text("notifications.empty.description")
+                    description: Text("notifications.empty.description".localized())
                 )
             } else {
                 list
             }
         }
-        .navigationTitle("notifications.title")
+        .navigationTitle("notifications.title".localized())
         .task {
             await viewModel.load()
         }
@@ -65,7 +65,7 @@ struct ScheduledNotificationsView: View {
     private var list: some View {
         List {
             if !onceNotifications.isEmpty {
-                Section("notifications.section.once") {
+                Section("notifications.section.once".localized()) {
                     ForEach(onceNotifications) { notification in
                         notificationCard(notification)
                             .listRowBackground(Color.clear)
@@ -82,7 +82,7 @@ struct ScheduledNotificationsView: View {
                 }
             }
             if !weeklyNotifications.isEmpty {
-                Section("notifications.section.weekly") {
+                Section("notifications.section.weekly".localized()) {
                     ForEach(weeklyNotifications) { notification in
                         notificationCard(notification)
                             .listRowBackground(Color.clear)
@@ -126,9 +126,7 @@ struct ScheduledNotificationsView: View {
                         .foregroundStyle(.secondary)
 
                     Label(
-                        String(localized: notification.isWeekly
-                            ? "notifications.weekly"
-                            : "notifications.once"),
+                        (notification.isWeekly ? "notifications.weekly" : "notifications.once").localized(),
                         systemImage: notification.isWeekly
                             ? Constants.Icons.weekly
                             : Constants.Icons.once

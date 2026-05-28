@@ -31,7 +31,7 @@ struct PinnedScheduleFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("common.ok"))
+                dismissButton: .default(Text("common.ok".localized()))
             )
         }
         .onChange(of: pinnedService.subject) { _, newSubject in

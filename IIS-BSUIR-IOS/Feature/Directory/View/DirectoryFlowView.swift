@@ -31,7 +31,7 @@ struct DirectoryFlowView: View {
                         )
                         GradesView(
                             viewModel: GradesViewModel(gradesService: adapter),
-                            title: String(localized: "ratings.student.grades_title \(cardNumber)")
+                            title: String(format: "ratings.student.grades_title %@".localized(), cardNumber)
                         )
                     }
                 }
@@ -40,7 +40,7 @@ struct DirectoryFlowView: View {
             Alert(
                 title: Text(alert.title),
                 message: alert.message.map { Text($0) },
-                dismissButton: .default(Text("common.ok"))
+                dismissButton: .default(Text("common.ok".localized()))
             )
         }
         .onReceive(NotificationCenter.default.publisher(for: .popToRoot(for: .directory))) { _ in

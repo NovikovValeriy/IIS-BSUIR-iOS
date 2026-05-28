@@ -44,16 +44,16 @@ struct ScheduleSubjectPickerView: View {
         }
     }
 
-    private var searchPrompt: LocalizedStringKey {
-        selectedTab == .groups ? "subject_picker.search_groups" : "subject_picker.search_teachers"
+    private var searchPrompt: String {
+        selectedTab == .groups ? "subject_picker.search_groups".localized() : "subject_picker.search_teachers".localized()
     }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                Picker("subject_picker.tab.label", selection: $selectedTab) {
-                    Text("subject_picker.tab.groups").tag(SubjectPickerTab.groups)
-                    Text("subject_picker.tab.teachers").tag(SubjectPickerTab.teachers)
+                Picker("subject_picker.tab.label".localized(), selection: $selectedTab) {
+                    Text("subject_picker.tab.groups".localized()).tag(SubjectPickerTab.groups)
+                    Text("subject_picker.tab.teachers".localized()).tag(SubjectPickerTab.teachers)
                 }
                 .pickerStyle(.segmented)
                 .padding(Constants.Layout.segmentPadding)
@@ -65,7 +65,7 @@ struct ScheduleSubjectPickerView: View {
                     teachersContent
                 }
             }
-            .navigationTitle("subject_picker.title")
+            .navigationTitle("subject_picker.title".localized())
             .navigationBarTitleDisplayMode(.inline)
             .searchable(
                 text: $searchText,
@@ -78,7 +78,7 @@ struct ScheduleSubjectPickerView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("common.cancel") { dismiss() }
+                    Button("common.cancel".localized()) { dismiss() }
                 }
             }
         }
@@ -87,7 +87,7 @@ struct ScheduleSubjectPickerView: View {
     @ViewBuilder
     private var groupsContent: some View {
         if isLoadingGroups {
-            ProgressView("subject_picker.loading_groups")
+            ProgressView("subject_picker.loading_groups".localized())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if filteredGroups.isEmpty {
             ContentUnavailableView.search(text: searchText)
@@ -106,7 +106,7 @@ struct ScheduleSubjectPickerView: View {
     @ViewBuilder
     private var teachersContent: some View {
         if isLoadingTeachers {
-            ProgressView("subject_picker.loading_teachers")
+            ProgressView("subject_picker.loading_teachers".localized())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if filteredTeachers.isEmpty {
             ContentUnavailableView.search(text: searchText)

@@ -25,20 +25,20 @@ struct DirectoryView: View {
                 Button {
                     router.navigateToRatings()
                 } label: {
-                    Label("directory.ratings", systemImage: Constants.Icons.ratings)
+                    Label("directory.ratings".localized(), systemImage: Constants.Icons.ratings)
                 }
                 Button {
                     router.navigateToSubjects()
                 } label: {
-                    Label("directory.subjects", systemImage: Constants.Icons.subjects)
+                    Label("directory.subjects".localized(), systemImage: Constants.Icons.subjects)
                 }
                 Button {
                     router.navigateToDepartments()
                 } label: {
-                    Label("directory.departments", systemImage: Constants.Icons.departments)
+                    Label("directory.departments".localized(), systemImage: Constants.Icons.departments)
                 }
             }
         }
-        .navigationTitle("directory.title")
+        .navigationTitle("directory.title".localized())
     }
 }

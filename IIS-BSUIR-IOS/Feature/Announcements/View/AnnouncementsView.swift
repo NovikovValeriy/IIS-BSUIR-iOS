@@ -49,13 +49,15 @@ struct AnnouncementsView: View {
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("profile.announcements.title")
+        .navigationTitle("profile.announcements.title".localized())
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
     }
 
     private var emptyView: some View {
-        ContentUnavailableView("announcements.empty.title", systemImage: Constants.Icons.empty)
+        ContentUnavailableView {
+                    Label("announcements.empty.title".localized(), systemImage: Constants.Icons.empty)
+                }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGroupedBackground))
     }

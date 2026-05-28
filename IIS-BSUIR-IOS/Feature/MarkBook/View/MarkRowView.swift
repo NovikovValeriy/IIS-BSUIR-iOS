@@ -82,12 +82,12 @@ struct MarkRowView: View {
             Spacer()
 
             VStack(alignment: .trailing, spacing: 2) {
-                Text(mark.mark ?? String(localized: "markbook.no_mark"))
+                Text(mark.mark ?? "markbook.no_mark".localized())
                     .font(.title.bold())
                     .foregroundStyle(markColor)
 
                 if mark.retakesCount > 0 {
-                    Text(String(format: String(localized: "markbook.retakes \(mark.retakesCount)")))
+                    Text(String(format: "markbook.retakes %lld".localized(), mark.retakesCount))
                         .font(.caption)
                         .foregroundStyle(.red)
                 }
@@ -99,8 +99,8 @@ struct MarkRowView: View {
     private var formControlLine: some View {
         let parts: [String] = [
             mark.formOfControl,
-            mark.hours.map { String(format: String(localized: "markbook.hours \($0)")) },
-            mark.credits.map { String(format: String(localized: "markbook.credits \($0)")) }
+            mark.hours.map { String(format: "markbook.hours %@".localized(), $0) },
+            mark.credits.map { String(format: "markbook.credits %lld".localized(), $0) }
         ].compactMap { $0 }
 
         if !parts.isEmpty {
@@ -112,7 +112,7 @@ struct MarkRowView: View {
 
     private var footerRow: some View {
         HStack {
-            Text("markbook.footer.label")
+            Text("markbook.footer.label".localized())
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -124,7 +124,7 @@ struct MarkRowView: View {
                     let pctStr = pct.truncatingRemainder(dividingBy: 1) == 0
                         ? String(format: "%.0f", pct)
                         : String(format: "%.1f", pct)
-                    return String(format: String(localized: "markbook.footer.retakes %@"), pctStr)
+                    return String(format: "markbook.footer.retakes %@".localized(), pctStr)
                 }
 
                 switch (avgPart, retakesPart) {

@@ -18,11 +18,11 @@ enum TabItem: Int, CaseIterable, Identifiable, Hashable {
 
     var title: String {
         switch self {
-        case .pinnedSchedule: return String(localized: "tab.pinned_schedule")
-        case .schedule: return String(localized: "tab.schedule")
-        case .profile: return String(localized: "tab.profile")
-        case .directory: return String(localized: "tab.directory")
-        case .settings: return String(localized: "tab.settings")
+        case .pinnedSchedule: return "tab.pinned_schedule".localized()
+        case .schedule: return "tab.schedule".localized()
+        case .profile: return "tab.profile".localized()
+        case .directory: return "tab.directory".localized()
+        case .settings: return "tab.settings".localized()
         }
     }
 
