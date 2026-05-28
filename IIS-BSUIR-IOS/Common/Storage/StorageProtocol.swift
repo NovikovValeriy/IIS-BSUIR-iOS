@@ -19,4 +19,5 @@ enum StorageKey: String {
     case scheduleSubgroupFilter
     case currentSemesterWeek
     case groupNumber
+    case appColorScheme
 }

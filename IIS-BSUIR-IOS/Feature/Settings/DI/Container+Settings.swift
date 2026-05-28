@@ -15,4 +15,8 @@ extension Container {
     var scheduledNotificationsViewModel: Factory<ScheduledNotificationsViewModel> {
         self { @MainActor in ScheduledNotificationsViewModel(notificationService: self.notificationService()) }
     }
+
+    var appThemeService: Factory<AppThemeService> {
+        self { @MainActor in AppThemeService(storage: self.storage()) }.singleton
+    }
 }

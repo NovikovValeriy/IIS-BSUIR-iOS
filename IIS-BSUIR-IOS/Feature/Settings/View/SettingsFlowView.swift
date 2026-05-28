@@ -17,8 +17,7 @@ struct SettingsFlowView: View {
                 .navigationDestination(for: SettingsDestination.self) { destination in
                     switch destination {
                     case .appearance:
-                        Text("settings.appearance.title")
-                            .navigationTitle("settings.appearance.title")
+                        AppearanceView()
                     case .notifications:
                         ScheduledNotificationsView()
                     case .about:
