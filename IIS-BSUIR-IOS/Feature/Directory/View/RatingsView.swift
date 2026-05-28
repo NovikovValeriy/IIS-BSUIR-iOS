@@ -120,7 +120,14 @@ struct RatingsView: View {
                 Picker("", selection: Bindable(viewModel).selectedCourse) {
                     Text("ratings.picker.select".localized()).tag(Int?.none)
                     ForEach(viewModel.courses, id: \.self) { course in
-                        Text(String(format: "ratings.picker.course_value %lld".localized(), course)).tag(Optional(course))
+                        Text(
+                            String(
+                                format: "ratings.picker.course_value %lld".localized(),
+                                course
+                            )
+                        ).tag(
+                            Optional(course)
+                        )
                     }
                 }
                 .labelsHidden()

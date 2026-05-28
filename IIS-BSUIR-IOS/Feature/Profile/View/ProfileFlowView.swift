@@ -33,6 +33,10 @@ struct ProfileFlowView: View {
                         PenaltiesView()
                     case .activity:
                         ActivityView()
+                    case .library:
+                        LibraryView()
+                    case .omissions:
+                        OmissionsView()
                     }
                 }
         }

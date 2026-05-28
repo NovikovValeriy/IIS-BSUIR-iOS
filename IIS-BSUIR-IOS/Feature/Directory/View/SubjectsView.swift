@@ -120,7 +120,12 @@ struct SubjectsView: View {
                 Picker("", selection: Bindable(viewModel).selectedCourse) {
                     Text("ratings.picker.select".localized()).tag(Int?.none)
                     ForEach(viewModel.courses, id: \.self) { course in
-                        Text(String(format: "ratings.picker.course_value %lld".localized(), course)).tag(Optional(course))
+                        Text(
+                            String(
+                                format: "ratings.picker.course_value %lld".localized(),
+                                course
+                            )
+                        ).tag(Optional(course))
                     }
                 }
                 .labelsHidden()
@@ -137,7 +142,12 @@ struct SubjectsView: View {
                 Picker("", selection: Bindable(viewModel).selectedSemester) {
                     Text("ratings.picker.select".localized()).tag(Int?.none)
                     ForEach(viewModel.semesters, id: \.self) { semester in
-                        Text(String(format: "subjects.picker.semester_value %lld".localized(), semester)).tag(Optional(semester))
+                        Text(
+                            String(
+                                format: "subjects.picker.semester_value %lld".localized(),
+                                semester
+                            )
+                        ).tag(Optional(semester))
                     }
                 }
                 .labelsHidden()

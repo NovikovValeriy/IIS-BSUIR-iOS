@@ -113,7 +113,10 @@ struct DocumentsView: View {
             if let items = viewModel.certificates {
                 if items.isEmpty {
                     ContentUnavailableView {
-                        Label("documents.certificates.empty".localized(), systemImage: Constants.Icons.emptyCertificates)
+                        Label(
+                            "documents.certificates.empty".localized(),
+                            systemImage: Constants.Icons.emptyCertificates
+                        )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {

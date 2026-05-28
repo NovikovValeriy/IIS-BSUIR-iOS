@@ -40,7 +40,12 @@ struct ScheduleView<EmptyState: View>: View {
                 ContentUnavailableView {
                     Label("schedule.no_classes.title".localized(), systemImage: Constants.Icons.noClasses)
                 } description: {
-                    Text(String(format: "schedule.no_classes.description %@".localized(), viewModel.selectedSubject?.displayName ?? ""))
+                    Text(
+                        String(
+                            format: "schedule.no_classes.description %@".localized(),
+                            viewModel.selectedSubject?.displayName ?? ""
+                        )
+                    )
                 }
             } else if viewModel.displayMode == .weekly {
                 weeklyScheduleList
@@ -56,7 +61,12 @@ struct ScheduleView<EmptyState: View>: View {
                         ContentUnavailableView {
                             Label("schedule.no_exams.title".localized(), systemImage: Constants.Icons.modeExams)
                         } description: {
-                            Text(String(format: "schedule.no_exams.description %@".localized(), viewModel.selectedSubject?.displayName ?? ""))
+                            Text(
+                                String(
+                                    format: "schedule.no_exams.description %@".localized(),
+                                    viewModel.selectedSubject?.displayName ?? ""
+                                )
+                            )
                         }
                     }
                 )
@@ -73,7 +83,12 @@ struct ScheduleView<EmptyState: View>: View {
                         ContentUnavailableView {
                             Label("schedule.no_classes.title".localized(), systemImage: Constants.Icons.noClasses)
                         } description: {
-                            Text(String(format: "schedule.no_classes.description %@".localized(), viewModel.selectedSubject?.displayName ?? ""))
+                            Text(
+                                String(
+                                    format: "schedule.no_classes.description %@".localized(),
+                                    viewModel.selectedSubject?.displayName ?? ""
+                                )
+                            )
                         }
                     }
                 )

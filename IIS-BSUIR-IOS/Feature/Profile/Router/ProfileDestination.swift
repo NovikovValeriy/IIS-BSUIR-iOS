@@ -16,6 +16,8 @@ enum ProfileDestination: Hashable {
     case dormitory
     case penalties
     case activity
+    case library
+    case omissions
 }
 
 enum ProfileConfirmationDialog: Identifiable {

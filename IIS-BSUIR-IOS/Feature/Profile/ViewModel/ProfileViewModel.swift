@@ -47,6 +47,8 @@ final class ProfileViewModel {
     func didTapDormitory() { router.navigateToDormitory() }
     func didTapPenalties() { router.navigateToPenalties() }
     func didTapActivity() { router.navigateToActivity() }
+    func didTapLibrary() { router.navigateToLibrary() }
+    func didTapOmissions() { router.navigateToOmissions() }
 
     func confirmLogout() {
         appCoordinator.userDidLogout()

@@ -25,6 +25,8 @@ final class ProfileRouter: @MainActor RouterProtocol {
     func navigateToDormitory() { path.append(ProfileDestination.dormitory) }
     func navigateToPenalties() { path.append(ProfileDestination.penalties) }
     func navigateToActivity() { path.append(ProfileDestination.activity) }
+    func navigateToLibrary() { path.append(ProfileDestination.library) }
+    func navigateToOmissions() { path.append(ProfileDestination.omissions) }
     func present(confirmationDialog: ProfileConfirmationDialog) { self.confirmationDialog = confirmationDialog }
     func present(alert: AppAlert) { self.alert = alert }
 }

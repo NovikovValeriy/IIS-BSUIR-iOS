@@ -83,7 +83,10 @@ struct LessonDetailView: View {
     private var subjectSection: some View {
         Section {
             if !lesson.announcement {
-                LabeledContent("lesson.detail.subject".localized(), value: lesson.subjectFullName ?? lesson.subject ?? "—")
+                LabeledContent(
+                    "lesson.detail.subject".localized(),
+                    value: lesson.subjectFullName ?? lesson.subject ?? "—"
+                )
             }
             if let type = lesson.lessonTypeAbbrev {
                 LabeledContent("lesson.detail.type".localized(), value: type)
@@ -248,7 +251,12 @@ struct LessonDetailView: View {
                     }
                 )) {
                     ForEach(Constants.minutesBeforeOptions, id: \.self) { minutes in
-                        Text(String(format: "lesson.detail.notification.minutes %lld".localized(), minutes)).tag(minutes)
+                        Text(
+                            String(
+                                format: "lesson.detail.notification.minutes %lld".localized(),
+                                minutes
+                            )
+                        ).tag(minutes)
                     }
                 }
             }

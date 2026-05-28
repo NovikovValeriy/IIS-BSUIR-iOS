@@ -31,6 +31,8 @@ private enum Constants {
         static let dormitory = "house.fill"
         static let penalties = "flag.fill"
         static let activity = "chart.line.uptrend.xyaxis"
+        static let library = "books.vertical"
+        static let omissions = "bandage"
     }
     enum Colors {
         static let avatarBackground = Color(.secondarySystemGroupedBackground)
@@ -93,6 +95,9 @@ struct ProfileView: View {
             }
 
             Section("profile.campus_section".localized()) {
+                Button { viewModel.didTapOmissions() } label: {
+                    Label("profile.omissions".localized(), systemImage: Constants.Icons.omissions)
+                }
                 Button { viewModel.didTapGroupInfo() } label: {
                     Label("profile.group_info".localized(), systemImage: Constants.Icons.groupInfo)
                 }
@@ -107,6 +112,9 @@ struct ProfileView: View {
                 }
                 Button { viewModel.didTapActivity() } label: {
                     Label("profile.activity".localized(), systemImage: Constants.Icons.activity)
+                }
+                Button { viewModel.didTapLibrary() } label: {
+                    Label("profile.library".localized(), systemImage: Constants.Icons.library)
                 }
             }
         }
